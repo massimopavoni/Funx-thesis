@@ -1,0 +1,54 @@
+\documentclass[italian]{unicam-thesis}
+
+\title{Compilazione di un linguaggio funzionale in Java}
+
+\university{Universit\`a degli Studi di Camerino}
+\school{Scienze e Tecnologie}
+\course{Laurea in Informatica (Classe L-31)}
+
+\author{Massimo Pavoni}
+\advisor{Prof. Luca Padovani}
+\academicyear{2023/2024}
+\matricola{124377}
+
+\graphicspath{{Screenshot/},{Images/},{API/},{Source/}}
+
+\addbibresource{8-bibliography.bib}
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\maketitle
+
+\tableofcontents
+\cleardoublepage
+
+\lstlistoflistings
+\cleardoublepage
+
+\listoffigures
+\cleardoublepage
+
+\listoftables
+\cleardoublepage
+
+\pagenumbering{arabic}
+
+\input{1-introduction}
+\input{2-funx}
+\input{3-inference}
+\input{4-java}
+\input{5-compiler}
+\input{6-examples}
+\input{7-conclusions}
+
+\appendix
+
+\printbibliography[heading=bibintoc]
+
+\printindex
+
+\include{9-thanks}
+
+\end{document}

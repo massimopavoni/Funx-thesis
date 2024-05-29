@@ -1,0 +1,54 @@
+\documentclass[english]{unicam-thesis}
+
+\title{Compilation of a functional language into Java}
+
+\university{University of Camerino}
+\school{Science and Technologies}
+\course{Bachelor's Degree in Computer Science (L-31 Class)}
+
+\author{Massimo Pavoni}
+\advisor{Prof. Luca Padovani}
+\academicyear{2023/2024}
+\matricola{124377}
+
+\graphicspath{{Screenshot/},{Images/},{API/},{Source/}}
+
+\addbibresource{8-bibliography.bib}
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\maketitle
+
+\tableofcontents
+\cleardoublepage
+
+\lstlistoflistings
+\cleardoublepage
+
+\listoffigures
+\cleardoublepage
+
+\listoftables
+\cleardoublepage
+
+\pagenumbering{arabic}
+
+\input{1-introduction}
+\input{2-funx}
+\input{3-inference}
+\input{4-java}
+\input{5-compiler}
+\input{6-examples}
+\input{7-conclusions}
+
+\appendix
+
+\printbibliography[heading=bibintoc]
+
+\printindex
+
+\include{9-thanks}
+
+\end{document}
