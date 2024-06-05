@@ -1,10 +1,10 @@
-\documentclass[english]{unicam-thesis}
+\documentclass[italian]{unicam-thesis}
 
-\title{Compilation of a functional language into Java}
+\title{Compilazione di un linguaggio funzionale in Java}
 
-\university{University of Camerino}
-\school{Science and Technologies}
-\course{Bachelor's Degree in Computer Science (L-31 Class)}
+\university{Universit\`a degli Studi di Camerino}
+\school{Scienze e Tecnologie}
+\course{Laurea in Informatica (Classe L-31)}
 
 \author{Massimo Pavoni}
 \advisor{Prof. Luca Padovani}
@@ -38,17 +38,19 @@
 \input{1-introduction}
 \input{2-funx}
 \input{3-inference}
-\input{4-java}
+\input{4-java} % maybe small examples for features used for translation
 \input{5-compiler}
-\input{6-examples}
+\input{6-examples} % maybe a couple examples less trivial
 \input{7-conclusions}
 
-\appendix
-
+\cleardoublepage
+\phantomsection
 \printbibliography[heading=bibintoc]
 
+\cleardoublepage
+\phantomsection
 \printindex
 
-\include{9-thanks}
+\input{9-thanks}
 
 \end{document}

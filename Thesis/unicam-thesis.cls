@@ -288,13 +288,13 @@
 % --- MISC COMMANDS
 % ---------------------------------------------------------------------------
 
-\newcommand{\localized}[2]{
-    \iflanguage{italian}{#1}{
-        \iflanguage{english}{#2}{
+\newcommand{\localized}[2]{%
+    \iflanguage{italian}{#1}{%
+        \iflanguage{english}{#2}{%
             % Add more language conditions as needed
-            \PackageError{unicam_thesis}{Unsupported language}{The selected language is not supported.}
-        }
-    }
+            \PackageError{unicam_thesis}{Unsupported language}{The selected language is not supported.}%
+        }%
+    }%
 }
 
 \def\date#1{\gdef\@thedate{#1}}
