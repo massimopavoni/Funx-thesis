@@ -1,0 +1,47 @@
+\section{Linguaggi funzionali}
+\label{sec:2-functional-languages}
+
+Nonostante molti linguaggi non si possano confinare all'interno di una sola specie,
+parlando di linguaggi di programmazione si fa spesso riferimento a due grandi categorie:
+linguaggi imperativi e linguaggi dichiarativi.
+
+
+I primi hanno caratteristiche direttamente legate al modello di calcolo di \textit{John Von Neumann},
+a sua volta non dissimile dalla macchina di \textit{Alan Turing}.
+Questi linguaggi sono usati per scrivere codice che segue una precisa sequenza di istruzioni,
+la quale descrive più o meno esplicitamente i passi necessari per risolvere il problema affrontato.
+
+\noindent Appartengono alla famiglia dei linguaggi di programmazione imperativi sia linguaggi procedurali come
+\texttt{Fortran}, \texttt{Cobol} e \texttt{Zig}, sia i linguaggi orientati agli oggetti, tra cui \texttt{Kotlin}, \texttt{C\#} e \texttt{Ruby}.
+
+
+Per lo scopo del progetto, tuttavia, è fondamentale analizzare i linguaggi dichiarativi:
+tali linguaggi sono generalmente di altissimo livello, e permettono allo sviluppatore di
+concentrarsi sull'obiettivo da raggiungere piuttosto che sui dettagli implementativi.
+
+\noindent Fanno parte di questa categoria linguaggi di interrogazione come \texttt{SQL}, linguaggi di marcatura
+quali \texttt{HTML} e \texttt{XML}, linguaggi logici come \texttt{Prolog} e soprattutto i linguaggi funzionali:
+\texttt{Lisp}, \texttt{Clojure}, \texttt{Elixir}, \texttt{OCaml} e \texttt{Haskell} sono alcuni esempi.
+
+
+Alla base di ogni linguaggio funzionale vi è il \textbf{lambda calcolo}: un sistema formale definito dal
+matematico \textit{Alonzo Church} (supervisore di \textit{Alan Turing} durante il dottorato),
+equivalente alla macchina di Turing, ma fondato sul concetto di funzione pura.
+
+\newpage
+
+\noindent La grammatica del lambda calcolo verrà presentata poco più avanti (sezione \ref{sec:2-syntax}),
+ma le regole che ne governano il funzionamento e il modo in cui queste vengano utilizzate per ridurre
+le espressioni ad una forma normale esulano dai fini di questo documento.
+
+\noindent È invece rilevante elencare le principali qualità che un linguaggio funzionale comunemente matura
+grazie al lambda calcolo:
+\begin{itemize}
+    \item \textbf{funzioni come entità di prima classe}: le funzioni possono essere passate come argomenti
+          e restituite come risultato di altre funzioni;
+    \item \textbf{immutabilità}: le variabili utilizzate sono immutabili;
+    \item \textbf{purezza}: le funzioni sono libere da effetti collaterali
+          (non modificano lo stato del programma) e restituiscono sempre lo stesso output per input identici;
+    \item \textbf{ricorsione}: la ricorsione è il meccanismo più idiomatico per esprimere
+          l'iterazione su una struttura dati.
+\end{itemize}

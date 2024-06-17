@@ -37,8 +37,10 @@
 
 % Character sets
 \RequirePackage[utf8]{inputenc}
-\RequirePackage[T1]{fontenc}
+\RequirePackage[T3,T1]{fontenc}
 
+\RequirePackage[x11names]{xcolor}
+\RequirePackage{colortbl}
 \RequirePackage{graphicx}
 \RequirePackage{makeidx}
 \RequirePackage{wrapfig}
@@ -47,13 +49,14 @@
 \RequirePackage{amssymb}
 \RequirePackage{amsmath}
 \RequirePackage{amsthm}
-\RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black]{hyperref}
+\RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
 \RequirePackage{subfig}
 \RequirePackage{xspace}
 \RequirePackage{array}
 \RequirePackage{times}
 \RequirePackage{longtable}
 \RequirePackage{fancyhdr}
+\RequirePackage[noenc]{tipa}
 
 \pagestyle{fancy}
 
@@ -83,44 +86,62 @@
 
 \RequirePackage[babel]{csquotes}
 \RequirePackage[style=alphabetic, backend=biber]{biblatex}
-\RequirePackage{colortbl}
+
+\RequirePackage{float}
+\RequirePackage{tabularx}
+\RequirePackage{svg}
+
+\RequirePackage{simplebnf}
+
+\newenvironment{spacedbnf}
+{\begin{bnf}(prod-sep=5pt, row-sep=2pt)}
+    {\end{bnf}}
 
 \RequirePackage[final]{listings}
-\definecolor{listingsBackground}{rgb}{0.9,0.9,0.9}
 
-\lstdefinestyle{xmlCode}{language=XML,frame=tbrl,
-  basicstyle=\scriptsize\ttfamily,keywordstyle=\ttfamily\bf,
-  stringstyle=\itshape,flexiblecolumns=true,
-  commentstyle=\itshape,captionpos=b,abovecaptionskip=10pt,belowcaptionskip=0pt,
-  backgroundcolor=\color{listingsBackground}, frame=none
-  , numbers=left, numberstyle={\tiny }
+\lstdefinelanguage{Funx}{
+  keywords={let, in, with, out, module},
+  otherkeywords={=, :, ->, \\, if, then, else, fi, ., +, -, *, /, !!, ||, &&, <, <=, >, >=, ==, !=, \$, Bool, Int, True, False},
+  morekeywords=[2]{if, then, else, fi},
+  morekeywords=[3]{., +, -, *, /, !!, ||, &&, <, <=, >, >=, ==, !=, \$},
+  morekeywords=[4]{Bool, Int},
+  morekeywords=[5]{True, False},
+  sensitive=true
 }
 
-\lstdefinelanguage{JavaScript}{
-  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
-  keywordstyle=\color{blue}\bfseries,
-  ndkeywords={class, export, boolean, throw, implements, import, this},
-  sensitive=false,
-  comment=[l]{//},
-  morecomment=[s]{/*}{*/},
-  morestring=[b]',
-  morestring=[b]"
+\lstdefinestyle{funxCode}{
+  language=Funx,
+  frame=tbrl,
+  basicstyle=\scriptsize\ttfamily,
+  keywordstyle=\color{Firebrick3}\bfseries\ttfamily,
+  keywordstyle=[2]\color{Purple1}\bfseries\ttfamily,
+  keywordstyle=[3]\color{Green4}\bfseries\ttfamily,
+  keywordstyle=[4]\color{RoyalBlue3}\bfseries\ttfamily,
+  keywordstyle=[5]\color{Coral4}\bfseries\ttfamily,
+  stringstyle=\itshape,
+  flexiblecolumns=true,
+  captionpos=b,
+  abovecaptionskip=10pt,
+  belowcaptionskip=0pt,
+  frame=single,
+  numbers=left,
+  numberstyle={\tiny }
 }
 
-\lstdefinestyle{javaScriptCode}{language=JavaScript,frame=tbrl,
-  basicstyle=\scriptsize\ttfamily,keywordstyle=\ttfamily\bf,
-  stringstyle=\itshape,flexiblecolumns=true,
-  commentstyle=\itshape,captionpos=b,abovecaptionskip=10pt,belowcaptionskip=0pt,
-  backgroundcolor=\color{listingsBackground}, frame=none,
-  numbers=left, numberstyle={\tiny }
-}
-
-\lstdefinestyle{javaCode}{language=Java,frame=tbrl,
-  basicstyle=\scriptsize\ttfamily,keywordstyle=\ttfamily\bf,
-  stringstyle=\itshape,flexiblecolumns=true,
-  commentstyle=\itshape,captionpos=b,abovecaptionskip=10pt,belowcaptionskip=0pt,
-  backgroundcolor=\color{listingsBackground}, frame=none,
-  numbers=left, numberstyle={\tiny }
+\lstdefinestyle{javaCode}{
+  language=Java,
+  frame=tbrl,
+  basicstyle=\scriptsize\ttfamily,
+  keywordstyle=\ttfamily\bf,
+  stringstyle=\itshape,
+  flexiblecolumns=true,
+  commentstyle=\itshape,
+  captionpos=b,
+  abovecaptionskip=10pt,
+  belowcaptionskip=0pt,
+  frame=single,
+  numbers=left,
+  numberstyle={\tiny }
 }
 
 % ---------------------------------------------------------------------------
@@ -219,7 +240,7 @@
 \setlength{\parskip}{0mm}
 
 \begin{center}
-  \includegraphics[width=15mm]{Images/university-crest}\par%
+  \includegraphics[width=15mm]{Resources/Images/university-crest}\par%
   \vspace{0.15cm}%
   {\rmfamily \Large \bfseries \@theuniversity \par}%
   \vspace{0.15cm}%
@@ -289,18 +310,18 @@
 % ---------------------------------------------------------------------------
 
 \newcommand{\localized}[2]{%
-    \iflanguage{italian}{#1}{%
-        \iflanguage{english}{#2}{%
-            % Add more language conditions as needed
-            \PackageError{unicam_thesis}{Unsupported language}{The selected language is not supported.}%
-        }%
+  \iflanguage{italian}{#1}{%
+    \iflanguage{english}{#2}{%
+      % Add more language conditions as needed
+      \PackageError{unicam_thesis}{Unsupported language}{The selected language is not supported.}%
     }%
+  }%
 }
 
 \def\date#1{\gdef\@thedate{#1}}
 
 % \newcommand{\comment}[2]{}
-\newcommand{\comment}[2]{\marginpar{\textcolor{red}{\ding{74}}}\footnote{\textcolor{red}{\it\scriptsize {\textbf{\sf \underline{#1}:~}#2}}}}
+% \newcommand{\comment}[2]{\marginpar{\textcolor{red}{\ding{74}}}\footnote{\textcolor{red}{\it\scriptsize {\textbf{\sf \underline{#1}:~}#2}}}}
 
 
 

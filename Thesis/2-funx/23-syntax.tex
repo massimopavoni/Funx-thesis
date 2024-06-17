@@ -1,0 +1,76 @@
+\section{Sintassi}
+\label{sec:2-syntax}
+
+La sintassi di \textbf{Funx} risulta molto simile a quella di \texttt{Haskell}, con poche differenze dovute
+a tre principali motivi:
+\begin{itemize}
+    \item libera scelta di nomi e simboli per le parole chiave;
+    \item necessità di successiva traduzione in \texttt{Java};
+    \item difficoltà e scarso valore all'interno del progetto dell'implementazione di un parser dipendente dall'indentazione.
+\end{itemize}
+
+\noindent A prescindere da ciò, il cuore del linguaggio è lo stesso di ogni altro linguaggio derivato dal lambda calcolo:
+la sua definizione si può agilmente comprendere visualizzando la grammatica del lambda calcolo e confrontandola con
+quella (leggermente semplificata) di \textbf{Funx}, facendo attenzione alle regole aggiuntive.
+
+\begin{figure}[H]
+    \centering
+    \vspace{8mm}
+    \begin{spacedbnf}
+        $E$ : \small{Espressione} ::=
+        | $x$ : \small{variabile}
+        | $E_l\ E_r$ : \small{applicazione}
+        | $\lambda x\ .\ E$ : \small{astrazione}
+    \end{spacedbnf}
+    \caption{Grammatica del lambda calcolo}
+    \label{fig:2-lambda-syntax}
+    \vspace{8mm}
+\end{figure}
+
+\noindent Le tre regole presenti in Figura \ref{fig:2-lambda-syntax} indicano le tre componenti indispensabili
+del lambda calcolo:
+\begin{itemize}
+    \item \textbf{variabile}: simbolo rappresentante un parametro;
+    \item \textbf{applicazione}: applicazione di funzione ad un argomento (entrambi espressioni);
+    \item \textbf{astrazione}: definizione di una funzione anonima, con un solo input $x$ (variabile vincolata)
+          e un solo output $E$ (espressione, potenzialmente un'altra astrazione).
+\end{itemize}
+
+\newpage
+
+\begin{figure}[H]
+    \centering
+    \begin{spacedbnf}
+        $M$ : \small{Modulo} ::=
+        | $nome\ \cdot\ L$ : \small{dichiarazione del modulo}
+        ;;
+        $D$ : \small{Dichiarazione} ::=
+        | $?(schema\ di\ tipo)\ \cdot\ id = E$ : \small{dichiarazione di funzione}
+        ;;
+        $E$ : \small{Espressione} ::=
+        | $c$ : \small{costante}
+        | $x$ : \small{variabile}
+        | $E_l\ E_r$ : \small{applicazione}
+        | $\lambda x\ .\ E$ : \small{astrazione}
+        | $L$ : \small{let}
+        | $if\ E\ then\ E\ else\ E$ : \small{if}
+        ;;
+        $L$ : \small{Let} ::=
+        | $let\ \cdot\ D\ D*\ \cdot\ in\ E$ : \small{let}
+    \end{spacedbnf}
+    \caption{Grammatica di Funx}
+    \label{fig:2-funx-syntax}
+    \vspace{8mm}
+\end{figure}
+
+\noindent È facile constatare la presenza delle ulteriori produzioni per la definizione del modulo corrente
+(informazione inclusa a prescindere dal fatto che il linguaggio ad ora non supporti l'importazione di moduli esterni
+che non siano la libreria standard) e di funzioni con nome: lo \textit{schema di tipo} è un'informazione opzionale
+relativa al tipo della funzione e di cui si parlerà più approfonditamente nella sezione \ref{3-parametric-polymorphism}.
+
+\noindent Per quanto riguarda invece le espressioni, vengono introdotte tre nuove regole:
+\begin{itemize}
+    \item \textbf{costante}: rappresenta un valore letterale, come un numero o una stringa;
+    \item \textbf{let}: permette di avere dichiarazioni locali utilizzabili all'interno di un'espressione;
+    \item \textbf{if}: non è altro che la più classica istruzione condizionale controllata da un'espressione booleana.
+\end{itemize}
