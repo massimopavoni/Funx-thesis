@@ -36,6 +36,7 @@ anche tutti gli operatori simbolici supportati al momento (assieme alla notazion
             \texttt{f x y = e}               & \texttt{f = $\lambda$x $\mathord{.}$ $\lambda$y $\mathord{.}$ e} \\
             \hline
         \end{tabularx}
+        % divide et impera because inconsistent tabbing is a thing
         \begin{tabularx}{\textwidth}{|p{8em}@{\quad}p{7em}|X|}
             \texttt{e1 $\mathord{.}$ e2} & \texttt{infixr 9} & \texttt{compose e1 e2}            \\
             \texttt{e1 / e2}             & \texttt{infixl 7} & \texttt{divide e1 e2}             \\

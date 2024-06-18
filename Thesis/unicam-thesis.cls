@@ -87,9 +87,11 @@
 \RequirePackage[babel]{csquotes}
 \RequirePackage[style=alphabetic, backend=biber]{biblatex}
 
+% More useful packages because nobody thought about them
+
 \RequirePackage{float}
 \RequirePackage{tabularx}
-\RequirePackage{svg}
+\RequirePackage{pgfplots}
 
 \RequirePackage{simplebnf}
 
