@@ -101,9 +101,9 @@
 
 \lstdefinelanguage{Funx}{
   keywords={let, in, with, out, module},
-  otherkeywords={=, :, ->, \\, if, then, else, fi, ., +, -, *, /, !!, ||, &&, <, <=, >, >=, ==, !=, \$, Bool, Int, True, False},
+  otherkeywords={=, :, ->, \\, if, then, else, fi, ., /, \%, *, +, -, !!, ||, &&, <, <=, >, >=, ==, !=, \$, Bool, Int, True, False},
   morekeywords=[2]{if, then, else, fi},
-  morekeywords=[3]{., +, -, *, /, !!, ||, &&, <, <=, >, >=, ==, !=, \$},
+  morekeywords=[3]{., /, \%, *, +, -, !!, ||, &&, <, <=, >, >=, ==, !=, \$},
   morekeywords=[4]{Bool, Int},
   morekeywords=[5]{True, False},
   sensitive=true
