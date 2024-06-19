@@ -15,7 +15,7 @@ quella (leggermente semplificata) di \textbf{Funx}, facendo attenzione alle rego
 
 \begin{figure}[H]
     \centering
-    \vspace{8mm}
+    \vspace{4mm}
     \begin{spacedbnf}
         $E$ : \small{Espressione} ::=
         | $x$ : \small{variabile}
@@ -24,7 +24,7 @@ quella (leggermente semplificata) di \textbf{Funx}, facendo attenzione alle rego
     \end{spacedbnf}
     \caption{Grammatica del lambda calcolo}
     \label{fig:2-lambda-syntax}
-    \vspace{8mm}
+    \vspace{4mm}
 \end{figure}
 
 \noindent Le tre regole presenti in Figura \ref{fig:2-lambda-syntax} indicano le tre componenti indispensabili
@@ -60,17 +60,17 @@ del lambda calcolo:
     \end{spacedbnf}
     \caption{Grammatica di Funx}
     \label{fig:2-funx-syntax}
-    \vspace{8mm}
+    \vspace{4mm}
 \end{figure}
 
 \noindent È facile constatare la presenza delle ulteriori produzioni per la definizione del modulo corrente
 (informazione inclusa a prescindere dal fatto che il linguaggio ad ora non supporti l'importazione di moduli esterni
 che non siano la libreria standard) e di funzioni con nome: lo \textit{schema di tipo} è un'informazione opzionale
-relativa al tipo della funzione e di cui si parlerà più approfonditamente nella sezione \ref{3-parametric-polymorphism}.
+relativa al tipo della funzione e di cui si parlerà più approfonditamente nella sezione \ref{sec:3-system-f}.
 
 \noindent Per quanto riguarda invece le espressioni, vengono introdotte tre nuove regole:
 \begin{itemize}
     \item \textbf{costante}: rappresenta un valore letterale, come un numero o una stringa;
     \item \textbf{let}: permette di avere dichiarazioni locali utilizzabili all'interno di un'espressione;
-    \item \textbf{if}: non è altro che la più classica istruzione condizionale controllata da un'espressione booleana.
+    \item \textbf{if}: la più classica istruzione condizionale controllata da un'espressione booleana.
 \end{itemize}

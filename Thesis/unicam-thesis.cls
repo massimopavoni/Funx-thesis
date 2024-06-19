@@ -91,8 +91,7 @@
 
 \RequirePackage{float}
 \RequirePackage{tabularx}
-\RequirePackage{pgfplots}
-
+\RequirePackage{tikz}
 \RequirePackage{simplebnf}
 
 \newenvironment{spacedbnf}
