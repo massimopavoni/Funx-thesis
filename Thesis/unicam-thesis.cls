@@ -49,14 +49,13 @@
 \RequirePackage{amssymb}
 \RequirePackage{amsmath}
 \RequirePackage{amsthm}
-\RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
 \RequirePackage{subfig}
 \RequirePackage{xspace}
 \RequirePackage{array}
 \RequirePackage{times}
 \RequirePackage{longtable}
 \RequirePackage{fancyhdr}
-\RequirePackage[noenc]{tipa}
+\RequirePackage[noenc, safe]{tipa}
 
 \pagestyle{fancy}
 
@@ -92,6 +91,10 @@
 \RequirePackage{float}
 \RequirePackage{tabularx}
 \RequirePackage{tikz}
+
+\usetikzlibrary{3d}
+\usetikzlibrary{arrows.meta}
+
 \RequirePackage{simplebnf}
 
 \newenvironment{spacedbnf}
@@ -144,6 +147,8 @@
   numbers=left,
   numberstyle={\tiny }
 }
+
+\RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
 
 % ---------------------------------------------------------------------------
 % --- Numbering

@@ -1,13 +1,14 @@
 \subsection{\texorpdfstring{\textlambda}{lambda}-cubo}
 \label{sec:3-lambda-cube}
 
-Prima di discutere l'inferenza di tipo, si vuol descrivere brevemente il \textit{$\lambda$-cubo},
-cubo lambda (vedi \textit{Introduction to generalized type systems}, \cite{IntroductionGeneralizedTypeSystems}),
-un modello introdotto per classificare i sistemi di tipo applicabili al lambda calcolo,
-al fine di comprendere quale sistema il linguaggio \textbf{Funx} implementa.
+Al fine di comprendere quale sistema il linguaggio \textbf{Funx} implementi,
+prima di discutere l'inferenza di tipo si vuol descrivere brevemente il \textit{$\lambda$-cubo},
+lambda cubo (vedi \textit{Introduction to generalized type systems}, \cite{IntroductionGeneralizedTypeSystems}),
+un modello introdotto per classificare i sistemi di tipo applicabili al lambda calcolo.
+
 
 \noindent In Figura \ref{fig:3-lambda-cube} è possibile osservare come la struttura del cubo abbia all'origine
-il \textit{lambda calcolo semplicemente tipato} ($\lambda\mkern-4mu\rightarrow$) e come le tre dimensioni
+il \textit{lambda calcolo semplicemente tipato} ($\lambda\mkern-9mu\rightarrow$) e come le tre dimensioni
 in cui si sviluppa rappresentino ciascuna un'estensione del sistema:
 \begin{itemize}
     \item \textbf{tipi dipendenti} ($\rightarrow$): la definizione dei tipi può dipendere dai valori delle variabili
@@ -21,9 +22,6 @@ in cui si sviluppa rappresentino ciascuna un'estensione del sistema:
 
 \begin{figure}[H]
     \centering
-    \usetikzlibrary{3d}
-    % messing around for bigger arrow tips
-    \usetikzlibrary{arrows.meta}
     \vspace{4mm}
     \begin{tikzpicture}[scale=2, >={Stealth[width=1.5mm,length=2mm]}]
         % base, weird xyz coords
@@ -60,12 +58,12 @@ in cui si sviluppa rappresentino ciascuna un'estensione del sistema:
 \noindent Senza entrare troppo nei dettagli, in ordine crescente di potenza espressiva:
 
 \begin{itemize}
-    \item \textbf{$\lambda\mkern-4mu\rightarrow$} (\textit{lambda calcolo semplicemente tipato}): tipi monomorfi;
-    \item \textbf{$\lambda\underline{\omega}$} (\textit{lambda weak omega}): costruttori di tipo;
-    \item \textbf{$\lambda2$} (\textit{lambda due, lambda F, lambda calcolo polimorfico}): polimorfismo parametrico;
-    \item \textbf{$\lambda P$} (\textit{lambda pi}): tipi dipendenti;
-    \item \textbf{$\lambda P\underline{\omega}$} (\textit{lambda pi weak omega}): costruttori di tipo e tipi dipendenti;
-    \item \textbf{$\lambda\omega$}: (\textit{lambda omega}): costruttori di tipo e polimorfismo parametrico;
-    \item \textbf{$\lambda P2$} (\textit{lambda pi due}): polimorfismo parametrico e tipi dipendenti;
-    \item \textbf{$\lambda C$} (\textit{lambda C, calcolo delle costruzioni}): combinazione di tutte le tre estensioni.
+    \item $\lambda\mkern-4mu\rightarrow$ (\textit{lambda calcolo semplicemente tipato}): tipi monomorfi;
+    \item $\lambda\underline{\omega}$ (\textit{lambda weak omega}): costruttori di tipo;
+    \item $\lambda2$ (\textit{lambda due, lambda F, lambda calcolo polimorfico}): polimorfismo parametrico;
+    \item $\lambda P$ (\textit{lambda pi}): tipi dipendenti;
+    \item $\lambda P\underline{\omega}$ (\textit{lambda pi weak omega}): costruttori di tipo e tipi dipendenti;
+    \item $\lambda\omega$ (\textit{lambda omega}): costruttori di tipo e polimorfismo parametrico;
+    \item $\lambda P2$ (\textit{lambda pi due}): polimorfismo parametrico e tipi dipendenti;
+    \item $\lambda C$ (\textit{lambda C, calcolo delle costruzioni}): combinazione di tutte le tre estensioni.
 \end{itemize}

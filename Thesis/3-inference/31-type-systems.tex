@@ -9,10 +9,10 @@ di assegnare una proprietà \textit{"tipo"} a ciascuno dei termini del linguaggi
 
 \noindent Sono principalmente suddivisi in due categorie:
 \begin{itemize}
-    \item \textbf{tipizzazione statica}: i tipi sono definiti a tempo di compilazione
-          e non possono cambiare mentre il programma è in esecuzione;
-    \item \textbf{tipizzazione dinamica}: i tipi vengono stabiliti durante l'esecuzione
-          e possono cambiare in qualsiasi momento.
+      \item \textbf{tipizzazione statica}: i tipi sono definiti a tempo di compilazione
+            e non possono cambiare mentre il programma è in esecuzione;
+      \item \textbf{tipizzazione dinamica}: i tipi vengono stabiliti durante l'esecuzione
+            e possono cambiare in qualsiasi momento.
 \end{itemize}
 
 \noindent Oltre a questa distinzione esistono varie sfumature e approcci differenti,
@@ -23,41 +23,41 @@ Si parla di \textit{tipizzazione debole} quando ad esempio sono consentite conve
 \newpage
 
 \begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[scale=0.5]
-        % nodes instead of proper axis, less of a hassle
-        \node (dynamic) at (-11,0) {Dinamico};
-        \node (static) at (11,0) {Statico};
-        \node (weak) at (0,-11) {Debole};
-        \node (strong) at (0,11) {Forte};
-        \draw[<->] (dynamic) -- (static);
-        \draw[<->] (weak) -- (strong);
-        % bleh
-        \node at (-8,-5) {\texttt{Visual Basic}};
-        \node at (-4,-8) {\texttt{JavaScript}};
-        \node at (-8,-2) {\texttt{Perl}};
-        \node at (-3,-3) {\texttt{PHP}};
-        % meh
-        \node at (-7,8) {\texttt{Erlang}};
-        \node at (-8,5) {\texttt{Clojure}};
-        \node at (-3,7) {\texttt{Groovy}};
-        \node at (-6,3) {\texttt{Python}};
-        \node at (-2,2) {\texttt{Ruby}};
-        % okay
-        \node at (3,-4) {\texttt{C}};
-        \node at (6,-6) {\texttt{C++}};
-        % good
-        \node at (3,7) {\texttt{C\#}};
-        \node at (4,1) {\texttt{Funx}}; % bleh amongst the good
-        \node at (5,4) {\texttt{Java}};
-        \node at (2,3) {\texttt{F\#}};
-        \node at (7,6) {\texttt{Scala}};
-        \node at (8,2) {\texttt{Haskell}}; % hell yeah
-        \node at (8,8) {\texttt{Rust}}; % divine
-    \end{tikzpicture}
-    \caption{Alcuni linguaggi e loro sistemi di tipo}
-    \label{fig:3-languages-type-systems}
-    \vspace{4mm}
+      \centering
+      \begin{tikzpicture}[scale=0.5, >={Stealth[width=1.5mm,length=2mm]}]
+            % nodes instead of proper axis, less of a hassle
+            \node (dynamic) at (-11,0) {Dinamico};
+            \node (static) at (11,0) {Statico};
+            \node (weak) at (0,-11) {Debole};
+            \node (strong) at (0,11) {Forte};
+            \draw[<->] (dynamic) -- (static);
+            \draw[<->] (weak) -- (strong);
+            % bleh
+            \node at (-8,-5) {\texttt{Visual Basic}};
+            \node at (-4,-8) {\texttt{JavaScript}};
+            \node at (-8,-2) {\texttt{Perl}};
+            \node at (-3,-3) {\texttt{PHP}};
+            % meh
+            \node at (-7,8) {\texttt{Erlang}};
+            \node at (-8,5) {\texttt{Clojure}};
+            \node at (-3,7) {\texttt{Groovy}};
+            \node at (-6,3) {\texttt{Python}};
+            \node at (-2,2) {\texttt{Ruby}};
+            % okay
+            \node at (3,-4) {\texttt{C}};
+            \node at (6,-6) {\texttt{C++}};
+            % good
+            \node at (3,7) {\texttt{C\#}};
+            \node at (4,1) {\texttt{Funx}}; % bleh amongst the good
+            \node at (5,4) {\texttt{Java}};
+            \node at (2,3) {\texttt{F\#}};
+            \node at (7,6) {\texttt{Scala}};
+            \node at (8,2) {\texttt{Haskell}}; % hell yeah
+            \node at (8,8) {\texttt{Rust}}; % divine
+      \end{tikzpicture}
+      \caption{Alcuni linguaggi e loro sistemi di tipo}
+      \label{fig:3-languages-type-systems}
+      \vspace{4mm}
 \end{figure}
 
 \noindent Grazie ai tipi dinamici, linguaggi quali \texttt{Python} e \texttt{JavaScript} permettono
@@ -77,10 +77,10 @@ l'uso dell'inferenza di tipo.
 
 \noindent Gli algoritmi di inferenza introducono numerosi benefici, in particolare:
 \begin{itemize}
-    \item la scrittura del codice è meno onerosa per lo sviluppatore a prescindere dal sistema di tipi utilizzato,
-          e diviene quindi estremamente vantaggioso utilizzare tipi statici;
-    \item le annotazioni ora opzionali possono essere aggiunte dal programmatore quando vi sono casi difficili
-          da disambiguare automaticamente, oppure per migliorare la leggibilità del codice;
-    \item gli strumenti di sviluppo per il linguaggio possono sfruttare informazioni fornite dal motore di inferenza
-          per suggerire il tipo delle espressioni e arricchire i messaggi di errore e di warning.
+      \item la scrittura del codice è meno onerosa per lo sviluppatore a prescindere dal sistema di tipi utilizzato,
+            e diviene quindi estremamente vantaggioso utilizzare tipi statici;
+      \item le annotazioni ora opzionali possono essere aggiunte dal programmatore quando vi sono casi difficili
+            da disambiguare automaticamente, oppure per migliorare la leggibilità del codice;
+      \item gli strumenti di sviluppo per il linguaggio possono sfruttare informazioni fornite dal motore di inferenza
+            per suggerire il tipo delle espressioni e arricchire i messaggi di errore e di warning.
 \end{itemize}
