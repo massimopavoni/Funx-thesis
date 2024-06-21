@@ -1,9 +1,9 @@
 \subsection{\texorpdfstring{\textlambda}{lambda}-cubo}
-\label{sec:3-lambda-cube}
+\label{sec:3-2-lambda-cube}
 
 Al fine di comprendere quale sistema il linguaggio \textbf{Funx} implementi,
-prima di discutere l'inferenza di tipo si vuol descrivere brevemente il \textit{$\lambda$-cubo},
-lambda cubo (vedi \textit{Introduction to generalized type systems}, \cite{IntroductionGeneralizedTypeSystems}),
+prima di discutere l'inferenza si vuol descrivere brevemente il \textit{$\lambda$-cubo},
+lambda cubo\footnote{\textit{Introduction to generalized type systems}, \cite{IntroductionGeneralizedTypeSystems}},
 un modello introdotto per classificare i sistemi di tipo applicabili al lambda calcolo.
 
 
@@ -23,7 +23,7 @@ in cui si sviluppa rappresentino ciascuna un'estensione del sistema:
 \begin{figure}[H]
     \centering
     \vspace{4mm}
-    \begin{tikzpicture}[scale=2, >={Stealth[width=1.5mm,length=2mm]}]
+    \begin{tikzpicture}[scale=1.6, >={Stealth[width=1.5mm,length=2mm]}]
         % base, weird xyz coords
         \node (lst) at (0,0,2) {$\lambda\mkern-4mu\rightarrow$};
         \node (lwo) at (0,0,0) {$\lambda\underline{\omega}$};
@@ -61,9 +61,9 @@ in cui si sviluppa rappresentino ciascuna un'estensione del sistema:
     \item $\lambda\mkern-4mu\rightarrow$ (\textit{lambda calcolo semplicemente tipato}): tipi monomorfi;
     \item $\lambda\underline{\omega}$ (\textit{lambda weak omega}): costruttori di tipo;
     \item $\lambda2$ (\textit{lambda due, lambda F, lambda calcolo polimorfico}): polimorfismo parametrico;
-    \item $\lambda P$ (\textit{lambda pi}): tipi dipendenti;
+    \item $\lambda P$ (\textit{lambda P}): tipi dipendenti;
     \item $\lambda P\underline{\omega}$ (\textit{lambda pi weak omega}): costruttori di tipo e tipi dipendenti;
     \item $\lambda\omega$ (\textit{lambda omega}): costruttori di tipo e polimorfismo parametrico;
-    \item $\lambda P2$ (\textit{lambda pi due}): polimorfismo parametrico e tipi dipendenti;
+    \item $\lambda P2$ (\textit{lambda P due}): polimorfismo parametrico e tipi dipendenti;
     \item $\lambda C$ (\textit{lambda C, calcolo delle costruzioni}): combinazione di tutte le tre estensioni.
 \end{itemize}

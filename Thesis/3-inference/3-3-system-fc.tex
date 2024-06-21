@@ -1,0 +1,112 @@
+\subsection{Sistema FC}
+\label{sec:3-3-system-fc}
+
+Tra i vari sistemi di tipo per il lambda calcolo, uno di quelli più interessanti è il \textit{sistema F}
+(vertice $\lambda2$ in Figura \ref{fig:3-lambda-cube}) poiché molto utile per la generalizzazione delle funzioni:
+uno dei problemi più ricorrenti nella programmazione con qualsiasi linguaggio è infatti la duplicazione di codice
+per funzioni che svolgono operazioni simili su tipi diversi.
+
+
+Il \textit{sistema F} risolve tale problema introducendo il \textbf{polimorfismo parametrico}
+e di conseguenza la distinzione tra tipi monomorfi e tipi polimorfi.
+
+\noindent I tipi delle funzioni possono essere caratterizzati tramite quantificatori universali e variabili di tipo
+ove sia necessario un tipo generico (spesso vengono usate singole lettere dell'alfabeto greco o latino).
+
+
+Tuttavia, $\lambda2$ nella sua forma più pura, oltre a non essere un sistema Turing-completo
+(è possibile definire solamente la ricorsione primitiva), rende l'inferenza di tipo trattata nella sezione
+\ref{sec:3-4-hm-type-inference} un problema non decidibile\footnote{\textit{Typability and type checking in System F
+        are equivalent and undecidable}, \cite{TypabilityTypeCheckingSystemFUndecidable}}.
+
+\noindent Pertanto, il linguaggio \texttt{Haskell}, così come \textbf{Funx}, non implementa
+semplicemente il \textit{sistema F}, ma piuttosto una versione ristretta di $\lambda\omega$ chiamata \textit{sistema FC}%
+\footnote{\textit{System FC, as implemented in GHC}, \cite{HaskellSystemFC}}.
+
+\noindent Quest'ultima include anche i costruttori di tipo (\textit{funzioni di tipo} in \textbf{Funx}),
+frenando però il polimorfismo ai cosiddetti \textit{tipi polimorfici di rango 1} (\textit{polimorfismo predicativo}):
+tale limitazione si manifesta nella scrittura di tutti i quantificatori universali all'inizio di un tipo polimorfo
+(che prende il nome di \textit{schema di tipo}).
+
+\noindent Le versioni invece più espressive e più vicine a $\lambda\omega$ sono:
+\begin{itemize}
+    \item \textit{polimorfismo di rango superiore}: supporta quantificatori universali in qualsiasi punto
+          nelle definizioni delle funzioni (e.g. \texttt{(forall a$\mathord{.}$ a -> a) -> (forall b$\mathord{.}$ b -> b)});
+          \texttt{Haskell} lo realizza grazie all'estensione \texttt{RankNTypes} del compilatore \texttt{GHC},
+          mentre offre anche l'estensione \texttt{Rank2Types}, per la quale l'inferenza rimane decidibile;
+    \item \textit{polimorfismo impredicativo}: permette di quantificare le variabili di tipo in modo arbitrario,
+          anche e soprattutto all'interno dei costruttori di tipo (e.g. \texttt{Maybe (forall a$\mathord{.}$ a -> a) -> Bool},
+          possibile in \texttt{Haskell} abilitando l'estensione \texttt{ImpredicativeTypes}).
+\end{itemize}
+
+\noindent Il linguaggio \textbf{Funx} ovviamente non è correntemente in grado di supportare queste estensioni
+del sistema di tipo, così come non è possibile definire nuovi tipi o fare uso di \textit{classi di tipo}
+simili a quelle proprie di \texttt{Haskell}. Affermare che \textbf{Funx} adotti il \textit{sistema FC} potrebbe dunque
+lasciare intendere un linguaggio più espressivo di quanto non sia in realtà: in ogni caso,
+il fine di questi paragrafi è anche difendere la scelta di utilizzare l'algoritmo di inferenza descritto successivamente,
+che comunque ben si presta allo scopo principe di traduzione in \texttt{Java}.
+
+
+In Tabella \ref{tab:3-polymorphic-functions} si possono osservare i tipi di alcune funzioni polimorfe
+di \texttt{Haskell}: la sintassi di \textbf{Funx} è molto simile (identica in ognuno dei casi presentati),
+con l'eccezione che la parola chiave \texttt{forall} è completamente assente dal linguaggio, in quanto ogni identificatore
+che inizia con una lettera minuscola è considerato una variabile di tipo da quantificare universalmente
+(vedi sezione \ref{sec:5-?-type-inference}).
+
+\newpage
+
+\begin{table}[H]
+    \vspace{4mm}
+    \begin{center}
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabularx}{\textwidth}{|p{5em}|X|}
+            \hline
+            \textbf{Funzione} & \textbf{Schema}                                   \\
+            \hline
+            \texttt{id}       & \texttt{a -> a}                                   \\
+            \hline
+            \texttt{const}    & \texttt{a -> b -> a}                              \\
+            \hline
+            \texttt{(.)}      & \texttt{(b -> c) -> (a -> b) -> a -> c}           \\
+            \hline
+            \texttt{flip}     & \texttt{(a -> b -> c) -> b -> a -> c}             \\
+            \hline
+            \texttt{(\$)}     & \texttt{(a -> b) -> a -> b}                       \\
+            \hline
+            \texttt{(\&)}     & \texttt{a -> (a -> b) -> b}                       \\
+            \hline
+            \texttt{on}       & \texttt{(b -> b -> c) -> (a -> b) -> a -> a -> c} \\
+            \hline
+        \end{tabularx}
+    \end{center}
+    \caption{Esempi di funzioni polimorfe}
+    \label{tab:3-polymorphic-functions}
+    \vspace{4mm}
+\end{table}
+
+\noindent In Figura \ref{fig:3-system-fc} è mostrata la grammatica per la definizione dei tipi nel \textit{sistema FC}
+così come implementato nel linguaggio \textbf{Funx}. Si noti come i tipi monomorfi possano solo essere
+variabili di tipo o applicazioni di funzioni ad altri tipi; al momento il linguaggio mette a disposizione
+le funzioni di tipo più elementari: funzione (l'unica con notazione infissa), booleano e intero.
+
+\begin{figure}[H]
+    \centering
+    \vspace{4mm}
+    \begin{spacedbnf}
+        $S$ : \small{Schema di tipo} ::=
+        | $\forall\ \alpha\mathord{.}\ S$ : \small{tipo polimorfo}
+        | $T$ : \small{tipo monomorfo}
+        ;;
+        $T$ : \small{Tipo} ::=
+        | $\alpha$ : \small{variabile di tipo}
+        | $F\ T^*$ : \small{applicazione di funzione di tipo}
+        ;;
+        $F$ : \small{Funzione di tipo} ::=
+        | $\rightarrow_2$ : \small{funzione}
+        | $Bool_0$ : \small{booleano}
+        | $Int_0$ : \small{intero}
+    \end{spacedbnf}
+    \caption{Grammatica del sistema FC di \textbf{Funx}}
+    \label{fig:3-system-fc}
+    \vspace{4mm}
+\end{figure}
