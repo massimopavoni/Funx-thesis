@@ -24,8 +24,10 @@ linguaggi logici come \texttt{Prolog} e soprattutto i linguaggi funzionali:
 \texttt{Lisp}, \texttt{Clojure}, \texttt{Elixir}, \texttt{OCaml} e \texttt{Haskell} sono alcuni esempi.
 
 
-Alla base di ogni linguaggio funzionale vi è il \textbf{lambda calcolo}: un sistema formale definito dal
-matematico \textit{Alonzo Church} (supervisore di \textit{Alan Turing} durante il dottorato),
+Alla base di ogni linguaggio funzionale vi è il \textbf{lambda calcolo}%
+\footnote{\textit{A Set of Postulates for the Foundation of Logic}, \cite{PostulatesFoundationLogic1}
+      e \textit{A Set of Postulates for the Foundation of Logic (Second paper)}, \cite{PostulatesFoundationLogic2}}:
+un sistema formale definito dal matematico \textit{Alonzo Church} (supervisore di \textit{Alan Turing} durante il dottorato),
 equivalente alla macchina di Turing, ma fondato sul concetto di funzione pura.
 
 \newpage
@@ -37,11 +39,11 @@ le espressioni ad una forma normale esulano dai fini di questo documento.
 \noindent Rimane comunque rilevante elencare le principali qualità che un linguaggio funzionale
 usualmente matura grazie al lambda calcolo:
 \begin{itemize}
-    \item \textbf{funzioni come entità di prima classe}: le funzioni possono essere passate come argomenti
-          e restituite come risultato di altre funzioni;
-    \item \textbf{immutabilità}: le variabili utilizzate sono immutabili;
-    \item \textbf{purezza}: le funzioni sono libere da effetti collaterali
-          (non modificano lo stato del programma) e restituiscono sempre lo stesso output per input identici;
-    \item \textbf{ricorsione}: la ricorsione è il meccanismo più idiomatico per esprimere
-          l'iterazione su una struttura dati.
+      \item \textbf{funzioni come entità di prima classe}: le funzioni possono essere passate come argomenti
+            e restituite come risultato di altre funzioni;
+      \item \textbf{immutabilità}: le variabili utilizzate sono immutabili;
+      \item \textbf{purezza}: le funzioni sono libere da effetti collaterali
+            (non modificano lo stato del programma) e restituiscono sempre lo stesso output per input identici;
+      \item \textbf{ricorsione}: la ricorsione è il meccanismo più idiomatico per esprimere
+            l'iterazione su una struttura dati.
 \end{itemize}
