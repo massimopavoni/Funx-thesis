@@ -1,2 +1,95 @@
 \section{Inferenza secondo Hindley–Milner}
 \label{sec:3-4-hm-type-inference}
+
+Come già accennato, il sistema \textit{Hindley–Milner (HM)}%
+\footnote{\textit{The Principal Type-Scheme of an Object in Combinatory Logic}, \cite{PrincipalTypeSchemeObjectCombinatoryLogic}
+    e \textit{A Theory of Type Polymorphism in Programming}, \cite{TheoryTypePolymorphismProgramming}},
+o \textit{Damas-Hindley-Milner}%
+\footnote{\textit{Principal type-schemes for functional programs}, \cite{PrincipalTypeSchemesFunctionalPrograms}},
+è un sistema di tipo per il lambda calcolo con polimorfismo parametrico largamente utilizzato
+in molti moderni linguaggi di programmazione ad alto livello. Il maggiore punto di forza del sistema
+è il relativo metodo di inferenza, in grado di dedurre automaticamente il tipo di un termine
+senza annotazioni esplicite fornite dagli sviluppatori.
+
+
+Prima di presentare l'algoritmo di inferenza è necessario complementare le nozioni di lambda calcolo esteso
+(Figure \ref{fig:2-lambda-syntax} e \ref{fig:2-funx-syntax}) e del sistema di \textbf{Funx} (Figura \ref{fig:3-system-hm})
+con due concetti fondamentali (Figura \ref{fig:3-context-free-variables}):
+\begin{itemize}
+    \item \textbf{contesto}: una insieme di associazioni tra variabili e schemi di tipo,
+          che rappresenta lo stato corrente dell'ambiente in cui un termine viene tipato; l'unione tra la grammatica
+          del linguaggio e il sistema di tipi è data da un giudizio di tipo effettuato nel contesto su un termine (espressione);
+    \item \textbf{variabili libere}: l'insieme delle variabili libere di un tipo è semplicemente il complemento
+          delle variabili vincolate, ossia quelle quantificate universalmente in un tipo polimorfo.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \vspace{4mm}
+    \begin{spacedbnf}
+        $\Gamma$ : \small{Contesto} ::=
+        | $\epsilon$ : \small{contesto vuoto}
+        | $\Gamma, x \colon \sigma$ : \small{aggiunta di associazione}
+        ;;
+        : \small{Giudizio di tipo} ::= $\Gamma \vdash E \colon \sigma$
+    \end{spacedbnf}
+    \par\vspace{10mm}
+    \begin{spacedbnf}
+        $free(\forall\ \alpha\ \mathord{.}\ \sigma$) == $free(\sigma) - \{\alpha\}$ : \small{tipo polimorfo}
+        ;;
+        $free(\alpha)$ == $\{\alpha\}$ : \small{variabile di tipo}
+        ;;
+        $free(F\ \tau_1\ldots\tau_n)$ == $\bigcup\limits_{i=1}^{n} free(\tau_i)$ : \small{applicazione di funzione di tipo}
+        ;;
+        $free(\Gamma)$ == $\bigcup\limits_{x\colon\sigma\in\Gamma} free(\sigma)$ : \small{contesto}
+        ;;
+        $free(\Gamma\vdash E\ \colon\ \sigma)$ == $free(\sigma) - free(\Gamma)$ : \small{giudizio di tipo}
+    \end{spacedbnf}
+    \caption{Definizioni di contesto e variabili libere}
+    \label{fig:3-context-free-variables}
+    \vspace{4mm}
+\end{figure}
+
+\newpage
+
+\noindent Le regole di inferenza del \textit{sistema HM}, riportate in Figura \ref{fig:3-inference-rules},
+informano il comportamento l'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fig:3-algorithm-w}), implementazione dell'inferenza di tipo.
+
+\noindent In aggiunta a principi già noti, le peculiarità non immediatamente chiare sono:
+\begin{itemize}
+    \item $constantType$: funzione che restituisce il tipo di una costante;
+    \item $\sigma \sqsubseteq \tau$: indica intuitivamente che $\sigma$ è più generale di $\tau$
+          ($\tau$ è un'\textit{istanza} di $\sigma$);
+    \item $\overline{\Gamma}$: ottiene il tipo più generale di una variabile, quantificando universalmente le variabili libere del tipo iniziale.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{mathpar}
+        \begin{tabularx}{0.8\textwidth}{M P{8em}}
+            \inferrule{\tau = constantType(c)}
+            {\Gamma \vdash c : \tau}
+             & \inferdesc{[costante]}     \\
+            \inferrule{x : \sigma \in \Gamma  \qquad  \sigma \sqsubseteq \tau}
+            {\Gamma \vdash x : \tau}
+             & \inferdesc{[variabile]}    \\
+            \inferrule{\Gamma \vdash E_l : \tau \rightarrow \tau'  \qquad  \Gamma \vdash E_r : \tau}
+            {\Gamma \vdash E_l\ E_r : \tau'}
+             & \inferdesc{[applicazione]} \\
+            \inferrule{\Gamma, x : \tau \vdash E : \tau'}
+            {\Gamma \vdash \lambda x\ .\ E : \tau \rightarrow \tau'}
+             & \inferdesc{[astrazione]}   \\
+            \inferrule{\Gamma \vdash E_0 : \tau  \qquad  \Gamma, x : \overline{\Gamma}(\tau) \vdash E_1 : \tau'}
+            {\Gamma \vdash \texttt{let}\ x = E_0\ \texttt{in}\ E_1 : \tau'}
+             & \inferdesc{[let]}          \\
+            $\overline{\Gamma}(\tau) = \forall\ \hat{\alpha}\ .\ \tau \qquad \hat{\alpha} = free(\tau) - free(\Gamma)$
+             &                            \\
+            \inferrule{\Gamma \vdash E_c : Bool  \qquad  \Gamma \vdash E_t : \tau  \qquad  \Gamma \vdash E_e : \tau}
+            {\Gamma \vdash \texttt{if}\ E_c\ \texttt{then}\ E_t\ \texttt{else}\ E_e : \tau}
+             & \inferdesc{[if]}           \\
+        \end{tabularx}
+    \end{mathpar}
+    \caption{Regole di inferenza del \textit{sistema HM} in \textbf{Funx}}
+    \label{fig:3-inference-rules}
+    \vspace{4mm}
+\end{figure}

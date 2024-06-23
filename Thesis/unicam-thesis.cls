@@ -86,10 +86,19 @@
 \RequirePackage[babel]{csquotes}
 \RequirePackage[style=alphabetic, backend=biber]{biblatex}
 
-% More useful packages because nobody thought about them
+% More useful packages because I need them
 
 \RequirePackage{float}
+\RequirePackage{cellspace}
+
+\setlength{\cellspacetoplimit}{5.5pt}
+\setlength{\cellspacebottomlimit}{5.5pt}
+
 \RequirePackage{tabularx}
+
+\newcolumntype{P}[1]{S{>{\arraybackslash}p{#1}}}
+\newcolumntype{M}{S{>{\centering\arraybackslash$}X<{$}}}
+
 \RequirePackage{tikz}
 
 \usetikzlibrary{3d}
@@ -98,8 +107,21 @@
 \RequirePackage{simplebnf}
 
 \newenvironment{spacedbnf}
-{\begin{bnf}(prod-sep=5pt, row-sep=2pt)}
+{\begin{bnf}(
+    relation={==|::=|->|:in:},
+    relation-sym-map = {
+    {==} = {\ensuremath{=}},
+    {::=} = {\ensuremath{\Coloneqq}},
+    {->} = {\ensuremath{\hookrightarrow}},
+    {:in:} = {\ensuremath{\in}},
+      },
+    prod-sep=5pt,
+    row-sep=2pt)}
     {\end{bnf}}
+
+\RequirePackage{mathpartir}
+
+\newcommand{\inferdesc}[1]{\text{\small{#1}}}
 
 \RequirePackage[final]{listings}
 
