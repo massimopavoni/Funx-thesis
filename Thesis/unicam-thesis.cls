@@ -113,18 +113,21 @@
 
 \RequirePackage{simplebnf}
 
-\newenvironment{spacedbnf}
-{\begin{bnf}(
-    relation={==|::=|->|:in:},
-    relation-sym-map = {
+\SetBNFLayout{
+  colspec={XcX}
+}
+
+\SetBNFConfig{
+relation={==|::=|->|:in:},
+relation-sym-map = {
     {==} = {\ensuremath{=}},
     {::=} = {\ensuremath{\Coloneqq}},
     {->} = {\ensuremath{\hookrightarrow}},
-    {:in:} = {\ensuremath{\in}},
+    {:in:} = {\ensuremath{\in}}
       },
     prod-sep=5pt,
-    row-sep=2pt)}
-    {\end{bnf}}
+    row-sep=2pt
+  }
 
 \RequirePackage{mathpartir}
 

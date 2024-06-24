@@ -25,16 +25,16 @@ con due concetti fondamentali (Figura \ref{fig:3-context-free-variables}):
 
 \begin{figure}
     \vspace{4mm}
-    \begin{spacedbnf}
+    \begin{bnf}
         $\Gamma$ : \small{Contesto} ::=
         | $\epsilon$ : \small{contesto vuoto}
-        | $\Gamma, x \colon \sigma$ : \small{aggiunta di associazione}
+        | $\Gamma + x \colon \sigma$ : \small{aggiunta di associazione}
         ;;
         : \small{Giudizio di tipo} ::= $\Gamma \vdash E \colon \sigma$
-    \end{spacedbnf}
-    \par\vspace{10mm}
-    \begin{spacedbnf}
-        $free(\forall\ \alpha\ \mathord{.}\ \sigma$) == $free(\sigma) - \{\alpha\}$ : \small{tipo polimorfo}
+    \end{bnf}
+    \par\vspace{12mm}
+    \begin{bnf}
+        $free(\forall\ \alpha\ .\ \sigma)$ == $free(\sigma) - \{\alpha\}$ : \small{tipo polimorfo}
         ;;
         $free(\alpha)$ == $\{\alpha\}$ : \small{variabile di tipo}
         ;;
@@ -43,7 +43,7 @@ con due concetti fondamentali (Figura \ref{fig:3-context-free-variables}):
         $free(\Gamma)$ == $\bigcup\limits_{x\colon\sigma\in\Gamma} free(\sigma)$ : \small{contesto}
         ;;
         $free(\Gamma\vdash E\ \colon\ \sigma)$ == $free(\sigma) - free(\Gamma)$ : \small{giudizio di tipo}
-    \end{spacedbnf}
+    \end{bnf}
     \caption{Definizioni di contesto e variabili libere}
     \label{fig:3-context-free-variables}
     \vspace{4mm}
@@ -51,20 +51,23 @@ con due concetti fondamentali (Figura \ref{fig:3-context-free-variables}):
 
 \newpage
 
-\noindent Le regole di inferenza del \textit{sistema HM}, riportate in Figura \ref{fig:3-inference-rules},
-informano il comportamento l'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fig:3-algorithm-w}), implementazione dell'inferenza di tipo.
+\noindent Le regole di inferenza\footnote{\citetitle{SimpleApplicativeLanguageMiniML}, \cite{SimpleApplicativeLanguageMiniML}}
+del \textit{sistema HM}, riportate in Figura \ref{fig:3-inference-rules},
+informano il comportamento dell'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fig:3-algorithm-w}), implementazione dell'inferenza di tipo.
 
 \noindent In aggiunta a principi già noti, le peculiarità non immediatamente chiare sono:
 \begin{itemize}
     \item $constantType$: funzione che restituisce il tipo di una costante;
     \item $\sigma \sqsubseteq \tau$: indica intuitivamente che $\sigma$ è più generale di $\tau$
           ($\tau$ è un'\textit{istanza} di $\sigma$);
-    \item $\overline{\Gamma}$: ottiene il tipo più generale di una variabile, quantificando universalmente le variabili libere del tipo iniziale.
+    \item $Clos_\Gamma$: ottiene la \textit{chiusura}, ossia tipo più generale, di una variabile
+          quantificando universalmente le variabili di tipo libere del tipo iniziale.
 \end{itemize}
 
 \begin{figure}
+    \vspace{4mm}
     \begin{mathpar}
-        \begin{tabularx}{0.8\textwidth}{M P{8em}}
+        \begin{tabularx}{0.9\textwidth}{M P{8em}}
             \inferrule{\tau = constantType(c)}
             {\Gamma \vdash c : \tau}
              & \inferdesc{[costante]}     \\
@@ -74,16 +77,16 @@ informano il comportamento l'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fig:3
             \inferrule{\Gamma \vdash E_l : \tau \rightarrow \tau'  \qquad  \Gamma \vdash E_r : \tau}
             {\Gamma \vdash E_l\ E_r : \tau'}
              & \inferdesc{[applicazione]} \\
-            \inferrule{\Gamma, x : \tau \vdash E : \tau'}
+            \inferrule{\Gamma + x : \tau \vdash E : \tau'}
             {\Gamma \vdash \lambda x\ .\ E : \tau \rightarrow \tau'}
              & \inferdesc{[astrazione]}   \\
-            \inferrule{\Gamma \vdash E_0 : \tau  \qquad  \Gamma, x : \overline{\Gamma}(\tau) \vdash E_1 : \tau'}
-            {\Gamma \vdash \texttt{let}\ x = E_0\ \texttt{in}\ E_1 : \tau'}
+            \inferrule{\Gamma \vdash E_1 : \tau  \qquad  \Gamma + x : Clos_\Gamma(\tau) \vdash E_2 : \tau'}
+            {\Gamma \vdash \textbf{let}\ x = E_1\ \textbf{in}\ E_2 : \tau'}
              & \inferdesc{[let]}          \\
-            $\overline{\Gamma}(\tau) = \forall\ \hat{\alpha}\ .\ \tau \qquad \hat{\alpha} = free(\tau) - free(\Gamma)$
+            $Clos_\Gamma(\tau) = \forall\ \hat{\alpha}\ .\ \tau \qquad \hat{\alpha} = free(\tau) - free(\Gamma)$
              &                            \\
             \inferrule{\Gamma \vdash E_c : Bool  \qquad  \Gamma \vdash E_t : \tau  \qquad  \Gamma \vdash E_e : \tau}
-            {\Gamma \vdash \texttt{if}\ E_c\ \texttt{then}\ E_t\ \texttt{else}\ E_e : \tau}
+            {\Gamma \vdash \textbf{if}\ E_c\ \textbf{then}\ E_t\ \textbf{else}\ E_e : \tau}
              & \inferdesc{[if]}           \\
         \end{tabularx}
     \end{mathpar}
@@ -95,4 +98,51 @@ informano il comportamento l'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fig:3
 \newpage
 
 \begin{figure}
+    $\mathcal{W}\ :\ Context\ \times Expression\ \rightarrow\ Substitution\ \times\ Type$
+    \newcommand{\algW}[2]{\mathcal{W}(#1, #2)}
+    \newcommand{\algWline}[2]{& \algW{#1}{#2} & & = & &}
+    \newenvironment{letin}{\begin{aligned}[t]}{\end{aligned}}
+    \par\vspace{4mm}
+    \[
+        \begin{aligned}
+            \algWline{\Gamma}{c} (id, constantType(c))                                                                \\
+            \algWline{\Gamma}{x}
+            \begin{letin}
+                & \text{let} &  & \forall\ \vec{\alpha}\ .\ \tau = \Gamma(x) \text{, new } \vec{\beta} \\
+                & \text{in}  &  & (id, \{\vec{\beta} / \vec{\alpha}\} \tau)
+            \end{letin}                    \\
+            \algWline{\Gamma}{E_l\ E_r}
+            \begin{letin}
+                & \text{let} &  & (S_l, \tau_l) = \algW{\Gamma}{E_l}                                          \\
+                &            &  & (S_r, \tau_r) = \algW{S_l\Gamma}{E_r}                                       \\
+                &            &  & S_a = \mathcal{U}(S_r \tau_l, \tau_r \rightarrow \beta) \text{, new } \beta \\
+                & \text{in}  &  & (S_a S_r S_l, S_a \beta)
+            \end{letin}             \\
+            \algWline{\Gamma}{\lambda x\ .\ E}
+            \begin{letin}
+                & \text{let} &  & (S, \tau) = \algW{\Gamma + x \colon \beta}{E} \text{, new } \beta \\
+                & \text{in}  &  & (S, S \beta \rightarrow \tau)
+            \end{letin}                       \\
+            \algWline{\Gamma}{\textbf{let}\ x = E_1\ \textbf{in}\ E_2}
+            \begin{letin}
+                & \text{let} &  & (S_1, \tau_1) = \algW{\Gamma}{E_1}                                          \\
+                &            &  & (S_2, \tau_2) = \algW{S_1 \Gamma + x \colon Clos_{S_1 \Gamma}(\tau_1)}{E_2} \\
+                & \text{in}  &  & (S_2 S_1, \tau_2)
+            \end{letin} \\
+            \algWline{\Gamma}{\textbf{if}\ E_c\ \textbf{then}\ E_t\ \textbf{else}\ E_e}
+            \begin{letin}
+                & \text{let} &  & (S_c, \tau_c) = \algW{\Gamma}{E_c}         \\
+                &            &  & (S_t, \tau_t) = \algW{S_c \Gamma}{E_t}     \\
+                &            &  & (S_e, \tau_e) = \algW{S_t S_c \Gamma}{E_e} \\
+                &            &  & S_{cb} = \mathcal{U}(\tau_c, Bool)         \\
+                &            &  & S_{te} = \mathcal{U}(S_e \tau_t, \tau_e)   \\
+                & \text{in}  &  & (S_{te} S_{cb} S_e S_t S_c, S_{te} \tau_t)
+            \end{letin}
+        \end{aligned}
+    \]
+    \caption{Algoritmo $\mathcal{W}$ per l'inferenza}
+    \label{fig:3-algorithm-w}
+    \vspace{4mm}
 \end{figure}
+
+\footnote{\citetitle{ProofsFolkloreLetPolymorphicTypeInferenceAlgorithm}, \cite{ProofsFolkloreLetPolymorphicTypeInferenceAlgorithm}}

@@ -15,12 +15,12 @@ quella (leggermente semplificata) di \textbf{Funx}, facendo attenzione alle rego
 
 \begin{figure}
     \vspace{4mm}
-    \begin{spacedbnf}
+    \begin{bnf}
         $E$ : \small{Espressione} ::=
         | $x$ : \small{variabile}
         | $E_l\ E_r$ : \small{applicazione}
         | $\lambda x\ .\ E$ : \small{astrazione}
-    \end{spacedbnf}
+    \end{bnf}
     \caption{Grammatica del lambda calcolo}
     \label{fig:2-lambda-syntax}
     \vspace{4mm}
@@ -39,7 +39,7 @@ del lambda calcolo:
 \newpage
 
 \begin{figure}
-    \begin{spacedbnf}
+    \begin{bnf}
         $M$ : \small{Modulo} ::=
         | $nome\ \cdot\ L$
         ;;
@@ -52,11 +52,11 @@ del lambda calcolo:
         | $E_l\ E_r$ : \small{applicazione}
         | $\lambda x\ .\ E$ : \small{astrazione}
         | $L$ : \small{let}
-        | $if\ E\ then\ E\ else\ E$ : \small{if}
+        | $\textbf{if}\ E_c\ \textbf{then}\ E_t\ \textbf{else}\ E_e$ : \small{if}
         ;;
         $L$ : \small{Let} ::=
-        | $let\ \cdot\ D\ (\cdot\ D)^*\ \cdot\ in\ E$
-    \end{spacedbnf}
+        | $\textbf{let}\ \cdot\ D\ (\cdot\ D)^*\ \cdot\ \textbf{in}\ E$
+    \end{bnf}
     \caption{Grammatica di Funx}
     \label{fig:2-funx-syntax}
     \vspace{4mm}
