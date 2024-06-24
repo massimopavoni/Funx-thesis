@@ -2,10 +2,10 @@
 \label{sec:3-4-hm-type-inference}
 
 Come già accennato, il sistema \textit{Hindley–Milner (HM)}%
-\footnote{\textit{The Principal Type-Scheme of an Object in Combinatory Logic}, \cite{PrincipalTypeSchemeObjectCombinatoryLogic}
-    e \textit{A Theory of Type Polymorphism in Programming}, \cite{TheoryTypePolymorphismProgramming}},
+\footnote{\citetitle{PrincipalTypeSchemeObjectCombinatoryLogic}, \cite{PrincipalTypeSchemeObjectCombinatoryLogic}
+    e \citetitle{TheoryTypePolymorphismProgramming}, \cite{TheoryTypePolymorphismProgramming}},
 o \textit{Damas-Hindley-Milner}%
-\footnote{\textit{Principal type-schemes for functional programs}, \cite{PrincipalTypeSchemesFunctionalPrograms}},
+\footnote{\citetitle{PrincipalTypeSchemesFunctionalPrograms}, \cite{PrincipalTypeSchemesFunctionalPrograms}},
 è un sistema di tipo per il lambda calcolo con polimorfismo parametrico largamente utilizzato
 in molti moderni linguaggi di programmazione ad alto livello. Il maggiore punto di forza del sistema
 è il relativo metodo di inferenza, in grado di dedurre automaticamente il tipo di un termine
@@ -23,8 +23,7 @@ con due concetti fondamentali (Figura \ref{fig:3-context-free-variables}):
           delle variabili vincolate, ossia quelle quantificate universalmente in un tipo polimorfo.
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
+\begin{figure}
     \vspace{4mm}
     \begin{spacedbnf}
         $\Gamma$ : \small{Contesto} ::=
@@ -63,8 +62,7 @@ informano il comportamento l'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fig:3
     \item $\overline{\Gamma}$: ottiene il tipo più generale di una variabile, quantificando universalmente le variabili libere del tipo iniziale.
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
+\begin{figure}
     \begin{mathpar}
         \begin{tabularx}{0.8\textwidth}{M P{8em}}
             \inferrule{\tau = constantType(c)}
@@ -92,4 +90,9 @@ informano il comportamento l'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fig:3
     \caption{Regole di inferenza del \textit{sistema HM} in \textbf{Funx}}
     \label{fig:3-inference-rules}
     \vspace{4mm}
+\end{figure}
+
+\newpage
+
+\begin{figure}
 \end{figure}

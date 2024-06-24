@@ -75,6 +75,13 @@
 \renewcommand{\familydefault}{\rmdefault}
 \renewcommand{\rmdefault}{cmr}
 
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+
+\renewenvironment{figure}[1][H]
+{\origfigure[#1]\centering}
+{\endorigfigure}
+
 \RequirePackage{varioref}
 \RequirePackage{babel}
 

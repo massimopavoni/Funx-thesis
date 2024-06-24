@@ -13,8 +13,7 @@ a tre principali motivi:
 la sua definizione si può agilmente comprendere visualizzando la grammatica del lambda calcolo e confrontandola con
 quella (leggermente semplificata) di \textbf{Funx}, facendo attenzione alle regole aggiuntive.
 
-\begin{figure}[H]
-    \centering
+\begin{figure}
     \vspace{4mm}
     \begin{spacedbnf}
         $E$ : \small{Espressione} ::=
@@ -27,7 +26,7 @@ quella (leggermente semplificata) di \textbf{Funx}, facendo attenzione alle rego
     \vspace{4mm}
 \end{figure}
 
-\noindent Le tre regole presenti in Figura \ref{fig:2-lambda-syntax} indicano le tre componenti indispensabili
+\noindent Le tre regole in Figura \ref{fig:2-lambda-syntax} indicano le tre componenti indispensabili
 del lambda calcolo:
 \begin{itemize}
     \item \textbf{variabile}: simbolo rappresentante un parametro;
@@ -39,14 +38,13 @@ del lambda calcolo:
 
 \newpage
 
-\begin{figure}[H]
-    \centering
+\begin{figure}
     \begin{spacedbnf}
         $M$ : \small{Modulo} ::=
-        | $nome\ \cdot\ L$ : \small{dichiarazione del modulo}
+        | $nome\ \cdot\ L$
         ;;
         $D$ : \small{Dichiarazione} ::=
-        | $?(schema\ di\ tipo)\ \cdot\ id = E$ : \small{dichiarazione di funzione}
+        | $?(schema\ di\ tipo)\ \cdot\ id = E$ : \small{funzione}
         ;;
         $E$ : \small{Espressione} ::=
         | $c$ : \small{costante}
@@ -57,7 +55,7 @@ del lambda calcolo:
         | $if\ E\ then\ E\ else\ E$ : \small{if}
         ;;
         $L$ : \small{Let} ::=
-        | $let\ \cdot\ D\ (\cdot\ D)^*\ \cdot\ in\ E$ : \small{let}
+        | $let\ \cdot\ D\ (\cdot\ D)^*\ \cdot\ in\ E$
     \end{spacedbnf}
     \caption{Grammatica di Funx}
     \label{fig:2-funx-syntax}

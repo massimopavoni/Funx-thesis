@@ -1,9 +1,9 @@
 \subsection{Sistema FC}
 \label{sec:3-3-system-fc}
 
-Tra i vari sistemi di tipo per il lambda calcolo, uno di quelli più interessanti è il \textit{sistema F}
+Tra i vari sistemi di tipo per il lambda calcolo, uno dei più interessanti è \textit{lambda F}
 (vertice $\lambda2$ in Figura \ref{fig:3-lambda-cube}) poiché molto utile per la generalizzazione delle funzioni:
-uno dei problemi più ricorrenti nella programmazione con qualsiasi linguaggio è infatti la duplicazione di codice
+un problema molto ricorrente nella programmazione con qualsiasi linguaggio è infatti la duplicazione di codice
 per funzioni che svolgono operazioni simili su tipi diversi.
 
 
@@ -16,12 +16,12 @@ ove sia necessario un tipo generico (spesso vengono usate singole lettere dell'a
 
 Tuttavia, $\lambda2$ nella sua forma più pura, oltre a non essere un sistema Turing-completo
 (è possibile definire solamente la ricorsione primitiva), rende l'inferenza di tipo trattata nella sezione
-\ref{sec:3-4-hm-type-inference} un problema non decidibile\footnote{\textit{Typability and type checking in System F
-        are equivalent and undecidable}, \cite{TypabilityTypeCheckingSystemFUndecidable}}.
+\ref{sec:3-4-hm-type-inference} un problema non decidibile%
+\footnote{\citetitle{TypabilityTypeCheckingSystemFUndecidable}, \cite{TypabilityTypeCheckingSystemFUndecidable}}.
 
 \noindent Pertanto, il linguaggio \texttt{Haskell} non implementa semplicemente il \textit{sistema F},
 ma piuttosto una versione ristretta di $\lambda\omega$ chiamata \textit{sistema FC}%
-\footnote{\textit{System FC, as implemented in GHC}, \cite{HaskellSystemFC}}.
+\footnote{\citetitle{HaskellSystemFC}, \cite{HaskellSystemFC}}.
 
 \noindent Quest'ultima include anche i costruttori di tipo (\textit{funzioni di tipo} in \textbf{Funx}),
 frenando però il polimorfismo ai cosiddetti \textit{tipi polimorfici di rango 1} (\textit{polimorfismo predicativo}):
@@ -43,7 +43,7 @@ tale limitazione si manifesta nella scrittura di tutti i quantificatori universa
 del sistema di tipo, così come non è possibile definire nuovi tipi o fare uso di \textit{classi di tipo}
 simili a quelle proprie di \texttt{Haskell}. Affermare che \textbf{Funx} adotti il \textit{sistema FC} potrebbe
 lasciare intendere un linguaggio più espressivo di quanto non sia in realtà: è dunque più opportuno realizzare
-il \textit{sistema HM} (sezione \ref{sec:3-4-hm-type-inference}), di cui il \textit{sistema FC} è un ampliamento,
+il \textit{sistema HM}, di cui il \textit{sistema FC} è un ampliamento,
 e che comunque ben si presta allo scopo principe di traduzione in \texttt{Java}.
 
 
@@ -60,7 +60,7 @@ che inizia con una lettera minuscola è considerato una variabile di tipo da qua
     \begin{center}
         \begin{tabularx}{\textwidth}{|P{6em}|X|}
             \hline
-            \textbf{Funzione} & \textbf{Schema}                                                   \\
+            \textbf{Funzione} & \textbf{Schema}                                                    \\
             \hline
             \texttt{id}       & \texttt{forall a $\mathord{.}$ a -> a}                             \\
             \hline
@@ -86,13 +86,12 @@ implementati nel linguaggio \textbf{Funx}. Si noti come i tipi monomorfi siano s
 variabili di tipo o applicazioni di funzioni ad altri tipi; al momento il linguaggio mette a disposizione
 le funzioni di tipo più elementari, la cui arietà è indicata in pedice.
 
-\begin{figure}[H]
-    \centering
+\begin{figure}
     \vspace{4mm}
     \begin{spacedbnf}
         $\sigma$ : \small{Schema di tipo} ::=
-        | $\forall\ \alpha\ \mathord{.}\ \sigma$ : \small{tipo polimorfo}
-        | $\tau$ : \small{tipo monomorfo}
+        | $\tau$ : \small{monotipo}
+        | $\forall\ \alpha\ \mathord{.}\ \sigma$ : \small{politipo}
         ;;
         $\tau$ : \small{Tipo} ::=
         | $\alpha$ : \small{variabile di tipo}
