@@ -20,7 +20,7 @@ con due concetti fondamentali (Figura \ref{fig:3-context-free-variables}):
           che rappresenta lo stato corrente dell'ambiente in cui un termine viene tipato; l'unione tra la grammatica
           del linguaggio e il sistema di tipi è data da un giudizio di tipo effettuato nel contesto su un termine (espressione);
     \item \textbf{variabili libere}: l'insieme delle variabili libere di un tipo è semplicemente il complemento
-          delle variabili vincolate, ossia quelle quantificate universalmente in un tipo polimorfo.
+          delle variabili vincolate, quantificate universalmente in un tipo polimorfo.
 \end{itemize}
 
 \begin{figure}
@@ -49,11 +49,11 @@ con due concetti fondamentali (Figura \ref{fig:3-context-free-variables}):
     \vspace{4mm}
 \end{figure}
 
-\newpage
-
 \noindent Le regole di inferenza\footnote{\citetitle{SimpleApplicativeLanguageMiniML}, \cite{SimpleApplicativeLanguageMiniML}}
 del \textit{sistema HM}, riportate in Figura \ref{fig:3-inference-rules},
-informano il comportamento dell'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fig:3-algorithm-w}), implementazione dell'inferenza di tipo.
+informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazione dell'inferenza di tipo.
+
+\newpage
 
 \noindent In aggiunta a principi già noti, le peculiarità non immediatamente chiare sono:
 \begin{itemize}
@@ -61,32 +61,47 @@ informano il comportamento dell'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fi
     \item $\sigma \sqsubseteq \tau$: indica intuitivamente che $\sigma$ è più generale di $\tau$
           ($\tau$ è un'\textit{istanza} di $\sigma$);
     \item $Clos_\Gamma$: ottiene la \textit{chiusura}, ossia tipo più generale, di una variabile
-          quantificando universalmente le variabili di tipo libere del tipo iniziale.
+          quantificando universalmente le variabili libere del tipo iniziale.
 \end{itemize}
 
 \begin{figure}
     \vspace{4mm}
     \begin{mathpar}
         \begin{tabularx}{0.9\textwidth}{M P{8em}}
-            \inferrule{\tau = constantType(c)}
-            {\Gamma \vdash c : \tau}
+            \inferrule{
+                \tau = constantType(c)}
+            {
+                \Gamma \vdash c : \tau}
              & \inferdesc{[costante]}     \\
-            \inferrule{x : \sigma \in \Gamma  \qquad  \sigma \sqsubseteq \tau}
-            {\Gamma \vdash x : \tau}
+            \inferrule{
+                x : \sigma \in \Gamma  \qquad  \sigma \sqsubseteq \tau}
+            {
+                \Gamma \vdash x : \tau}
              & \inferdesc{[variabile]}    \\
-            \inferrule{\Gamma \vdash E_l : \tau \rightarrow \tau'  \qquad  \Gamma \vdash E_r : \tau}
-            {\Gamma \vdash E_l\ E_r : \tau'}
+            \inferrule{
+                \Gamma \vdash E_l : \tau \rightarrow \beta  \qquad  \Gamma \vdash E_r : \tau}
+            {
+                \Gamma \vdash E_l\ E_r : \beta}
              & \inferdesc{[applicazione]} \\
-            \inferrule{\Gamma + x : \tau \vdash E : \tau'}
-            {\Gamma \vdash \lambda x\ .\ E : \tau \rightarrow \tau'}
+            \inferrule{
+                \Gamma + x : \beta \vdash E : \tau}
+            {
+                \Gamma \vdash \lambda x\ .\ E : \beta \rightarrow \tau}
              & \inferdesc{[astrazione]}   \\
-            \inferrule{\Gamma \vdash E_1 : \tau  \qquad  \Gamma + x : Clos_\Gamma(\tau) \vdash E_2 : \tau'}
-            {\Gamma \vdash \textbf{let}\ x = E_1\ \textbf{in}\ E_2 : \tau'}
+            \inferrule{
+                \inferrule{
+                    \overline{\Gamma} = \Gamma + \vec{x} : \vec{\beta}}
+                {
+                    \overline{\Gamma} \vdash \vec{E} : \vec{\kappa} \qquad \overline{\Gamma} \{Clos_{\Gamma}(\vec{\kappa}) / \vec{\beta}\} \vdash E_i : \tau}}
+            {
+                \overline{\Gamma} \vdash \textbf{let}\ \vec{x} = \vec{E}\ \textbf{in}\ E_i : \tau}
              & \inferdesc{[let]}          \\
             $Clos_\Gamma(\tau) = \forall\ \hat{\alpha}\ .\ \tau \qquad \hat{\alpha} = free(\tau) - free(\Gamma)$
              &                            \\
-            \inferrule{\Gamma \vdash E_c : Bool  \qquad  \Gamma \vdash E_t : \tau  \qquad  \Gamma \vdash E_e : \tau}
-            {\Gamma \vdash \textbf{if}\ E_c\ \textbf{then}\ E_t\ \textbf{else}\ E_e : \tau}
+            \inferrule{
+                \Gamma \vdash E_c : Bool  \qquad  \Gamma \vdash E_t : \tau  \qquad  \Gamma \vdash E_e : \tau}
+            {
+                \Gamma \vdash \textbf{if}\ E_c\ \textbf{then}\ E_t\ \textbf{else}\ E_e : \tau}
              & \inferdesc{[if]}           \\
         \end{tabularx}
     \end{mathpar}
@@ -95,54 +110,91 @@ informano il comportamento dell'\textit{algoritmo $\mathcal{W}$} (Figura \ref{fi
     \vspace{4mm}
 \end{figure}
 
+\noindent L'\textit{algoritmo $\mathcal{W}$}%
+\footnote{\citetitle{ProofsFolkloreLetPolymorphicTypeInferenceAlgorithm}, \cite{ProofsFolkloreLetPolymorphicTypeInferenceAlgorithm}}
+riportato in Figura \ref{fig:3-algorithm-w} fornisce un'implementazione del metodo finora descritto,
+servendosi delle regole di inferenza e dettagliando gli step per ogni espressione disponibile in \textbf{Funx}.
+
+\noindent L'algoritmo appare nel codice del compilatore in una forma più complessa,
+soprattutto nel caso dell'espressione \texttt{let} (vedi sezione \ref{sec:5-?-type-inference}),
+volendo supportare la ricorsione senza far uso di alcun \textit{fixed-point combinator}.
+
 \newpage
 
 \begin{figure}
-    $\mathcal{W}\ :\ Context\ \times Expression\ \rightarrow\ Substitution\ \times\ Type$
+    $\mathcal{W} : Context \times Expression \rightarrow Substitution \times Type$
     \newcommand{\algW}[2]{\mathcal{W}(#1, #2)}
     \newcommand{\algWline}[2]{& \algW{#1}{#2} & & = & &}
-    \newenvironment{letin}{\begin{aligned}[t]}{\end{aligned}}
-    \par\vspace{4mm}
     \[
         \begin{aligned}
-            \algWline{\Gamma}{c} (id, constantType(c))                                                                \\
+            \algWline{\Gamma}{c} (id, constantType(c))
+            \\
             \algWline{\Gamma}{x}
-            \begin{letin}
-                & \text{let} &  & \forall\ \vec{\alpha}\ .\ \tau = \Gamma(x) \text{, new } \vec{\beta} \\
-                & \text{in}  &  & (id, \{\vec{\beta} / \vec{\alpha}\} \tau)
-            \end{letin}                    \\
+            \begin{aligned}[t]
+                 & \text{let} &  & \forall\ \vec{\alpha}\ .\ \tau = \Gamma(x),\ new\ \vec{\beta} \\
+                 & \text{in}  &  & (id, \{\vec{\beta} / \vec{\alpha}\} \tau)
+            \end{aligned}
+            \\
             \algWline{\Gamma}{E_l\ E_r}
-            \begin{letin}
-                & \text{let} &  & (S_l, \tau_l) = \algW{\Gamma}{E_l}                                          \\
-                &            &  & (S_r, \tau_r) = \algW{S_l\Gamma}{E_r}                                       \\
-                &            &  & S_a = \mathcal{U}(S_r \tau_l, \tau_r \rightarrow \beta) \text{, new } \beta \\
-                & \text{in}  &  & (S_a S_r S_l, S_a \beta)
-            \end{letin}             \\
+            \begin{aligned}[t]
+                 & \text{let} &  & (S_l, \tau_l) = \algW{\Gamma}{E_l}                                   \\
+                 &            &  & (S_r, \tau_r) = \algW{S_l\Gamma}{E_r}                                \\
+                 &            &  & S_a = \mathcal{U}(S_r \tau_l, \tau_r \rightarrow \beta),\ new\ \beta \\
+                 & \text{in}  &  & (S_a S_r S_l, S_a \beta)
+            \end{aligned}
+            \\
             \algWline{\Gamma}{\lambda x\ .\ E}
-            \begin{letin}
-                & \text{let} &  & (S, \tau) = \algW{\Gamma + x \colon \beta}{E} \text{, new } \beta \\
-                & \text{in}  &  & (S, S \beta \rightarrow \tau)
-            \end{letin}                       \\
-            \algWline{\Gamma}{\textbf{let}\ x = E_1\ \textbf{in}\ E_2}
-            \begin{letin}
-                & \text{let} &  & (S_1, \tau_1) = \algW{\Gamma}{E_1}                                          \\
-                &            &  & (S_2, \tau_2) = \algW{S_1 \Gamma + x \colon Clos_{S_1 \Gamma}(\tau_1)}{E_2} \\
-                & \text{in}  &  & (S_2 S_1, \tau_2)
-            \end{letin} \\
+            \begin{aligned}[t]
+                 & \text{let} &  & (S, \tau) = \algW{\Gamma + x : \beta}{E},\ new\ \beta \\
+                 & \text{in}  &  & (S, S \beta \rightarrow \tau)
+            \end{aligned}
+            \\
+            \algWline{\Gamma}{\textbf{let}\ \vec{x} = \vec{E}\ \textbf{in}\ E_i}
+            \begin{aligned}[t]
+                 & \text{let} &  & \overline{\Gamma} = \Gamma + \vec{x} : \vec{\beta},\ new\ \vec{\beta}                              \\
+                 &            &  & (\vec{S}, \vec{\kappa}) = \algW{\overline{\Gamma}}{\vec{E}}                                        \\
+                 &            &  & (S_i, \tau) = \algW{\vec{S}\,\overline{\Gamma} \{Clos_{\Gamma}(\vec{\kappa}) / \vec{\beta}\}}{E_i} \\
+                 & \text{in}  &  & (S_i \vec{S}, \tau)
+            \end{aligned}
+            \\
             \algWline{\Gamma}{\textbf{if}\ E_c\ \textbf{then}\ E_t\ \textbf{else}\ E_e}
-            \begin{letin}
-                & \text{let} &  & (S_c, \tau_c) = \algW{\Gamma}{E_c}         \\
-                &            &  & (S_t, \tau_t) = \algW{S_c \Gamma}{E_t}     \\
-                &            &  & (S_e, \tau_e) = \algW{S_t S_c \Gamma}{E_e} \\
-                &            &  & S_{cb} = \mathcal{U}(\tau_c, Bool)         \\
-                &            &  & S_{te} = \mathcal{U}(S_e \tau_t, \tau_e)   \\
-                & \text{in}  &  & (S_{te} S_{cb} S_e S_t S_c, S_{te} \tau_t)
-            \end{letin}
+            \begin{aligned}[t]
+                 & \text{let} &  & (S_c, \tau_c) = \algW{\Gamma}{E_c}         \\
+                 &            &  & (S_t, \tau_t) = \algW{S_c \Gamma}{E_t}     \\
+                 &            &  & (S_e, \tau_e) = \algW{S_t S_c \Gamma}{E_e} \\
+                 &            &  & S_{cb} = \mathcal{U}(\tau_c, Bool)         \\
+                 &            &  & S_{te} = \mathcal{U}(S_e \tau_t, \tau_e)   \\
+                 & \text{in}  &  & (S_{te} S_{cb} S_e S_t S_c, S_{te} \tau_t)
+            \end{aligned}
         \end{aligned}
     \]
-    \caption{Algoritmo $\mathcal{W}$ per l'inferenza}
+    \caption{Algoritmo $\mathcal{W}$}
     \label{fig:3-algorithm-w}
     \vspace{4mm}
 \end{figure}
 
-\footnote{\citetitle{ProofsFolkloreLetPolymorphicTypeInferenceAlgorithm}, \cite{ProofsFolkloreLetPolymorphicTypeInferenceAlgorithm}}
+\noindent Dato un contesto in cui analizzare un'espressione, $\mathcal{W}$ restituisce un tipo per l'espressione e una sostituzione.
+Quest'ultima può essere vuota ($id$), generata "manualmente" o dall'\textit{unificazione} di altri tipi,
+e rappresenta una mappatura tra variabili di tipo e altri tipi; può essere applicata a tipi e contesti.
+
+\noindent La funzione $new$ esprime la creazione di nuove variabili di tipo, con il vincolo che non siano state ancora usate dall'algoritmo.
+
+\noindent Infine, l'\textit{unificazione} (funzione $\mathcal{U}$) è un'operazione altrettanto importante per l'inferenza di tipo,
+con la quale si cerca di trovare una sostituzione che renda due tipi uguali.
+
+\begin{figure}
+    \vspace{4mm}
+    $\mathcal{U} : Type \times Type \rightarrow Substitution$
+    \newcommand{\funU}[2]{\mathcal{U}(#1, #2)}
+    \newcommand{\funUline}[3]{& \funU{#1}{#2} & & = & & {#3}}
+    \[
+        \begin{aligned}
+            \funUline{\alpha}{\alpha}{id}              \\
+            \funUline{\alpha}{\tau}{\{\tau / \alpha\}} \\
+            \funUline{\tau}{\alpha}{\{\tau / \alpha\}} \\
+            \funUline{F\ \vec{\tau}}{F\ \vec{\kappa}}{\funU{\vec{\tau}}{\vec{\kappa}}}
+        \end{aligned}
+    \]
+    \caption{Funzione $\mathcal{U}$}
+    \label{fig:3-unification}
+\end{figure}
