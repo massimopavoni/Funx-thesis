@@ -1,3 +1,24 @@
 \chapter{Java}
 \label{chap:4-java}
 
+Parallelamente alle prime fasi di sviluppo è stata svolta un'analisi di \texttt{Java}%
+\footnote{OpenJDK (\url{https://openjdk.org}), Open source JDK implementation}
+per valutare quali fossero le caratteristiche del linguaggio utili alla traduzione di codice \textbf{Funx}.
+
+\noindent Questo capitolo riporta pertanto una breve panoramica delle principali funzionalità impiegate,
+accompagnate da esempi di traduzione che illustrano alcuni dei risultati ottenibili con il compilatore
+(si ricorda che altri esempi sono esibiti nel Capitolo~\ref{chap:6-examples}).
+
+Le funzioni non dichiarate all'interno degli esempi stessi provengono dalla piccola libreria standard
+(suddivisa in \texttt{FunxPrelude} e \texttt{JavaPrelude}),
+parzialmente presentata nella Tabella~\ref{tab:2-sugar} con gli operatori simbolici.
+
+\input{4-java/4-1-functional-interfaces.tex}
+
+\newpage
+
+\input{4-java/4-2-ternary-operator.tex}
+
+\newpage
+
+\input{4-java/4-3-generics.tex}

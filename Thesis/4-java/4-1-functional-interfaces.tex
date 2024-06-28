@@ -1,0 +1,84 @@
+\section{Interfacce funzionali}
+\label{sec:4-1-functional-interfaces}
+
+Nel tradurre un linguaggio funzionale viene naturale pensare immediatamente alle \textit{interfacce funzionali} e \textit{lambda espressioni}
+introdotte in \texttt{Java} 8%
+\footnote{OpenJDK 8 (\url{https://openjdk.org/projects/jdk8})}
+per rappresentare funzioni anonime: l'interfaccia generica \texttt{Function} è la più adatta a riprodurre
+il comportamento dell'astrazione, come mostrato nei Codici~\ref{lst:4-function-funx} e \ref{lst:4-function-java}.
+
+\vspace{4mm}
+\begin{lstlisting}[caption={Semplice funzione in \textbf{Funx}}, style=funxCode, label={lst:4-function-funx}]
+constant : a @-> b @-> a
+constant x = \y @-> x
+\end{lstlisting}
+\vspace{4mm}
+\begin{lstlisting}[caption={Corrispondente metodo in \texttt{Java}}, style=javaCode, label={lst:4-function-java}]
+public static @<a, b@> Function@<a, Function@<b, a@>@> constant() {
+    return (x @-> (y @-> x));
+}
+\end{lstlisting}
+\vspace{4mm}
+
+\noindent Dato il naturale \textit{currying} di oggetti \texttt{Function}, questo tipo di traduzione ha il vantaggio
+di permettere l'applicazione parziale di funzioni (tramite una sequenza di \texttt{apply()} in numero minore rispetto al totale degli input),
+ma il grande svantaggio della creazione di una nuova istanza della funzione per ogni chiamata.
+
+Poiché \texttt{constant} ha tipo polimorfo (vedi sezione~\ref{sec:4-3-generics}), il metodo utilizza parametri di tipo
+e deve quindi necessariamente restituire un nuovo oggetto con ogni chiamata:
+nonostante la performance delle traduzioni non sia un obiettivo primario del progetto, la versione attuale
+del compilatore fa uso di alcune piccole ottimizzazioni nella trasposizione delle funzioni monomorfe,
+approfondite nella sezione~\ref{sec:5-?-optimizations}.
+
+\newpage
+
+\noindent In aggiunta alla classe \texttt{Function}, nella parte nativa (codice \texttt{Java}) della libreria standard
+di \textbf{Funx} è definita un'ulteriore interfaccia funzionale per creare espressioni \texttt{let}:
+in questo caso vi è un grande utilizzo di classi anonime, potenzialmente annidate,
+rappresentanti le dichiarazioni locali e l'espressione principale.
+
+\vspace{4mm}
+\begin{lstlisting}[caption={Interfaccia funzionale per espressioni \texttt{let}}, style=javaCode, label={lst:4-let-interface-java}]
+@FunctionalInterface
+public interface Let@<T@> {
+    T _eval();
+}
+\end{lstlisting}
+\vspace{4mm}
+\begin{lstlisting}[caption={Espressione \texttt{let} in \textbf{Funx}}, style=funxCode, label={lst:4-let-funx}]
+hundredsSum : Int @-> Int @-> Int
+hundredsSum = let
+        on : (a @-> a @-> b) @-> (c @-> a) @-> c @-> c @-> b
+        on op f x y = op (f x) (f y)
+    in on add (multiply 100)
+\end{lstlisting}
+\vspace{4mm}
+\begin{lstlisting}[caption={Corrispondente classe anonima in \texttt{Java}}, style=javaCode, label={lst:4-let-java}]
+public static Function@<Long, Function@<Long, Long@>@> hundredsSum;
+
+static {
+    hundredsSum = (new Let@<@>() {
+        private @<a, b, c@>
+            Function@<
+                    Function@<a, Function@<a, b@>@>,
+                    Function@<Function@<c, a@>, Function@<c, Function@<c, b@>@>@>@>
+                on() {
+            return (op @-> (f @-> (x @-> (y @-> op.apply(f.apply(x)).apply(f.apply(y))))));
+        }
+
+        @Override
+        public Function@<Long, Function@<Long, Long@>@> _eval() {
+            return this.@<Long, Long, Long@>on().apply(add).apply(multiply.apply(100L));
+        }
+    })._eval();
+}
+\end{lstlisting}
+\vspace{4mm}
+
+\noindent Nei Codici~\ref{lst:4-let-funx} e \ref{lst:4-let-java} si può vedere che la funzione \texttt{hundredsSum}
+è implementata attraverso la chiamata al metodo principale dell'interfaccia funzionale \texttt{Let},
+realizzato internamente alla classe anonima con il supporto del metodo polimorfo \texttt{on}.
+
+\noindent Inoltre, è immediatamente evidente come le traduzioni in \texttt{Java} siano progressivamente più complesse e meno leggibili
+con l'introduzione di nuove funzionalità: l'esempio più eclatante è dato proprio dalla \textit{signature} del metodo locale \texttt{on},
+divenuta di difficile comprensione rispetto alla sintassi molto concisa del linguaggio funzionale.

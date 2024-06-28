@@ -13,14 +13,14 @@ senza annotazioni esplicite fornite dagli sviluppatori.
 
 
 Prima di presentare l'algoritmo di inferenza è necessario complementare le nozioni di lambda calcolo esteso
-(Figure \ref{fig:2-lambda-syntax} e \ref{fig:2-funx-syntax}) e del sistema di \textbf{Funx} (Figura \ref{fig:3-system-hm})
-con due concetti fondamentali (Figura \ref{fig:3-context-free-variables}):
+(Figure~\ref{fig:2-lambda-syntax} e \ref{fig:2-funx-syntax}) e del sistema di \textbf{Funx} (Figura~\ref{fig:3-system-hm})
+con due concetti fondamentali (Figura~\ref{fig:3-context-free-variables}):
 \begin{itemize}
     \item \textbf{contesto}: una insieme di associazioni tra variabili e schemi di tipo,
           che rappresenta lo stato corrente dell'ambiente in cui un termine viene tipato; l'unione tra la grammatica
           del linguaggio e il sistema di tipi è data da un giudizio di tipo effettuato nel contesto su un termine (espressione);
     \item \textbf{variabili libere}: l'insieme delle variabili libere di un tipo è semplicemente il complemento
-          delle variabili vincolate, quantificate universalmente in un tipo polimorfo.
+          delle variabili vincolate, quantificate universalmente in un politipo.
 \end{itemize}
 
 \begin{figure}
@@ -51,7 +51,7 @@ con due concetti fondamentali (Figura \ref{fig:3-context-free-variables}):
 
 \noindent Le regole di inferenza%
 \footnote{\citetitle{Clement-1986-MiniML}, \cite{Clement-1986-MiniML}}
-del \textit{sistema HM}, riportate in Figura \ref{fig:3-inference-rules},
+del \textit{sistema HM}, riportate in Figura~\ref{fig:3-inference-rules},
 informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazione dell'inferenza di tipo.
 
 \newpage
@@ -113,11 +113,11 @@ informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazion
 
 \noindent L'\textit{algoritmo $\mathcal{W}$}%
 \footnote{\citetitle{Lee-1998-FolkloreInference}, \cite{Lee-1998-FolkloreInference}}
-riportato in Figura \ref{fig:3-algorithm-w} fornisce un'implementazione del metodo finora descritto,
+riportato in Figura~\ref{fig:3-algorithm-w} fornisce un'implementazione del metodo finora descritto,
 servendosi delle regole di inferenza e dettagliando gli step per ogni espressione disponibile in \textbf{Funx}.
 
 \noindent L'algoritmo appare nel codice del compilatore in una forma più complessa,
-soprattutto nel caso dell'espressione \texttt{let} (vedi sezione \ref{sec:5-?-type-inference}),
+soprattutto nel caso dell'espressione \texttt{let} (vedi sezione~\ref{sec:5-?-type-inference}),
 volendo supportare la ricorsione senza far uso di alcun \textit{fixed-point combinator}.
 
 \newpage

@@ -3,7 +3,7 @@
 
 Con lo scopo di rendere il codice più leggibile, conciso e semplice, \textbf{Funx} introduce
 dello zucchero sintattico (del tutto simile a quello di \texttt{Haskell}).
-In Tabella \ref{tab:2-sugar} sono riportati l'indispensabile per evitare il parsing dell'indentazione,
+In Tabella~\ref{tab:2-sugar} sono riportati l'indispensabile per evitare il parsing dell'indentazione,
 le semplificazioni comuni utili all'arrichimento del lambda calcolo, e infine tutti gli operatori simbolici
 supportati al momento (assieme alla notazione per indicarne associatività e precedenza).
 
@@ -66,26 +66,32 @@ supportati al momento (assieme alla notazione per indicarne associatività e pre
 
 \newpage
 
-\noindent Come già accennato, il Capitolo \ref{chap:5-compiler} illustrerà come l'albero sintattico astratto (\texttt{AST})
-di un programma viene ottenuto, annotato e tradotto in \texttt{Java}; la sezione \ref{sec:5-?-lazy-evaluation}
-in particolare esporrà il motivo della traduzione degli operatori booleani binari in if.
+\noindent Come già accennato, il Capitolo~\ref{chap:5-compiler} illustrerà come l'albero sintattico astratto (\textbf{AST})
+di un programma viene ottenuto, annotato e tradotto in \texttt{Java}; la sezione~\ref{sec:4-2-ternary-operator}
+esporrà invece il motivo della traduzione degli operatori booleani binari in if.
 
-\noindent Alcuni esempi di funzioni sono presentati nel Codice \ref{lst:2-example};
+\noindent Alcuni esempi di funzioni sono presentati nel Codice~\ref{lst:2-example-funx};
 seppur superflua, l'indentazione è inclusa per maggiore chiarezza.
 
 \vspace{4mm}
-\begin{lstlisting}[caption={Esempio di programma}, style=funxCode, label={lst:2-example}]
+\begin{lstlisting}[caption={Esempio di programma}, style=funxCode, label={lst:2-example-funx}]
 main = factorial 20
 
-xor a b = (a || b) && !!(a && b)
-
+factorial : Int @-> Int
 factorial n = if n == 0 then 1 else n * factorial (n - 1) fi
 
+even : Int @-> Bool
+even = let
+        even1 : Int @-> Bool
+        even1 n = if n == 0 then True else odd (n - 1) fi
+
+        odd : Int @-> Bool
+        odd n = if n == 0 then False else even1 (n - 1) fi
+    in even1
+
+gcd : Int @-> Int @-> Int
 gcd a b = if b == 0 then a else gcd b (a % b) fi
 
-even = let
-    even1 n = if n == 0 then True else odd (n - 1) fi
-
-    odd n = if n == 0 then False else even1 (n - 1) fi
-  in even1
+xor : Bool @-> Bool @-> Bool
+xor a b = (a || b) && !!(a && b)
 \end{lstlisting}

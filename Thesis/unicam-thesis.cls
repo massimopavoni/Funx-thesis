@@ -113,10 +113,6 @@
 
 \RequirePackage{simplebnf}
 
-\SetBNFLayout{
-  colspec={XcX}
-}
-
 \SetBNFConfig{
 relation={==|::=|->|:in:},
 relation-sym-map = {
@@ -133,27 +129,37 @@ relation-sym-map = {
 
 \newcommand{\inferdesc}[1]{\text{\small{#1}}}
 
+\RequirePackage{bm}
 \RequirePackage[final]{listings}
 
+% lots of weird af workarounds because latex and its packages are the weirdest kids gang
 \lstdefinelanguage{Funx}{
-  keywords={let, in, with, out, module},
-  otherkeywords={=, :, ->, \\, if, then, else, fi, ., /, \%, *, +, -, !!, ||, &&, <, <=, >, >=, ==, !=, \$, Bool, Int, True, False},
+  alsoletter={=, :},
+  keywords={let, in, with, out, module, =, :, \\},
+  otherkeywords={if, then, else, fi, Bool, Int, True, False, \\, ., /, \%, *, +, -, !!, ||, &&, ==, !=, <, >, \$, (, )},
+  keywordstyle=\color{Firebrick3}\bfseries\ttfamily,
+  keywordstyle=[2]\color{Purple1}\bfseries\ttfamily,
   morekeywords=[2]{if, then, else, fi},
-  morekeywords=[3]{., /, \%, *, +, -, !!, ||, &&, <, <=, >, >=, ==, !=, \$},
-  morekeywords=[4]{Bool, Int},
-  morekeywords=[5]{True, False},
+  keywordstyle=[3]\color{RoyalBlue3}\bfseries\ttfamily,
+  morekeywords=[3]{Bool, Int},
+  keywordstyle=[4]\color{Coral4}\bfseries\ttfamily,
+  morekeywords=[4]{True, False},
+  keywordstyle=[5]\color{Green4}\bfseries\ttfamily,
+  morekeywords=[5]{., /, \%, *, +, -, !!, ||, &&, ==, !=, <, >, \$},
+  literate=
+    {@->}{{{\color{Firebrick3}\bfseries\ttfamily{-> }}}}{3}
+    {@<=}{{{\color{Green4}\bfseries\ttfamily{<= }}}}{3}
+    {@>=}{{{\color{Green4}\bfseries\ttfamily{>= }}}}{3},
+  keywordstyle=[6]\color{Sienna3}\bfseries\ttfamily,
+  morekeywords=[6]{(, )},
   sensitive=true
 }
 
 \lstdefinestyle{funxCode}{
   language=Funx,
   frame=tbrl,
+  backgroundcolor=\color{Ivory1},
   basicstyle=\scriptsize\ttfamily,
-  keywordstyle=\color{Firebrick3}\bfseries\ttfamily,
-  keywordstyle=[2]\color{Purple1}\bfseries\ttfamily,
-  keywordstyle=[3]\color{Green4}\bfseries\ttfamily,
-  keywordstyle=[4]\color{RoyalBlue3}\bfseries\ttfamily,
-  keywordstyle=[5]\color{Coral4}\bfseries\ttfamily,
   stringstyle=\itshape,
   flexiblecolumns=true,
   captionpos=b,
@@ -161,17 +167,26 @@ relation-sym-map = {
   belowcaptionskip=0pt,
   frame=single,
   numbers=left,
-  numberstyle={\tiny }
+  numberstyle={\tiny}
 }
 
 \lstdefinestyle{javaCode}{
   language=Java,
   frame=tbrl,
+  backgroundcolor=\color{Ivory1},
   basicstyle=\scriptsize\ttfamily,
-  keywordstyle=\ttfamily\bf,
+  keywordstyle=\color{Coral2}\bfseries\ttfamily,
+  keywordstyle=[2]\color{Gold4}\bfseries\ttfamily,
+  morekeywords=[2]{@Override, @FunctionalInterface},
+  literate=
+    {@->}{{{\color{Firebrick3}\bfseries\ttfamily{-> }}}}{3}
+    {@<}{{{\color{RoyalBlue3}\bfseries\ttfamily{<}}}}{1}
+    {@>}{{{\color{RoyalBlue3}\bfseries\ttfamily{>}}}}{1}
+    {@?}{{{\color{Purple1}\bfseries\ttfamily{?{\ }}}}}{2}
+    {@:}{{{\color{Purple1}\bfseries\ttfamily{:{\ }}}}}{2},
   stringstyle=\itshape,
   flexiblecolumns=true,
-  commentstyle=\itshape,
+  commentstyle=\color{Green4}\itshape,
   captionpos=b,
   abovecaptionskip=10pt,
   belowcaptionskip=0pt,
@@ -180,7 +195,7 @@ relation-sym-map = {
   numberstyle={\tiny }
 }
 
-\RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
+\RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
 
 % ---------------------------------------------------------------------------
 % --- Numbering
@@ -526,6 +541,7 @@ relation-sym-map = {
     \addcontentsline{toc}{chapter}{#1}%
   \fi
   \chaptermark{#1}%
+  \addtocontents{lol}{\protect\addvspace{10\p@}}% insert spaces in list of listings too
   \addtocontents{lof}{\protect\addvspace{10\p@}}%
   \addtocontents{lot}{\protect\addvspace{10\p@}}%
   \if@twocolumn

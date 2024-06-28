@@ -1,0 +1,48 @@
+\section{Tipi generici}
+\label{sec:4-3-generics}
+
+Il sistema di tipo di \textbf{Funx} necessita la traduzione di funzioni polimorfe,
+e la soluzione più semplice e idiomatica in \texttt{Java} è l'utilizzo dei \textit{generics}:
+tramite i parametri di tipo generici è possibile definire classi e metodi che agiscono su molteplici tipi di dati,
+implementando comportamenti che possono essere condivisi dai diversi elementi del dominio di tipi delle funzioni rappresentate.
+
+Nel contesto del \textit{sistema HM} di \textbf{Funx}, le variabili quantificate universalmente nei politipi
+hanno una diretta corrispondenza con i parametri di tipo che possono essere dichiarati tra i modificatori di visibilità
+e il tipo di ritorno di un metodo, il quale a sua volta combacia con la parte "interna" dello schema di tipo.
+
+Nei Codici~\ref{lst:4-generics-funx} e \ref{lst:4-generics-java} si può notare come \texttt{Java} non sia in grado
+di inferire i tipi desiderati per le funzioni polimorfe: queste devono infatti essere istanziate esplicitamente
+usando la classe di appartenenza e le parentesi angolari (questa limitazione richiederà alcuni espedienti in casi limite
+illustrati nella sezione~\ref{sec:5-?-type-casting}).
+
+\vspace{4mm}
+\begin{lstlisting}[caption={Scrittura e utilizzo di funzioni polimorfe in \textbf{Funx}}, style=funxCode, label={lst:4-generics-funx}]
+sumToN : Int @-> Int
+sumToN = let
+        ap : (a @-> b @-> c) -> (a @-> b) @-> a @-> c
+        ap op f x = op x (f x)
+    in (flip divide 2) . ap multiply (add 1)
+\end{lstlisting}
+\vspace{4mm}
+\begin{lstlisting}[caption={Corrispondente traduzione in \texttt{Java}}, style=javaCode, label={lst:4-generics-java}]
+public static Function@<Long, Long@> sumToN;
+
+static {
+    sumToN = (new Let@<@>() {
+        private @<a, b, c@>
+            Function@<
+                Function@<a, Function@<b, c@>@>,
+                Function@<Function@<a, b@>, Function@<a, c@>@>@>
+                    ap() {
+            return (op @-> (f @-> (x @-> op.apply(x).apply(f.apply(x)))));
+        }
+
+        @Override
+        public Function@<Long, Long@> _eval() {
+            return FunxPrelude.@<Long, Long, Long@>compose()
+                .apply(FunxPrelude.@<Long, Long, Long@>flip().apply(divide).apply(2L))
+                .apply(this.@<Long, Long, Long@>ap().apply(multiply).apply(add.apply(1L)));
+        }
+    })._eval();
+}  
+\end{lstlisting}
