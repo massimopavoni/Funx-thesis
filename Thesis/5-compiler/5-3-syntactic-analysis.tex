@@ -15,7 +15,7 @@ per grammatiche \textit{LL}, le quali in generale non supportano regole ricorsiv
 quest'ultimo è in grado di riscrivere automaticamente le grammatiche, eliminando la ricorsione a sinistra diretta (e.g. linee 36 e 38-43),
 così da non incorrere in regole ambigue che potrebbero causare \textit{backtracking} e conseguente \textit{overhead}.
 
-\noindent Il Codice \ref{lst:5-parser} riporta integralmente le regole concrete della sintassi di \textbf{Funx}, tra cui:
+\noindent Il Codice~\ref{lst:5-parser} riporta integralmente le regole concrete della sintassi di \textbf{Funx}, tra cui:
 \begin{itemize}
     \item \textit{module}: nome del modulo, funzione \texttt{main} opzionale e dichiarazioni globali;
     \item \textit{main}: funzione \texttt{main}, diversa dalle dichiarazioni classiche per l'assenza di schema di tipo e parametri lambda;
@@ -24,7 +24,7 @@ così da non incorrere in regole ambigue che potrebbero causare \textit{backtrac
     \item \textit{statement}: per evitare ricorsione a sinistra indiretta, la separazione tra \textit{statement} e \textit{expression}
           forza l'uso di parentesi nei casi in cui lambda astrazioni, let e if siano usati all'interno di un'espressione;
     \item \textit{expression}: racchiude l'applicazione funzionale, tutte le regole relative agli operatori simbolici,
-          specificandone la priorità implicite (Tabella \ref{tab:2-sugar}), e le espressioni primarie
+          specificandone la priorità implicite (Tabella~\ref{tab:2-sugar}), e le espressioni primarie
           (costanti, variabili e parentesi per controllare la precedenza);
     \item \textit{lambda, let, it}: corrispondenti alle produzioni per astrazione, let e if della grammatica formale.
 \end{itemize}
