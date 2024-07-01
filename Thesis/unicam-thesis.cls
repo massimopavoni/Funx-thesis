@@ -4,7 +4,7 @@
 % Andrea Polini <andrea.polini@unicam.it>
 % Francesco De Angelis <francesco.deangelis@unicam.it>
 % 
-% Revised and simplified by Massimo Pavoni for multi-language support and other smaller improvements
+% Revised by Massimo Pavoni for personal needs
 
 % Document class
 \NeedsTeXFormat{LaTeX2e}
@@ -160,7 +160,6 @@ relation-sym-map = {
   frame=tbrl,
   backgroundcolor=\color{Ivory1},
   basicstyle=\scriptsize\ttfamily,
-  stringstyle=\itshape,
   flexiblecolumns=true,
   captionpos=b,
   abovecaptionskip=10pt,
@@ -184,15 +183,56 @@ relation-sym-map = {
     {@>}{{{\color{RoyalBlue3}\bfseries\ttfamily{>}}}}{1}
     {@?}{{{\color{Purple1}\bfseries\ttfamily{?{\ }}}}}{2}
     {@:}{{{\color{Purple1}\bfseries\ttfamily{:{\ }}}}}{2},
-  stringstyle=\itshape,
+  stringstyle=\color{SpringGreen4}\ttfamily,
+  showstringspaces=false,
   flexiblecolumns=true,
-  commentstyle=\color{Green4}\itshape,
+  commentstyle=\color{Green4}\itshape\ttfamily,
   captionpos=b,
   abovecaptionskip=10pt,
   belowcaptionskip=0pt,
   frame=single,
   numbers=left,
   numberstyle={\tiny }
+}
+
+\lstdefinelanguage{Antlr}{
+  keywords={lexer, parser, grammar, options, fragment},
+  otherkeywords={:, |, ;, =, ~, ?, +, -, *, ., <, >, (, ), [, ], \{, \}},
+  comment=[l]{//},
+  moredelim=[is][\color{Blue3}]{\%}{\%},
+  keywordstyle=\color{Coral2}\bfseries\ttfamily,
+  keywordstyle=[2]\color{Purple1}\bfseries\ttfamily,
+  morekeywords=[2]{:, |, ;, =, ~, ?, +, -, *, ., <, >},
+  literate=
+    {@->}{{{\color{Firebrick3}\bfseries\ttfamily{-> }}}}{3}
+    {\\=}{=}{1}
+    {\\+}{+}{1}
+    {\\-}{-}{1}
+    {\\.}{.}{1}
+    {\\>}{>}{1}
+    {\\(}{(}{1}
+    {\\)}{)}{1},
+  keywordstyle=[3]\color{Sienna3}\bfseries\ttfamily,
+  morekeywords=[3]{(, ), [, ], \{, \}},
+  morestring=[d]{'},
+  sensitive=true
+}
+
+\lstdefinestyle{antlrCode}{
+  language=Antlr,
+  frame=tbrl,
+  backgroundcolor=\color{Ivory1},
+  basicstyle=\scriptsize\ttfamily,
+  stringstyle=\color{SpringGreen4}\ttfamily,
+  showstringspaces=false,
+  flexiblecolumns=true,
+  commentstyle=\color{DeepPink3}\itshape\ttfamily,
+  captionpos=b,
+  abovecaptionskip=10pt,
+  belowcaptionskip=0pt,
+  frame=single,
+  numbers=left,
+  numberstyle={\tiny}
 }
 
 \RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
@@ -293,7 +333,7 @@ relation-sym-map = {
 \setlength{\parskip}{0mm}
 
 \begin{center}
-  \includegraphics[width=15mm]{Resources/Images/university-crest}\par%
+  \includegraphics[width=15mm]{resources/images/university-crest}\par%
   \vspace{0.15cm}%
   {\rmfamily \Large \bfseries \@theuniversity \par}%
   \vspace{0.15cm}%

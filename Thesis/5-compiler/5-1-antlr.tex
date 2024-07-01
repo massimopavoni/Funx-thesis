@@ -1,0 +1,21 @@
+\section{ANTLR}
+\label{sec:5-1-antlr}
+
+Al fine di semplificare lo sviluppo di \textit{lexer} e \textit{parser} per il linguaggio funzionale ideato
+è stato scelto il generatore di \textit{parser} chiamato \texttt{ANTLR}%
+\footnote{ANother Tool for Language Recognition,
+    \citetitle{Parr-1995-ANTLRGenerator}, \cite{Parr-1995-ANTLRGenerator},
+    \citetitle{Parr-2013-DefinitiveANTLR}, \cite{Parr-2013-DefinitiveANTLR}
+    and ANTLRv4 (\url{https://www.antlr.org})}.
+
+\noindent Grazie a tale strumento il processo iterativo di creazione della grammatica di \textbf{Funx}
+è stato notevolmente semplificato e accelerato, in quanto \texttt{ANTLR} mette a disposizione del programmatore
+un linguaggio per definire uno o più file di specifica per lessico e sintassi
+(directory \texttt{Funx-jt/src/main/antlr} nel repository): questi vengono poi processati
+per generare il codice sorgente del \textit{lexer} e del \textit{parser}.
+
+\newpage
+
+\input{5-compiler/5-2-lexical-analysis.tex}
+
+\input{5-compiler/5-3-syntactic-analysis.tex}

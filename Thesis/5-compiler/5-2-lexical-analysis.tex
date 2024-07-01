@@ -1,0 +1,105 @@
+\subsection{Analisi lessicale}
+\label{sec:5-2-lexical-analysis}
+
+Data la probabile complessità delle regole della grammatica di \textbf{Funx}, fin dall'inizio la definizione dei \textit{token} (lessemi)
+del linguaggio è stata separata dalla specifica del \textit{parser}.
+
+\noindent Il file \texttt{FunxLexer.g4} descrive i lessemi dividendoli nelle seguenti cateogorie:
+\begin{enumerate}
+    \item \textit{whitespace}: caratteri di spaziatura e tabulazione;
+    \item \textit{comments}: commenti di linea e blocco;
+    \item \textit{keywords}: parole chiave del linguaggio;
+    \item \textit{Java keywords}: parole chiave del linguaggio Java, da evitare;
+    \item \textit{types}: tipi di dato (funzioni di tipo con arità 0);
+    \item \textit{literals}: costanti booleane e numeriche;
+    \item \textit{variables}: identificatori per variabili di tipo o nomi di funzioni;
+    \item \textit{module}: identificatori il modulo;
+    \item vari operatori simbolici per:
+          \begin{itemize}
+              \item \textit{bool}: valori booleani;
+              \item \textit{comparison}: confronti tra numeri;
+              \item \textit{arithmetic}: operazioni aritmetiche;
+              \item \textit{other symbols}: simboli della sintassi (come \texttt{->}) e varie funzioni di libreria;
+              \item \textit{delimiters}: parentesi tonde, quadre e graffe.
+          \end{itemize}
+\end{enumerate}
+
+\noindent Le categorie 1 e 2 contengono token da scartare, tranne \texttt{NEWLINE}, mentre la categoria 4 è utile
+qualora eventualmente si permetta allo sviluppatore di utilizzare tali parole chiave riservate,
+effettuando una rinomina automatica; le categorie 7 e 8 devono necessariamente apparire dopo le categorie 3 e 4,
+poiché tra \textit{keyword} e identificatori di ogni genere le prime devono avere la precedenza
+(la posizione della categoria 5 tiene conto di una possibile futura estensione per consentire la creazione di nuovi tipi).
+
+Oltre alle categorie illustrate, in testa al file sono presenti dei cosiddetti \textit{fragment} (frammenti)
+che semplificano le espressioni regolari dei \textit{token} e complessivamente aumentano la leggibilità della specifica.
+
+\newpage
+
+\begin{lstlisting}[caption={Alcune \textit{token} del \textit{lexer}}, style=antlrCode, label={lst:5-lexer}]
+lexer grammar FunxLexer;
+
+// Fragments
+fragment LALPHA: [a-z];
+fragment UALPHA: [A-Z];
+fragment ALPHA: LALPHA | UALPHA;
+fragment ALPHA_: ALPHA | UnderScore;
+
+fragment DIGIT: [0-9];
+fragment DECIMAL: DIGIT+;
+
+// Whitespace
+NEWLINE: '\r'? '\n' | '\r';
+
+TAB: [\t]+ @-> skip;
+WS: [\u0020\u00a0\u1680\u2000\u200a\u202f\u205f\u3000]+ @-> skip;
+
+// Comments
+CloseMultiComment: '\./';
+OpenMultiComment: '/\.';
+SingleComment: '//';
+
+COMMENT: SingleComment ~[\r\n]* @-> skip;
+MULTICOMMENT: OpenMultiComment .*? CloseMultiComment @-> skip;
+
+// Keywords
+ELSE: 'else';
+FI: 'fi';
+IF: 'if';
+IN: 'in';
+LET: 'let';
+
+// Java keywords
+RESERVED_JAVA_KEYWORD: 'abstract' | 'assert' | 'boolean' | 'break' | 'byte' | [\.\.\.];
+
+// Types
+TYPE: BOOLTYPE | INTTYPE;
+BOOLTYPE: 'Bool';
+
+// Literals
+INT: DECIMAL | OpenParen '\-' DECIMAL CloseParen;
+
+// Variables
+VARID: LALPHA (ALPHA_ | DIGIT)*;
+
+// Module
+MODULEID: UALPHA (ALPHA_ | DIGIT)*;
+
+// Bool
+And: '&&';
+Not: '!!';
+
+// Comparison
+EqualsEquals: '\=\=';
+NotEquals: '!\=';
+
+// Arithmetic
+Add: '\+';
+
+// Other symbols
+UnderScore: '_';
+Arrow: '\-\>';
+
+// Delimiters
+OpenParen: '\(';
+CloseParen: '\)';
+\end{lstlisting}

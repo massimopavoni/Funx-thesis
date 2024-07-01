@@ -1,0 +1,101 @@
+\subsection{Analisi sintattica}
+\label{sec:5-3-syntactic-analysis}
+
+Il file \texttt{FunxParser.g4} contiene le regole concrete della grammatica di \textbf{Funx}:
+nonostante la somiglianza con le grammatiche delle Figure~\ref{fig:2-funx-syntax} e \ref{fig:3-system-hm},
+è evidente che queste non collimino esattamente a causa di zucchero sintattico e requisiti di \texttt{ANTLR}.
+
+\noindent Lo strumento utilizzato, infatti, è un generatore di \textit{parser} di tipo \textit{top-down}
+per grammatiche \textit{LL}, le quali in generale non supportano regole ricorsive a sinistra.
+
+\noindent Essendo tali regole spesso comuni nella definizione di qualsiasi linguaggio di programmazione,
+\textbf{Funx} incluso, \texttt{ANTLRv4} offre un diverso tipo di parsing, detto \textit{Adaptive LL(*)}%
+\footnote{\citetitle{Parr-2011-FoundationANTLR}, \cite{Parr-2011-FoundationANTLR}
+    and \citetitle{Parr-2014-AdaptiveLL}, \cite{Parr-2014-AdaptiveLL}}:
+quest'ultimo è in grado di riscrivere automaticamente le grammatiche, eliminando la ricorsione a sinistra diretta (e.g. linee 36 e 38-43),
+così da non incorrere in regole ambigue che potrebbero causare \textit{backtracking} e conseguente \textit{overhead}.
+
+\noindent Il Codice \ref{lst:5-parser} riporta integralmente le regole concrete della sintassi di \textbf{Funx}, tra cui:
+\begin{itemize}
+    \item \textit{module}: nome del modulo, funzione \texttt{main} opzionale e dichiarazioni globali;
+    \item \textit{main}: funzione \texttt{main}, diversa dalle dichiarazioni classiche per l'assenza di schema di tipo e parametri lambda;
+    \item \textit{declaration}: funzione con nome, tipo e parametri (e opzionalmente \texttt{with} per funzioni locali);
+    \item \textit{typeElems}: tipo di una funzione, definito ricorsivamente secondo la grammatica del sistema di tipo di \textbf{Funx};
+    \item \textit{statement}: per evitare ricorsione a sinistra indiretta, la separazione tra \textit{statement} e \textit{expression}
+          forza l'uso di parentesi nei casi in cui lambda astrazioni, let e if siano usati all'interno di un'espressione;
+    \item \textit{expression}: racchiude l'applicazione funzionale, tutte le regole relative agli operatori simbolici,
+          specificandone la priorità implicite (Tabella \ref{tab:2-sugar}), e le espressioni primarie
+          (costanti, variabili e parentesi per controllare la precedenza);
+    \item \textit{lambda, let, it}: corrispondenti alle produzioni per astrazione, let e if della grammatica formale.
+\end{itemize}
+
+\newpage
+
+\begin{lstlisting}[caption={Grammatica per il \textit{parser}}, style=antlrCode, label={lst:5-parser}]
+parser grammar FunxParser;
+options { tokenVocab = FunxLexer; }
+
+// Module
+module: (MODULE MODULEID (Dot MODULEID)* NEWLINE+)?
+    (main NEWLINE+)? declarations EOF;
+
+declarations: declaration (NEWLINE declaration?)*;
+
+main: id = MAIN Equals statement with?;
+
+// Declaration
+declaration: (declarationScheme NEWLINE)?
+    id = VARID lambdaParams? Equals statement with?;
+
+declarationScheme: id = VARID Colon typeElems;
+
+with: NEWLINE WITH localDeclarations OUT;
+
+localDeclarations: NEWLINE declarations NEWLINE;
+
+// Type
+typeElems: OpenParen typeElems CloseParen %# parenType%
+    | VARID %# typeVar%
+    | TYPE %# namedType%
+    | <assoc = right> typeElems Arrow typeElems %# arrowType%;
+
+// Statement
+statement: expression %# expressionStatement%
+    | lambda %# lambdaStatement%
+    | let %# letStatement%
+    | ifS %# ifStatement%;
+
+// Expression
+expression: primary %# primExpression%
+    | expression expression %# appExpression%
+    | <assoc = right> expression bop = Dot expression %# composeExpression%
+    | expression bop = (Divide | Modulo | Multiply) expression %# divModMultExpression%
+    | expression bop = (Add | Subtract) expression %# addSubExpression%
+    | expression
+        bop = (GreaterThan | GreaterThanEquals | LessThan | LessThanEquals)
+        expression %# compExpression%
+    | expression bop = (EqualsEquals | NotEquals) expression %# eqExpression%
+    | uop = Not expression %# notExpression%
+    | <assoc = right> expression bop = And expression %# andExpression%
+    | <assoc = right> expression bop = Or expression %# orExpression%
+    | <assoc = right> expression bop = Dollar expression %# rightAppExpression%;
+
+primary: OpenParen statement CloseParen %# parenPrimary%
+    | constant %# constPrimary% | VARID %# varPrimary%;
+
+// Lambda
+lambda: Backslash lambdaParams? Arrow statement;
+
+lambdaParams: VARID+;
+
+// Let
+let: LET localDeclarations IN statement;
+
+// If
+ifS: IF statement THEN statement ELSE statement FI;
+
+// Constant
+constant: BOOL | numConstant;
+
+numConstant: INT;    
+\end{lstlisting}
