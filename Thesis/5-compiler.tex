@@ -5,13 +5,35 @@ Il software sviluppato per il progetto è stato sviluppato mantenendo il codice 
 \footnote{massimopavoni/Funx-jt (\url{https://github.com/massimopavoni/Funx-jt})},
 nel cui nome \textit{"jt"} è l'acronimo per \textit{"Java Transpiler"}.
 
-\noindent La prima versione stabile è disponibile sul repository (\texttt{Funx-jt-0.1.0});
-la versione di \texttt{Java} utilizzata è la più recente \textit{Long Term Support (LTS)},
-versione 21 di OpenJDK%
+\noindent La prima release stabile è disponibile sul repository (\texttt{Funx-jt-0.1.0})
+con una \textit{Command Line Interface} per traduzione ed esecuzione di programmi \textbf{Funx};
+è stato utilizzato \texttt{Gradle}%
+\footnote{Gradle Build Tool (\url{https://gradle.org})}
+per la compilazione e la gestione delle dipendenze,
+assieme alla più recente versione \textit{Long Term Support (LTS)} di \texttt{Java}, OpenJDK 21%
 \footnote{OpenJDK 21 (\url{https://openjdk.org/projects/jdk/21})}.
 
 Nel corso di questo capitolo si discuteranno le fasi di compilazione e la struttura del software,
 analizzando nel dettaglio le parti più importanti.
+
+\begin{figure}
+    \vspace{4mm}
+    \begin{minipage}{0.85\textwidth}
+        \includegraphics[width=\linewidth]{funx-jt-h.png}
+        \vspace{2mm}
+    \end{minipage}
+    \begin{minipage}{0.85\textwidth}
+        \includegraphics[width=\linewidth]{funx-jt-t-h.png}
+        \vspace{2mm}
+    \end{minipage}
+    \begin{minipage}{0.85\textwidth}
+        \includegraphics[width=\linewidth]{funx-jt-r-h.png}
+    \end{minipage}
+    \caption{Possibili comandi e opzioni della \textit{CLI}}
+    \label{fig:5-compiler-cli}
+\end{figure}
+
+\newpage
 
 \input{5-compiler/5-1-antlr.tex}
 

@@ -10,12 +10,12 @@ per grammatiche \textit{LL}, le quali in generale non supportano regole ricorsiv
 
 \noindent Essendo tali regole spesso comuni nella definizione di qualsiasi linguaggio di programmazione,
 \textbf{Funx} incluso, \texttt{ANTLRv4} offre un diverso tipo di parsing, detto \textit{Adaptive LL(*)}%
-\footnote{\citetitle{Parr-2011-FoundationANTLR}, \cite{Parr-2011-FoundationANTLR}
-    and \citetitle{Parr-2014-AdaptiveLL}, \cite{Parr-2014-AdaptiveLL}}:
+\footnote{\citetitle{Parr-2011-FoundationANTLR} \cite{Parr-2011-FoundationANTLR}
+    and \citetitle{Parr-2014-AdaptiveLL} \cite{Parr-2014-AdaptiveLL}}:
 quest'ultimo è in grado di riscrivere automaticamente le grammatiche, eliminando la ricorsione a sinistra diretta (e.g. linee 36 e 38-43),
 così da non incorrere in regole ambigue che potrebbero causare \textit{backtracking} e conseguente \textit{overhead}.
 
-\noindent Il Codice~\ref{lst:5-parser} riporta integralmente le regole concrete della sintassi di \textbf{Funx}, tra cui:
+\noindent Il Codice~\ref{lst:5-parser-antlr} riporta integralmente le regole concrete della sintassi di \textbf{Funx}, tra cui:
 \begin{itemize}
     \item \textit{module}: nome del modulo, funzione \texttt{main} opzionale e dichiarazioni globali;
     \item \textit{main}: funzione \texttt{main}, diversa dalle dichiarazioni classiche per l'assenza di schema di tipo e parametri lambda;
@@ -31,7 +31,7 @@ così da non incorrere in regole ambigue che potrebbero causare \textit{backtrac
 
 \newpage
 
-\begin{lstlisting}[caption={Grammatica per il \textit{parser}}, style=antlrCode, label={lst:5-parser}]
+\begin{lstlisting}[caption={Grammatica per il \textit{parser}}, style=antlrCode, label={lst:5-parser-antlr}]
 parser grammar FunxParser;
 options { tokenVocab = FunxLexer; }
 

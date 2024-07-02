@@ -111,6 +111,12 @@
 \usetikzlibrary{3d}
 \usetikzlibrary{arrows.meta}
 
+\RequirePackage{ifthen}
+\RequirePackage{xstring}
+\RequirePackage{calc}
+\RequirePackage{pgfopts}
+\RequirePackage{tikz-uml}
+
 \RequirePackage{simplebnf}
 
 \SetBNFConfig{

@@ -1,2 +1,85 @@
 \subsection{Gerarchia delle classi}
 \label{sec:5-5-class-hierarchy}
+
+Il primo passo per la costruzione di un \textbf{AST} per la sintassi di \textbf{Funx} è la definizione
+di una gerarchia di classi \texttt{Java} che rappresentano i nodi dell'albero
+(package \texttt{com.github.massimopavoni.funx.jt.ast.node}).
+
+
+La classe astratta \texttt{ASTNode} è la radice dell'ordinamento poiché sarà usata per gli oggetti creati
+a partire dal \textit{CST}: contiene la proprietà \texttt{inputPosition} per facilitare la segnalazione di errori
+e vincola le classi figlie all'implementazione del metodo astratto \texttt{accept} per visitare i nodi.
+
+\noindent Un'altra classe astratta, derivata dalla precedente, è \texttt{Expression}, la quale identifica
+un'espressione ed è dotata di alcuni campi e metodi utili all'inferenza di tipo.
+
+
+Ogni altra sottoclasse (ad eccezione di \texttt{Declarations}, utilizzata per dichiarazioni globali e locali)
+è una trascrizione in \texttt{Java} delle produzioni della grammatica formale:
+\begin{itemize}
+    \item \texttt{Module}: modulo del programma;
+    \item \texttt{Declaration}: dichiarazione di funzione;
+    \item \texttt{Constant}: termini costanti;
+    \item \texttt{Variable}: simboli per variabili;
+    \item \texttt{Application}: applicazione di funzione;
+    \item \texttt{Lambda}: astrazione per le funzioni anonime;
+    \item \texttt{Let}: contenitore di dichiarazioni locali;
+    \item \texttt{If}: costrutto condizionale.
+\end{itemize}
+
+\newpage
+
+\begin{figure}
+    \begin{tikzpicture}
+        \umlsimpleclass[type=abstract]{ASTNode}
+        \umlsimpleclass[x=4,type=interface]{Inferable}
+        \umlsimpleclass[x=-4,y=-2]{Module}
+        \umlsimpleclass[y=-2]{Declarations}
+        \umlsimpleclass[x=4,y=-2,type=abstract]{Expression}
+        \umlsimpleclass[x=-2,y=-3.5]{Constant}
+        \umlsimpleclass[x=-2,y=-5]{Variable}
+        \umlsimpleclass[x=-2,y=-6.5]{Application}
+        \umlsimpleclass[x=-2,y=-8]{Lambda}
+        \umlsimpleclass[x=-2,y=-9.5]{Let}
+        \umlsimpleclass[x=-2,y=-11]{If}
+        \umlinherit[geometry=|-]{Module}{ASTNode}
+        \umlinherit{Declarations}{ASTNode}
+        \umlinherit[geometry=-|-]{Expression}{ASTNode}
+        \umlimpl{Expression}{Inferable}
+        \umlinherit[geometry=-|,anchor2=-160]{Constant}{Expression}
+        \umlinherit[geometry=-|,anchor2=-149]{Variable}{Expression}
+        \umlinherit[geometry=-|,anchor2=-117]{Application}{Expression}
+        \umlinherit[geometry=-|,anchor2=-63]{Lambda}{Expression}
+        \umlinherit[geometry=-|,anchor2=-31]{Let}{Expression}
+        \umlinherit[geometry=-|,anchor2=-20]{If}{Expression}
+    \end{tikzpicture}
+    \caption{Diagramma semplificato delle classi dell'\textbf{AST}}
+    \label{fig:5-ast-classes}
+    \vspace{4mm}
+\end{figure}
+
+\begin{lstlisting}[caption={Esempio di classe della gerarchia}, style=javaCode, label={lst:5-class-example-java}]
+public static final class Lambda extends Expression {
+    public final String paramId;
+
+    public final Expression expression;
+
+    public Lambda(InputPosition inputPosition, String paramId, ASTNode expression) {
+        super(inputPosition); // ASTNode constructor
+        this.paramId = paramId;
+        this.expression = (Expression) expression;
+    }
+
+    @Override // from Inferable interface
+    public Utils.Tuple<Substitution, Type> infer(Context ctx) { ... }
+
+    @Override // from Expression abstract class
+    protected void propagateSubstitution(Substitution substitution) { ... }
+
+    @Override // from ASTNode abstract class
+    public @<T@> T accept(ASTVisitor<? extends T> visitor) {
+        return visitor.visitLambda(this);
+    }
+}
+\end{lstlisting}
+

@@ -1,6 +1,15 @@
 \section{Albero sintattico astratto}
 \label{sec:5-4-abstract-syntax-tree}
 
+Il \textit{parser} generato da \texttt{ANTLR} utilizza i token identificati dal \textit{lexer} per costruire
+un albero di parsing concreto (\textit{CST, concrete syntax tree}), molto complesso e poco comprensibile.
+È dunque opportuno astrarre i dettagli del parsing in una struttura più semplice e facile da interpretare,
+che rispecchia precisamente la grammatica del linguaggio (Figura~\ref{fig:2-funx-syntax}).
+Tale operazione è effettuata dalla grande maggioranza dei compilatori moderni e il risultato è chiamato
+\textbf{AST}, \textit{abstract syntax tree} (albero sintattico astratto).
+
 \input{5-compiler/5-5-class-hierarchy.tex}
+
+\newpage
 
 \input{5-compiler/5-6-ast-builder.tex}

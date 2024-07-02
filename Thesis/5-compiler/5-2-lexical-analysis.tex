@@ -30,12 +30,13 @@ effettuando una rinomina automatica; le categorie 7 e 8 devono necessariamente a
 poiché tra \textit{keyword} e identificatori di ogni genere le prime devono avere la precedenza
 (la posizione della categoria 5 tiene conto di una possibile futura estensione per consentire la creazione di nuovi tipi).
 
+
 Oltre alle categorie illustrate, in testa al file sono presenti dei cosiddetti \textit{fragment} (frammenti)
 che semplificano le espressioni regolari dei \textit{token} e complessivamente aumentano la leggibilità della specifica.
 
 \newpage
 
-\begin{lstlisting}[caption={Alcune \textit{token} del \textit{lexer}}, style=antlrCode, label={lst:5-lexer}]
+\begin{lstlisting}[caption={Alcune \textit{token} del \textit{lexer}}, style=antlrCode, label={lst:5-lexer-antlr}]
 lexer grammar FunxLexer;
 
 // Fragments

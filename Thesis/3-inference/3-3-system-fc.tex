@@ -17,11 +17,11 @@ ove sia necessario un tipo generico (spesso vengono usate singole lettere dell'a
 Tuttavia, $\lambda2$ nella sua forma più pura, oltre a non essere un sistema Turing-completo
 (è possibile definire solamente la ricorsione primitiva), rende l'inferenza di tipo trattata nella sezione
 \ref{sec:3-4-hm-type-inference} un problema non decidibile%
-\footnote{\citetitle{Wells-1999-TypabilityUndecidable}, \cite{Wells-1999-TypabilityUndecidable}}.
+\footnote{\citetitle{Wells-1999-TypabilityUndecidable} \cite{Wells-1999-TypabilityUndecidable}}.
 
 \noindent Pertanto, il linguaggio \texttt{Haskell} non implementa semplicemente il \textit{sistema F},
 ma piuttosto una versione ristretta di $\lambda\omega$ chiamata \textit{sistema FC}%
-\footnote{\citetitle{Eisenberg-2015-SystemFC}, \cite{Eisenberg-2015-SystemFC}}.
+\footnote{\citetitle{Eisenberg-2015-SystemFC} \cite{Eisenberg-2015-SystemFC}}.
 
 \noindent Quest'ultima include anche i costruttori di tipo (\textit{funzioni di tipo} in \textbf{Funx}),
 frenando però il polimorfismo ai cosiddetti \textit{tipi polimorfici di rango 1} (\textit{polimorfismo predicativo}):
@@ -51,7 +51,7 @@ In Tabella~\ref{tab:3-polymorphic-functions} si possono osservare i tipi di alcu
 di \texttt{Haskell}: la sintassi di \textbf{Funx} è molto simile (identica in ognuno dei casi presentati),
 con l'eccezione che la parola chiave \texttt{forall} è completamente assente dal linguaggio, in quanto ogni identificatore
 che inizia con una lettera minuscola è considerato una variabile di tipo da quantificare universalmente
-(vedi sezione~\ref{sec:5-2-lexical-analysis}).
+(sezione~\ref{sec:5-2-lexical-analysis}).
 
 \newpage
 

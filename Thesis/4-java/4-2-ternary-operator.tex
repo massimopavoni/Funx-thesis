@@ -5,6 +5,7 @@ Una delle peculiarità della traduzione da \textbf{Funx} a \texttt{Java} è l'us
 (\texttt{condition ? thenBranch : elseBranch}) ogni qualvolta
 siano presenti espressioni condizionali \texttt{if-then-else}.
 
+
 I linguaggi funzionali sfruttano spesso una caratteristica (non menzionata nella sezione~\ref{sec:2-1-functional-languages})
 che prende il nome di \textit{lazy evaluation} (valutazione pigra): fino a quando il risultato di un'espressione
 non è richiesto per un successivo calcolo, questa non verrà completamente valutata.
@@ -15,12 +16,14 @@ prima del previso o magari effettuare computazioni su strutture dati infinite.
 I linguaggi che sono \textit{lazy evaluated} di default impegano nella maggior parte dei casi un \textit{garbage collector}
 per liberare la memoria occupata dalle espressioni non valutate e non più rilevanti.
 
+
 Il linguaggio \texttt{Java} non adotta la \textit{lazy evaluation} di default se non in casi particolari, tra cui
 gli operatori booleani binari, il costrutto \texttt{if-then-else} (e corrispondente operatore ternario) e altre
 funzionalità più avanzate tra cui gli \textit{stream} e le \textit{lambda espressioni} già viste.
 Utilizzando quest'ultime si potrebbero ottenere risultati simili, in termini di valutazione pigra, a quelli di un linguaggio funzionale;
 tuttavia, rendere \textbf{Funx} un linguaggio completamente pigro avrebbe comportato una traduzione indubbiamente ancora più complessa,
 molteplici rischi di peggiorare le prestazioni dei programmi e un'implementazione del compilatore che va oltre lo scopo di questo progetto.
+
 
 Nonostante ciò, la scelta di ridurre gli operatori booleani binari (\textit{and} e \textit{or}) ad espressioni con operatore ternario
 è stata considerata quasi obbligatoria per conservarne la natura pigra: gli operatori ternari utilizzati a questo scopo

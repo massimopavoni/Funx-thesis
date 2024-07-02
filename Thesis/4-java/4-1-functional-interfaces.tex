@@ -24,7 +24,8 @@ public static @<a, b@> Function@<a, Function@<b, a@>@> constant() {
 di permettere l'applicazione parziale di funzioni (tramite una sequenza di \texttt{apply()} in numero minore rispetto al totale degli input),
 ma il grande svantaggio della creazione di una nuova istanza della funzione per ogni chiamata.
 
-Poiché \texttt{constant} ha tipo polimorfo (vedi sezione~\ref{sec:4-3-generics}), il metodo utilizza parametri di tipo
+
+Poiché \texttt{constant} ha tipo polimorfo (sezione~\ref{sec:4-3-generics}), il metodo utilizza parametri di tipo
 e deve quindi necessariamente restituire un nuovo oggetto con ogni chiamata:
 nonostante la performance delle traduzioni non sia un obiettivo primario del progetto, la versione attuale
 del compilatore fa uso di alcune piccole ottimizzazioni nella trasposizione delle funzioni monomorfe,
