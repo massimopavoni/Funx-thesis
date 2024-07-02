@@ -65,26 +65,26 @@ private ASTNode createLambdaChain(
         InputPosition position, Deque@<String@> params, ASTNode expression) {
     if (params.size() == 1)
         return new Expression.Lambda(
-                position,
-                params.getFirst(),
-                expression);
-    return new Expression.Lambda(
             position,
-            params.pop(),
-            createLambdaChain(position, params, expression));
+            params.getFirst(),
+            expression);
+    return new Expression.Lambda(
+        position,
+        params.pop(),
+        createLambdaChain(position, params, expression));
 }
 
 private ASTNode binarySymbolApplication(
         InputPosition position, String symbol, ASTNode left, ASTNode right) {
     return new Expression.Application(
-            position,
-            new Expression.Application(
-                    position,
-                    new Expression.Variable(
-                            position,
-                            PreludeFunction.fromSymbol(symbol).id),
-                    left),
-            right);
+        position,
+        new Expression.Application(
+                position,
+                new Expression.Variable(
+                        position,
+                        PreludeFunction.fromSymbol(symbol).id),
+                left),
+        right);
 }
 \end{lstlisting}
 \vspace{4mm}
@@ -102,13 +102,14 @@ public class ASTBuilder extends FunxParserBaseVisitor@<ASTNode@> {
             Utils.fromLexerToken(ctx.bop.getType()),
             visit(ctx.expression(0)), visit(ctx.expression(1)));
     }
-
+    
     @Override
-    public ASTNode visitAndExpression(FunxParser.AndExpressionContext ctx) {
-        // transform logical conjunction into if statement for lazy behavior
+    public ASTNode visitOrExpression(FunxParser.OrExpressionContext ctx) {
+        // transform logical disjunction into if statement for lazy behavior
         return new Expression.If(getInputPosition(ctx),
-                visit(ctx.expression(0)), visit(ctx.expression(1)),
-                new Expression.Constant(InputPosition.UNKNOWN, false));
+            visit(ctx.expression(0)),
+            new Expression.Constant(InputPosition.UNKNOWN, true),
+            visit(ctx.expression(1)));
     }
 
     @Override
@@ -121,3 +122,31 @@ public class ASTBuilder extends FunxParserBaseVisitor@<ASTNode@> {
     }
 }    
 \end{lstlisting}
+
+\newpage
+
+\noindent Il Codice~\ref{lst:5-ast-example-funx} e la Figura~\ref{fig:5-ast-example-debug-graphviz}
+mostrano un \textbf{AST} come verrebbe creato da \texttt{ASTBuilder}; la \textit{CLI} sviluppata fornisce
+delle opzioni per la visualizzazione dell'albero, generata utilizzando il software \texttt{Graphviz}%
+\footnote{Graph Visualization Software (\url{https://graphviz.org})}.
+
+\vspace{4mm}
+\begin{lstlisting}[caption={Programma in \textbf{Funx}}, style=funxCode, label={lst:5-ast-example-funx}]
+tautology : Bool @-> Bool
+tautology x = x || !!x
+\end{lstlisting}
+
+\begin{figure}
+    \vspace{4mm}
+    \begin{minipage}[c]{0.6\textwidth}
+        \centering
+        \includegraphics[width=\linewidth,height=\linewidth]{ast-example-debug.png}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{0.4\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{ast-example-graphviz.png}
+    \end{minipage}
+    \caption{Oggetto \textbf{AST} in \textit{debug} e visualizzazione dell'albero}
+    \label{fig:5-ast-example-debug-graphviz}
+\end{figure}
