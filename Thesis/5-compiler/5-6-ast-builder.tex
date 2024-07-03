@@ -11,7 +11,7 @@
 \end{itemize}
 
 \noindent La seconda opzione è indubbiamente più versatile, e può essere per esempio anche utilizzata
-qualora si desideri evitare completamente la costruzione di un \textbf{AST} e utilizzare i metodi di visita
+qualora si desideri evitare completamente la costruzione di un \textbf{AST} e chiamare i metodi di visita
 per eseguire il codice (e.g. linguaggi interpretati).
 
 \noindent Nel caso di \textbf{Funx-jt} la scelta ricade appunto sul \textit{visitor} in virtù
@@ -125,10 +125,13 @@ public class ASTBuilder extends FunxParserBaseVisitor@<ASTNode@> {
 
 \newpage
 
-\noindent Il Codice~\ref{lst:5-ast-example-funx} e la Figura~\ref{fig:5-ast-example-debug-graphviz}
+\noindent Il codice del compilatore include una classe astratta \texttt{ASTVisitor} atta a permettere l'analisi
+dell'\textbf{AST} in modo simile ai \textit{visitor} di \texttt{ANTLR}.
+Il Codice~\ref{lst:5-ast-example-funx} e la Figura~\ref{fig:5-ast-example-debug-graphviz}
 mostrano un \textbf{AST} come verrebbe creato da \texttt{ASTBuilder}; la \textit{CLI} sviluppata fornisce
 delle opzioni per la visualizzazione dell'albero, generata utilizzando il software \texttt{Graphviz}%
-\footnote{Graph Visualization Software (\url{https://graphviz.org})}.
+\footnote{Graph Visualization Software (\url{https://graphviz.org})}
+con un \textit{visitor} che costruisce progressivamente una stringa nel linguaggio \texttt{DOT}.
 
 \vspace{4mm}
 \begin{lstlisting}[caption={Programma in \textbf{Funx}}, style=funxCode, label={lst:5-ast-example-funx}]
