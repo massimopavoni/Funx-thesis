@@ -48,8 +48,8 @@ public enum PreludeFunction {
     public final Scheme scheme;
     public final boolean nativeJava;
 
-    PreludeFunction(
-        String symbol, String id, Scheme scheme, boolean nativeJava) { ... }
+    PreludeFunction(String symbol, String id,
+        Scheme scheme, boolean nativeJava) { ... }
 
     public static PreludeFunction fromSymbol(String symbol) {
         return Utils.enumFromField(PreludeFunction.class,
@@ -61,6 +61,7 @@ public enum PreludeFunction {
 \newpage
 
 \begin{lstlisting}[caption={Metodi per astrazioni annidate e operatori simbolici binari}, style=javaCode, label={lst:5-auxiliary-methods-java}]
+@Override
 private ASTNode createLambdaChain(
         InputPosition position, Deque@<String@> params, ASTNode expression) {
     if (params.size() == 1)
@@ -74,6 +75,7 @@ private ASTNode createLambdaChain(
         createLambdaChain(position, params, expression));
 }
 
+@Override
 private ASTNode binarySymbolApplication(
         InputPosition position, String symbol, ASTNode left, ASTNode right) {
     return new Expression.Application(

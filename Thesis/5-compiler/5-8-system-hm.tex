@@ -1,2 +1,143 @@
 \subsection{Sistema HM}
 \label{sec:5-8-system-hm}
+
+Seguendo la grammatica del sistema di tipo di \textbf{Funx} e similmente alla gerarchia per l'albero sintattico astratto,
+l'implementazione del \textit{sistema HM} presenta le seguenti classi e sottoclassi:
+\begin{itemize}
+    \item \texttt{Scheme}: schemi di tipo;
+    \item \texttt{Type}: classe astratta per i monotipi;
+    \item \texttt{Error}: tipo errore per la continuazione dell'inferenza;
+    \item \texttt{Boring}: tipo vuoto per costanti con valore \texttt{null};
+    \item \texttt{Variable}: variabili di tipo;
+    \item \texttt{FunctionApplication}: applicazione di funzione di tipo.
+\end{itemize}
+
+\newpage
+
+\begin{figure}
+    \begin{tikzpicture}
+        % classes
+        \umlsimpleclass[type=interface]{Types}
+        \umlsimpleclass[x=-4,type=interface]{Inferable}
+        \umlsimpleclass[x=4,type=enum]{TypeFunction}
+        \umlsimpleclass[x=-3,y=-1.15]{Context}
+        \umlsimpleclass[x=3,y=-1.15]{Substitution}
+        \umlsimpleclass[x=-3,y=-2.3]{Scheme}
+        \umlsimpleclass[x=3,y=-2.3,type=abstract]{Type}
+        \umlsimpleclass[x=-1,y=-3.45]{Error}
+        \umlsimpleclass[x=-1,y=-4.6]{Boring}
+        \umlsimpleclass[x=-1,y=-5.75]{Variable}
+        \umlsimpleclass[x=-1,y=-6.9]{FunctionApplication}
+        % relationships
+        \umlinherit[geometry=-|,anchor2=-145]{Context}{Types}
+        \umlinherit[geometry=-|,anchor2=-35]{Substitution}{Types}
+        \umlinherit[geometry=-|,anchor2=-117]{Scheme}{Types}
+        \umlinherit[geometry=-|,anchor2=-63]{Type}{Types}
+        \umlinherit[geometry=-|,anchor2=-145]{Error}{Type}
+        \umlinherit[geometry=-|,anchor2=-116]{Boring}{Type}
+        \umlinherit[geometry=-|,anchor2=-64]{Variable}{Type}
+        \umlinherit[geometry=-|,anchor2=-35]{FunctionApplication}{Type}
+    \end{tikzpicture}
+    \caption{Diagramma semplificato delle classi del \textit{sistema HM}}
+    \label{fig:5-hm-classes}
+    \vspace{4mm}
+\end{figure}
+
+\begin{lstlisting}[caption={Esempio di sottoclasse di \texttt{Type}}, style=javaCode, label={lst:5-hm-class-java}]
+public static final class Variable extends Type {
+    public final long id;
+    
+    public Variable(long id) { this.id = id; }
+
+    public static String toString(long id) {
+        return id < 26 ? Character.toString((char) ('a' + id)) : "t" + id;
+    }
+
+    public static String toFancyString(long id) {
+        return id < 24 ? Character.toString((char) (945 + id)) : "t" + id;
+    }
+
+    @Override
+    public Set@<Long@> freeVariables() { ... }
+
+    @Override
+    public Type applySubstitution(Substitution substitution) { ... }
+}
+\end{lstlisting}
+\vspace{4mm}
+
+\noindent Altre classi e interfacce di supporto sono fondamentali per la definizione dei comportamenti precedentemente descritti:
+\begin{itemize}
+    \item \texttt{Types}: interfaccia per operazioni comuni negli oggetti che agiscono a stretto contatto con i tipi;
+          specifica i metodi per il calcolo delle variabili libere e l'applicazione di una sostituzione;
+    \item \texttt{Inferable}: interfaccia già visibile in Figura~\ref{fig:5-ast-classes} e che identifica i nodi
+          dell'\textbf{AST} che implementano un metodo di inferenza (i.e. le sottoclassi di \texttt{Expression});
+    \item \texttt{TypeFunction}: enumerazione delle funzioni di tipo disponibili;
+    \item \texttt{Substitution}: lista di sostituzioni da variabili di tipo a monotipi;
+    \item \texttt{Context}: contesto di inferenza con vincoli tra variabili e schemi di tipo.
+\end{itemize}
+
+\newpage
+
+\begin{lstlisting}[caption={Interfacce utili nel \textit{sistema HM}}, style=javaCode, label={lst:5-hm-interfaces-java}]
+package com.github.massimopavoni.funx.jt.ast.node;
+
+public sealed interface Inferable permits Expression {
+    Utils.Tuple@<Substitution, Type@> infer(Context ctx);
+}
+
+// ----------------
+
+package com.github.massimopavoni.funx.jt.ast.typesystem;
+
+sealed interface Types@<T extends Types@<T@>@>
+        permits Type, Scheme, Substitution, Context {
+    Set@<Long@> freeVariables();
+
+    T applySubstitution(Substitution substitution);
+}
+\end{lstlisting}
+\vspace{4mm}
+\begin{lstlisting}[caption={Altre classi del \textit{sistema HM}}, style=javaCode, label={lst:5-hm-more-classes-java}]
+public final class Context implements Types@<Context@> {
+    private final Map@<String, Scheme@> environment;
+
+    public Scheme bindingOf(String variable) {
+        return environment.get(variable);
+    }
+
+    @Override
+    public Set@<Long@> freeVariables() {
+        return environment.values().stream().flatMap(s @-> s.freeVariables().stream())
+            .collect(ImmutableSet.toImmutableSet());
+    }
+
+    @Override
+    public Context applySubstitution(Substitution substitution) {
+        Context newCtx = new Context(this);
+        newCtx.environment.replaceAll((v, s) @-> s.applySubstitution(substitution));
+        return newCtx;
+    }
+}
+
+public final class Substitution implements Types@<Substitution@> {
+    public static final Substitution EMPTY = new Substitution();
+    private final Map@<Long, Type@> variableTypes;
+
+    public Type substituteOf(Long variable) {
+        return variableTypes.get(variable);
+    }
+
+    @Override
+    public Set@<Long@> freeVariables() {
+        // similar to Context
+    }
+
+    @Override
+    public Substitution applySubstitution(Substitution substitution) {
+        return new Substitution(variableTypes.entrySet().stream()
+            .collect(Collectors.toMap(Map.Entry::getKey,
+                e @-> e.getValue().applySubstitution(substitution))));
+    }
+}
+\end{lstlisting}

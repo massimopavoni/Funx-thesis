@@ -181,6 +181,7 @@ relation-sym-map = {
   backgroundcolor=\color{Ivory1},
   basicstyle=\scriptsize\ttfamily,
   keywordstyle=\color{Coral2}\bfseries\ttfamily,
+  otherkeywords={enum, permits, sealed, boolean, Boolean, String, long, Long},
   keywordstyle=[2]\color{Gold4}\bfseries\ttfamily,
   morekeywords=[2]{@Override, @FunctionalInterface},
   literate=

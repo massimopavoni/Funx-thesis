@@ -31,25 +31,28 @@ Ogni altra sottoclasse (ad eccezione di \texttt{Declarations}, utilizzata per di
 
 \begin{figure}
     \begin{tikzpicture}
+        % classes
         \umlsimpleclass[type=abstract]{ASTNode}
+        \umlsimpleclass[x=-4]{InputPosition}
         \umlsimpleclass[x=4,type=interface]{Inferable}
         \umlsimpleclass[x=-4,y=-2]{Module}
         \umlsimpleclass[y=-2]{Declarations}
         \umlsimpleclass[x=4,y=-2,type=abstract]{Expression}
-        \umlsimpleclass[x=-2,y=-3.5]{Constant}
-        \umlsimpleclass[x=-2,y=-5]{Variable}
-        \umlsimpleclass[x=-2,y=-6.5]{Application}
-        \umlsimpleclass[x=-2,y=-8]{Lambda}
-        \umlsimpleclass[x=-2,y=-9.5]{Let}
-        \umlsimpleclass[x=-2,y=-11]{If}
-        \umlinherit[geometry=|-]{Module}{ASTNode}
+        \umlsimpleclass[x=-2,y=-4]{Constant}
+        \umlsimpleclass[x=-2,y=-5.5]{Variable}
+        \umlsimpleclass[x=-2,y=-7]{Application}
+        \umlsimpleclass[x=-2,y=-8.5]{Lambda}
+        \umlsimpleclass[x=-2,y=-10]{Let}
+        \umlsimpleclass[x=-2,y=-11.5]{If}
+        % relationships
+        \umlinherit[geometry=-|-]{Module}{ASTNode}
         \umlinherit{Declarations}{ASTNode}
         \umlinherit[geometry=-|-]{Expression}{ASTNode}
         \umlimpl{Expression}{Inferable}
         \umlinherit[geometry=-|,anchor2=-160]{Constant}{Expression}
         \umlinherit[geometry=-|,anchor2=-149]{Variable}{Expression}
-        \umlinherit[geometry=-|,anchor2=-117]{Application}{Expression}
-        \umlinherit[geometry=-|,anchor2=-63]{Lambda}{Expression}
+        \umlinherit[geometry=-|,anchor2=-118]{Application}{Expression}
+        \umlinherit[geometry=-|,anchor2=-62]{Lambda}{Expression}
         \umlinherit[geometry=-|,anchor2=-31]{Let}{Expression}
         \umlinherit[geometry=-|,anchor2=-20]{If}{Expression}
     \end{tikzpicture}
@@ -58,10 +61,9 @@ Ogni altra sottoclasse (ad eccezione di \texttt{Declarations}, utilizzata per di
     \vspace{4mm}
 \end{figure}
 
-\begin{lstlisting}[caption={Esempio di classe della gerarchia}, style=javaCode, label={lst:5-class-example-java}]
+\begin{lstlisting}[caption={Esempio di classe della gerarchia}, style=javaCode, label={lst:5-ast-class-java}]
 public static final class Lambda extends Expression {
     public final String paramId;
-
     public final Expression expression;
 
     public Lambda(InputPosition inputPosition, String paramId, ASTNode expression) {
@@ -77,7 +79,7 @@ public static final class Lambda extends Expression {
     protected void propagateSubstitution(Substitution substitution) { ... }
 
     @Override // from ASTNode abstract class
-    public @<T@> T accept(ASTVisitor<? extends T> visitor) {
+    public @<T@> T accept(ASTVisitor@<? extends T@> visitor) {
         return visitor.visitLambda(this);
     }
 }
