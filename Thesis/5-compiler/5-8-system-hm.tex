@@ -22,11 +22,11 @@ l'implementazione del \textit{sistema HM} presenta le seguenti classi e sottocla
         \umlsimpleclass[x=4,type=enum]{TypeFunction}
         \umlsimpleclass[x=-3,y=-1.15]{Context}
         \umlsimpleclass[x=3,y=-1.15]{Substitution}
-        \umlsimpleclass[x=-3,y=-2.3]{Scheme}
-        \umlsimpleclass[x=3,y=-2.3,type=abstract]{Type}
-        \umlsimpleclass[x=-1,y=-3.45]{Error}
-        \umlsimpleclass[x=-1,y=-4.6]{Boring}
-        \umlsimpleclass[x=-1,y=-5.75]{Variable}
+        \umlsimpleclass[x=-3,y=-2.2]{Scheme}
+        \umlsimpleclass[x=3,y=-2.2,type=abstract]{Type}
+        \umlsimpleclass[x=-1,y=-3.4,type=singleton]{Error}
+        \umlsimpleclass[x=-1,y=-4.7,type=singleton]{Boring}
+        \umlsimpleclass[x=-1,y=-5.85]{Variable}
         \umlsimpleclass[x=-1,y=-6.9]{FunctionApplication}
         % relationships
         \umlinherit[geometry=-|,anchor2=-145]{Context}{Types}
@@ -39,11 +39,11 @@ l'implementazione del \textit{sistema HM} presenta le seguenti classi e sottocla
         \umlinherit[geometry=-|,anchor2=-35]{FunctionApplication}{Type}
     \end{tikzpicture}
     \caption{Diagramma semplificato delle classi del \textit{sistema HM}}
-    \label{fig:5-hm-classes}
+    \label{fig:5-8-hm-classes}
     \vspace{4mm}
 \end{figure}
 
-\begin{lstlisting}[caption={Esempio di sottoclasse di \texttt{Type}}, style=javaCode, label={lst:5-hm-class-java}]
+\begin{lstlisting}[caption={Esempio di sottoclasse di \texttt{Type}}, style=javaCode, label={lst:5-8-hm-class-java}]
 public static final class Variable extends Type {
     public final long id;
     
@@ -70,7 +70,7 @@ public static final class Variable extends Type {
 \begin{itemize}
     \item \texttt{Types}: interfaccia per operazioni comuni negli oggetti che agiscono a stretto contatto con i tipi;
           specifica i metodi per il calcolo delle variabili libere e l'applicazione di una sostituzione;
-    \item \texttt{Inferable}: interfaccia già visibile in Figura~\ref{fig:5-ast-classes} e che identifica i nodi
+    \item \texttt{Inferable}: interfaccia già visibile in Figura~\ref{fig:5-5-ast-classes} e che identifica i nodi
           dell'\textbf{AST} che implementano un metodo di inferenza (i.e. le sottoclassi di \texttt{Expression});
     \item \texttt{TypeFunction}: enumerazione delle funzioni di tipo disponibili;
     \item \texttt{Substitution}: lista di sostituzioni da variabili di tipo a monotipi;
@@ -79,7 +79,7 @@ public static final class Variable extends Type {
 
 \newpage
 
-\begin{lstlisting}[caption={Interfacce utili nel \textit{sistema HM}}, style=javaCode, label={lst:5-hm-interfaces-java}]
+\begin{lstlisting}[caption={Interfacce utili nel \textit{sistema HM}}, style=javaCode, label={lst:5-8-hm-interfaces-java}]
 package com.github.massimopavoni.funx.jt.ast.node;
 
 public sealed interface Inferable permits Expression {
@@ -98,7 +98,7 @@ sealed interface Types@<T extends Types@<T@>@>
 }
 \end{lstlisting}
 \vspace{4mm}
-\begin{lstlisting}[caption={Altre classi del \textit{sistema HM}}, style=javaCode, label={lst:5-hm-more-classes-java}]
+\begin{lstlisting}[caption={Altre classi del \textit{sistema HM}}, style=javaCode, label={lst:5-8-hm-more-classes-java}]
 public final class Context implements Types@<Context@> {
     private final Map@<String, Scheme@> environment;
 

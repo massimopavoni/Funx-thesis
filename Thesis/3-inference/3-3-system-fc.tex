@@ -2,7 +2,7 @@
 \label{sec:3-3-system-fc}
 
 Tra i vari sistemi di tipo per il lambda calcolo, uno dei più interessanti è \textit{lambda F}
-(vertice $\lambda2$ in Figura~\ref{fig:3-lambda-cube}) poiché molto utile per la generalizzazione delle funzioni:
+(vertice $\lambda2$ in Figura~\ref{fig:3-2-lambda-cube}) poiché molto utile per la generalizzazione delle funzioni:
 un problema molto ricorrente nella programmazione con qualsiasi linguaggio è infatti la duplicazione di codice
 per funzioni che svolgono operazioni simili su tipi diversi.
 
@@ -47,7 +47,7 @@ il \textit{sistema HM}, di cui il \textit{sistema FC} è un ampliamento,
 e che comunque ben si presta allo scopo principe di traduzione in \texttt{Java}.
 
 
-In Tabella~\ref{tab:3-polymorphic-functions} si possono osservare i tipi di alcune funzioni polimorfe
+In Tabella~\ref{tab:3-3-polymorphic-functions} si possono osservare i tipi di alcune funzioni polimorfe
 di \texttt{Haskell}: la sintassi di \textbf{Funx} è molto simile (identica in ognuno dei casi presentati),
 con l'eccezione che la parola chiave \texttt{forall} è completamente assente dal linguaggio, in quanto ogni identificatore
 che inizia con una lettera minuscola è considerato una variabile di tipo da quantificare universalmente
@@ -77,11 +77,11 @@ che inizia con una lettera minuscola è considerato una variabile di tipo da qua
         \end{tabularx}
     \end{center}
     \caption{Esempi di funzioni polimorfe}
-    \label{tab:3-polymorphic-functions}
+    \label{tab:3-3-polymorphic-functions}
     \vspace{4mm}
 \end{table}
 
-\noindent In Figura~\ref{fig:3-system-hm} è mostrata la grammatica per la definizione dei tipi
+\noindent In Figura~\ref{fig:3-3-system-hm} è mostrata la grammatica per la definizione dei tipi
 implementati nel linguaggio \textbf{Funx}. Si noti come i tipi monomorfi siano solo
 variabili di tipo o applicazioni di funzioni ad altri tipi; al momento il linguaggio mette a disposizione
 le funzioni di tipo più elementari, la cui arietà è indicata in pedice.
@@ -103,6 +103,6 @@ le funzioni di tipo più elementari, la cui arietà è indicata in pedice.
         | $Int_0$ : \small{intero}
     \end{bnf}
     \caption{Grammatica del sistema di tipo di \textbf{Funx}}
-    \label{fig:3-system-hm}
+    \label{fig:3-3-system-hm}
     \vspace{4mm}
 \end{figure}

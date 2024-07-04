@@ -5,15 +5,15 @@ Nel tradurre un linguaggio funzionale viene naturale pensare immediatamente alle
 introdotte in \texttt{Java} 8%
 \footnote{OpenJDK 8 (\url{https://openjdk.org/projects/jdk8})}
 per rappresentare funzioni anonime: l'interfaccia generica \texttt{Function} è la più adatta a riprodurre
-il comportamento dell'astrazione, come mostrato nei Codici~\ref{lst:4-function-funx} e \ref{lst:4-function-java}.
+il comportamento dell'astrazione, come mostrato nei Codici~\ref{lst:4-1-function-funx} e \ref{lst:4-1-function-java}.
 
 \vspace{4mm}
-\begin{lstlisting}[caption={Semplice funzione in \textbf{Funx}}, style=funxCode, label={lst:4-function-funx}]
+\begin{lstlisting}[caption={Semplice funzione in \textbf{Funx}}, style=funxCode, label={lst:4-1-function-funx}]
 constant : a @-> b @-> a
 constant x = \y @-> x
 \end{lstlisting}
 \vspace{4mm}
-\begin{lstlisting}[caption={Corrispondente metodo in \texttt{Java}}, style=javaCode, label={lst:4-function-java}]
+\begin{lstlisting}[caption={Corrispondente metodo in \texttt{Java}}, style=javaCode, label={lst:4-1-function-java}]
 public static @<a, b@> Function@<a, Function@<b, a@>@> constant() {
     return (x @-> (y @-> x));
 }
@@ -39,14 +39,14 @@ in questo caso vi è un grande utilizzo di classi anonime, potenzialmente annida
 rappresentanti le dichiarazioni locali e l'espressione principale.
 
 \vspace{4mm}
-\begin{lstlisting}[caption={Interfaccia funzionale per espressioni \texttt{let}}, style=javaCode, label={lst:4-let-interface-java}]
+\begin{lstlisting}[caption={Interfaccia funzionale per espressioni \texttt{let}}, style=javaCode, label={lst:4-1-let-interface-java}]
 @FunctionalInterface
 public interface Let@<T@> {
     T _eval();
 }
 \end{lstlisting}
 \vspace{4mm}
-\begin{lstlisting}[caption={Espressione \texttt{let} in \textbf{Funx}}, style=funxCode, label={lst:4-let-funx}]
+\begin{lstlisting}[caption={Espressione \texttt{let} in \textbf{Funx}}, style=funxCode, label={lst:4-1-let-funx}]
 hundredsSum : Int @-> Int @-> Int
 hundredsSum = let
         on : (a @-> a @-> b) @-> (c @-> a) @-> c @-> c @-> b
@@ -54,7 +54,7 @@ hundredsSum = let
     in on add (multiply 100)
 \end{lstlisting}
 \vspace{4mm}
-\begin{lstlisting}[caption={Corrispondente classe anonima in \texttt{Java}}, style=javaCode, label={lst:4-let-java}]
+\begin{lstlisting}[caption={Corrispondente classe anonima in \texttt{Java}}, style=javaCode, label={lst:4-1-let-java}]
 public static Function@<Long, Function@<Long, Long@>@> hundredsSum;
 
 static {
@@ -76,7 +76,7 @@ static {
 \end{lstlisting}
 \vspace{4mm}
 
-\noindent Nei Codici~\ref{lst:4-let-funx} e \ref{lst:4-let-java} si può vedere che la funzione \texttt{hundredsSum}
+\noindent Nei Codici~\ref{lst:4-1-let-funx} e \ref{lst:4-1-let-java} si può vedere che la funzione \texttt{hundredsSum}
 è implementata attraverso la chiamata al metodo principale dell'interfaccia funzionale \texttt{Let},
 realizzato internamente alla classe anonima con il supporto del metodo polimorfo \texttt{on}.
 

@@ -37,7 +37,7 @@ Inoltre, all'interno del package \texttt{com.github.massimopavoni.funx.jt.ast} v
 \texttt{PreludeFunction} contenente le funzioni di libreria standard, con i relativi simboli e gli schemi di tipo corrispondenti.
 
 \vspace{4mm}
-\begin{lstlisting}[caption={Parte del codice di \texttt{PreludeFunction}}, style=javaCode, label={lst:5-preludefunction-java}]
+\begin{lstlisting}[caption={Parte del codice di \texttt{PreludeFunction}}, style=javaCode, label={lst:5-6-preludefunction-java}]
 public enum PreludeFunction {
     COMPOSE(".", "compose",
         new Scheme(Set.of(0L, 1L, 2L),
@@ -60,7 +60,7 @@ public enum PreludeFunction {
 
 \newpage
 
-\begin{lstlisting}[caption={Metodi per astrazioni annidate e operatori simbolici binari}, style=javaCode, label={lst:5-auxiliary-methods-java}]
+\begin{lstlisting}[caption={Metodi per astrazioni annidate e operatori simbolici binari}, style=javaCode, label={lst:5-6-auxiliary-methods-java}]
 @Override
 private ASTNode createLambdaChain(
         InputPosition position, Deque@<String@> params, ASTNode expression) {
@@ -90,7 +90,7 @@ private ASTNode binarySymbolApplication(
 }
 \end{lstlisting}
 \vspace{4mm}
-\begin{lstlisting}[caption={Alcuni metodi \textit{visit} di \texttt{ASTBuilder}}, style=javaCode, label={lst:5-astbuilder-java}]
+\begin{lstlisting}[caption={Alcuni metodi \textit{visit} di \texttt{ASTBuilder}}, style=javaCode, label={lst:5-6-astbuilder-java}]
 public class ASTBuilder extends FunxParserBaseVisitor@<ASTNode@> {
     @Override
     public ASTNode visitAppExpression(FunxParser.AppExpressionContext ctx) {
@@ -116,8 +116,8 @@ public class ASTBuilder extends FunxParserBaseVisitor@<ASTNode@> {
 
     @Override
     public ASTNode visitLambda(FunxParser.LambdaContext ctx) {
+        // lambda params are syntactic sugar for a lambda chain
         return createLambdaChain(getInputPosition(ctx),
-            // lambda params are syntactic sugar for a lambda chain
             ctx.lambdaParams().VARID().stream().map(ParseTree::getText)
                 .collect(Collectors.toCollection(ArrayDeque::new)),
                 visit(ctx.statement()));
@@ -129,14 +129,14 @@ public class ASTBuilder extends FunxParserBaseVisitor@<ASTNode@> {
 
 \noindent Il codice del compilatore include una classe astratta \texttt{ASTVisitor} atta a permettere l'analisi
 dell'\textbf{AST} in modo simile ai \textit{visitor} di \texttt{ANTLR}.
-Il Codice~\ref{lst:5-ast-example-funx} e la Figura~\ref{fig:5-ast-example-debug-graphviz}
+Il Codice~\ref{lst:5-6-ast-example-funx} e la Figura~\ref{fig:5-6-ast-example-debug-graphviz}
 mostrano un \textbf{AST} come verrebbe creato da \texttt{ASTBuilder}; la \textit{CLI} sviluppata fornisce
 delle opzioni per la visualizzazione dell'albero, generata utilizzando il software \texttt{Graphviz}%
 \footnote{Graph Visualization Software (\url{https://graphviz.org})}
 con un \textit{visitor} che costruisce progressivamente una stringa nel linguaggio \texttt{DOT}.
 
 \vspace{4mm}
-\begin{lstlisting}[caption={Programma in \textbf{Funx}}, style=funxCode, label={lst:5-ast-example-funx}]
+\begin{lstlisting}[caption={Programma in \textbf{Funx}}, style=funxCode, label={lst:5-6-ast-example-funx}]
 tautology : Bool @-> Bool
 tautology x = x || !!x
 \end{lstlisting}
@@ -145,13 +145,13 @@ tautology x = x || !!x
     \vspace{4mm}
     \begin{minipage}[c]{0.6\textwidth}
         \centering
-        \includegraphics[width=\linewidth,height=\linewidth]{ast-example-debug.png}
+        \includegraphics[width=\linewidth,height=\linewidth]{5-6-ast-example-debug.png}
     \end{minipage}%
     \hfill
     \begin{minipage}[c]{0.4\textwidth}
         \centering
-        \includegraphics[width=0.8\linewidth]{ast-example-graphviz.png}
+        \includegraphics[width=0.8\linewidth]{5-6-ast-example-graphviz.png}
     \end{minipage}
     \caption{Oggetto \textbf{AST} in \textit{debug} e visualizzazione dell'albero}
-    \label{fig:5-ast-example-debug-graphviz}
+    \label{fig:5-6-ast-example-debug-graphviz}
 \end{figure}

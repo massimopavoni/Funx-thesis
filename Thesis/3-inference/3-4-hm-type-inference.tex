@@ -13,8 +13,8 @@ senza annotazioni esplicite fornite dagli sviluppatori.
 
 
 Prima di presentare l'algoritmo di inferenza è necessario complementare le nozioni di lambda calcolo esteso
-(Figure~\ref{fig:2-lambda-syntax} e \ref{fig:2-funx-syntax}) e del sistema di \textbf{Funx} (Figura~\ref{fig:3-system-hm})
-con due concetti fondamentali (Figura~\ref{fig:3-context-free-variables}):
+(Figure~\ref{fig:2-3-lambda-syntax} e \ref{fig:2-3-funx-syntax}) e del sistema di \textbf{Funx} (Figura~\ref{fig:3-3-system-hm})
+con due concetti fondamentali (Figura~\ref{fig:3-4-context-free-variables}):
 \begin{itemize}
     \item \textbf{contesto}: una insieme di associazioni tra variabili e schemi di tipo,
           che rappresenta lo stato corrente dell'ambiente in cui un termine viene tipato; l'unione tra la grammatica
@@ -45,13 +45,13 @@ con due concetti fondamentali (Figura~\ref{fig:3-context-free-variables}):
         $free(\Gamma\vdash E\ \colon\ \sigma)$ == $free(\sigma) - free(\Gamma)$ : \small{giudizio di tipo}
     \end{bnf}
     \caption{Definizioni di contesto e variabili libere}
-    \label{fig:3-context-free-variables}
+    \label{fig:3-4-context-free-variables}
     \vspace{4mm}
 \end{figure}
 
 \noindent Le regole di inferenza%
 \footnote{\citetitle{Clement-1986-MiniML} \cite{Clement-1986-MiniML}}
-del \textit{sistema HM}, riportate in Figura~\ref{fig:3-inference-rules},
+del \textit{sistema HM}, riportate in Figura~\ref{fig:3-4-inference-rules},
 informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazione dell'inferenza di tipo.
 
 \newpage
@@ -107,18 +107,17 @@ informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazion
         \end{tabularx}
     \end{mathpar}
     \caption{Regole di inferenza del \textit{sistema HM} in \textbf{Funx}}
-    \label{fig:3-inference-rules}
+    \label{fig:3-4-inference-rules}
     \vspace{4mm}
 \end{figure}
 
 \noindent L'\textit{algoritmo $\mathcal{W}$}%
 \footnote{\citetitle{Lee-1998-FolkloreInference} \cite{Lee-1998-FolkloreInference}}
-riportato in Figura~\ref{fig:3-algorithm-w} fornisce un'implementazione del metodo finora descritto,
-servendosi delle regole di inferenza e dettagliando gli step per ogni espressione disponibile in \textbf{Funx}.
+riportato in Figura~\ref{fig:3-4-algorithm-w} fornisce un'implementazione del procedimento finora descritto,
+servendosi delle regole di inferenza e dettagliando i passi per la deduzione del tipo di ogni espressione disponibile in \textbf{Funx}.
 
-\noindent L'algoritmo appare nel codice del compilatore in una forma più complessa,
-soprattutto nel caso dell'espressione \texttt{let} (sezione~\ref{sec:5-9-expression-inference}),
-volendo supportare la ricorsione senza far uso di alcun \textit{fixed-point combinator}.
+\noindent L'algoritmo appare nel codice del compilatore in una forma molto simile, seppur talvolta più complessa,
+come nel caso dell'espressione \texttt{let} (sezione~\ref{sec:5-9-expression-inference}).
 
 \newpage
 
@@ -170,7 +169,7 @@ volendo supportare la ricorsione senza far uso di alcun \textit{fixed-point comb
         \end{aligned}
     \]
     \caption{Algoritmo $\mathcal{W}$}
-    \label{fig:3-algorithm-w}
+    \label{fig:3-4-algorithm-w}
     \vspace{4mm}
 \end{figure}
 
@@ -197,5 +196,5 @@ con la quale si cerca di trovare una sostituzione che renda due tipi uguali.
         \end{aligned}
     \]
     \caption{Funzione $\mathcal{U}$}
-    \label{fig:3-unification}
+    \label{fig:3-4-unification}
 \end{figure}

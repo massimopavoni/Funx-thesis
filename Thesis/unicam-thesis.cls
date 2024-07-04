@@ -17,12 +17,6 @@
 
 \newcommand{\@ptoption}{1pt}
 \newcommand{\@type}{twoside}
-% \DeclareOption{10pt}{\renewcommand{\@ptoption}{0pt}}
-% \DeclareOption{11pt}{\renewcommand{\@ptoption}{1pt}}
-% \DeclareOption{12pt}{\renewcommand{\@ptoption}{2pt}}
-% \DeclareOption{twoside}{\renewcommand{\@type}{twoside}}
-% \DeclareOption{oneside}{\renewcommand{\@type}{oneside}}
-% \DeclareOption{pdf}{\pdftrue}
 \ExecuteOptions{oneside,12pt}
 \ProcessOptions{\relax}
 
@@ -71,7 +65,6 @@
   \renewcommand{\footrulewidth}{0pt}
 }
 
-% \RequirePackage{helvet}
 \renewcommand{\familydefault}{\rmdefault}
 \renewcommand{\rmdefault}{cmr}
 
@@ -245,11 +238,6 @@ relation-sym-map = {
 \RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
 
 % ---------------------------------------------------------------------------
-% --- Numbering
-% ---------------------------------------------------------------------------
-%\setcounter{secnumdepth}{1}
-
-% ---------------------------------------------------------------------------
 % --- Empty pages...
 % ---------------------------------------------------------------------------
 
@@ -335,7 +323,6 @@ relation-sym-map = {
 
 \renewcommand{\maketitle}{%
 \thispagestyle{empty}
-%\enlargethispage{4\baselineskip}
 \setlength{\parindent}{0mm}
 \setlength{\parskip}{0mm}
 
@@ -374,35 +361,6 @@ relation-sym-map = {
 % ---------------------------------------------------------------------------
 \pagestyle{fancy}
 
-%\fancyhead{}
-%\fancyhead[RO,LE]{\thepage}
-%\fancyhead[LO,RE]{\small\nouppercase\leftmark}
-%\fancyfoot[F]{}
-
-%\renewcommand{\plainheadrulewidth}{1pt}
-%\renewcommand{\headrulewidth}{1pt}
-
-
-% \renewcommand{\headrulewidth}{0.4pt}
-% \renewcommand{\footrulewidth}{0.4pt}
-
-% \lhead{\@thedate}
-% \chead{}
-% \rhead{\@tas3 Consortium}
-% \lfoot{\@tas3 ICT-216287}
-% \cfoot{}
-% \rfoot{\thepage/\pageref{LastPage}}
-
-% % make space for the rule
-% \fancypagestyle{plain}{%
-%   \lhead{\@thedate}
-%   \chead{}
-%   \rhead{\@tas3 Consortium}
-%   \lfoot{\@tas3 ICT-216287}
-%   \cfoot{}
-%   \rfoot{\thepage/\pageref{LastPage}}
-% }
-
 % ---------------------------------------------------------------------------
 % --- MISC COMMANDS
 % ---------------------------------------------------------------------------
@@ -417,11 +375,6 @@ relation-sym-map = {
 }
 
 \def\date#1{\gdef\@thedate{#1}}
-
-% \newcommand{\comment}[2]{}
-% \newcommand{\comment}[2]{\marginpar{\textcolor{red}{\ding{74}}}\footnote{\textcolor{red}{\it\scriptsize {\textbf{\sf \underline{#1}:~}#2}}}}
-
-
 
 \newcommand{\abstract}[1]{
   \newpage
@@ -442,82 +395,6 @@ relation-sym-map = {
 }
 
 \setlength{\baselineskip}{17pt}
-
-
-
-
-
-%\addtolength{\leftskip}{10mm}
-
-%\titleformat{\chapter}[display]
-%  {\bfseries\LARGE}
-%  {\filleft\MakeUppercase{\chaptertitlename} \Huge\thechapter}
-%  {1ex}{\titlerule\vspace{3ex}\filright}
-
-% \titleformat{name=\chapter,numberless=false}[display]
-%   {\large}
-%   {\vspace{-12mm}}
-%   {1ex}{\mychaptertitlefont \thechapter \hspace{4mm}}
-
-% \titleformat{name=\chapter,numberless=true}[display]
-%   {\large}
-%   {\vspace{-12mm}}
-%   {1ex}{\mychaptertitlefont}
-
-
-%\titlespacing{\chapter}{0mm}{*0}{*1}
-
-%\titleformat{\chapter}[leftmargin]
-%  {\bfseries\LARGE}
-%  {\filleft\MakeUppercase{\chaptertitlename} \Huge\thechapter}
-%  {1ex}{\titlerule\vspace{3ex}\filright}
-
-%\titleformat{\section}
-%    {\bfseries\Large\upshape}
-%    {\thesection.}{.2em}{}
-
-%\titlespacing{\section}{-12mm}{*2}{*2}
-
-%\titleformat{\subsection}
-%    {\vspace{.8ex}\bfseries\large}
-%    {\thesubsection}{.5em}{}
-% per ripristinare il numero di subsection sostituire la riga qui sopre
-% con quella qui sotto...
-%    {\thesubsection.}{.5em}{}
-
-%\titlespacing{\subsection}{-6mm}{*2}{*2}
-
-%\titleformat{\subsubsection}[runin]
-%    {\vspace{.8ex}\bfseries\normalsize\slshape}
-%    {\quadratino}{.5em}{}[.]
-
-%\titlespacing{\subsubsection}{0mm}{*1}{*1}
-
-%\newcommand{\rilegatura}{2mm}
-%\addtolength\oddsidemargin{\rilegatura}
-%\addtolength\evensidemargin{-\rilegatura}
-
-% \titlecontents{part}[0pt] {\addvspace{4mm} 
-%   \sc
-%   \Large}{\thecontentslabel\quad}{}{\titlerule*[5pt]{}\contentspage}
-
-% \titlecontents{chapter}[0pt] {\addvspace{4mm} 
-% %  \bfseries
-%   \large}{\thecontentslabel\quad}{}{\titlerule*[5pt]{.}\contentspage}
-
-% \titlecontents{section}[4mm] {\addvspace{2pt} 
-% %  \bfseries
-%   }{\thecontentslabel\quad}{}{\titlerule*[5pt]{.}\contentspage}
-
-% \titlecontents{subsection}[9mm] {\addvspace{2pt}}
-%   {\thecontentslabel\quad}{}{\titlerule*[5pt]{.}\contentspage}
-
-% \titlecontents{figure}[0pt] {\addvspace{4mm}}{Figure
-%   \thecontentslabel :\enspace}{}{\titlerule*[5pt]{.}\contentspage}
-
-% \titlecontents{table}[0pt] {\addvspace{4mm}}{Table
-%   \thecontentslabel :\enspace}{}{\titlerule*[5pt]{.}\contentspage}
-
 
 \newcommand{\historyitem}[3]{
   #1 & #2 & #3 \\ \hline
@@ -566,8 +443,6 @@ relation-sym-map = {
   \end{tabular}
 }
 
-
-
 \renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
   \thispagestyle{plain}%
   \global\@topnum\z@
@@ -600,14 +475,8 @@ relation-sym-map = {
   {\parindent \z@ \raggedright \normalfont
     \ifnum \c@secnumdepth >\m@ne
     \if@mainmatter
-    \Huge \bfseries % \@chapapp\space
+    \Huge \bfseries %
     \thechapter .  #1\par\nobreak
-    %        \par\nobreak
-    %        \vskip 20\p@
-    %      \fi
-    %    \fi
-    %    \interlinepenalty\@M
-    %    \Huge \bfseries #1\par\nobreak
     \vskip 40\p@
   }}
 \def\@schapter#1{\if@twocolumn

@@ -31,7 +31,7 @@ derivano direttamente dalla costruzione dell'\textbf{AST} (sezione~\ref{sec:5-6-
 in operatori nativi di \texttt{Java} in fase di traduzione.
 
 \vspace{4mm}
-\begin{lstlisting}[caption={If e operatori booleani in \textbf{Funx}}, style=funxCode, label={lst:4-ternary-funx}]
+\begin{lstlisting}[caption={If e operatori booleani in \textbf{Funx}}, style=funxCode, label={lst:4-2-ternary-funx}]
 power : Int @-> Int @-> Int
 power b e = if e == 0 then 1 else b * power b (e - 1) fi
 
@@ -39,7 +39,7 @@ xor : Bool @-> Bool @-> Bool
 xor a b = (a || b) && !!(a && b)
 \end{lstlisting}
 \vspace{4mm}
-\begin{lstlisting}[caption={Corrispondenti operatori ternari in \texttt{Java}}, style=javaCode, label={lst:4-ternary-java}]
+\begin{lstlisting}[caption={Corrispondenti operatori ternari in \texttt{Java}}, style=javaCode, label={lst:4-2-ternary-java}]
 public static Function@<Long, Function@<Long, Long@>@> power;
 
 public static Function@<Boolean, Function@<Boolean, Boolean@>@> xor;

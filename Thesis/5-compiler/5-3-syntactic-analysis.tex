@@ -2,7 +2,7 @@
 \label{sec:5-3-syntactic-analysis}
 
 Il file \texttt{FunxParser.g4} contiene le regole concrete della grammatica di \textbf{Funx}:
-nonostante la somiglianza con le grammatiche delle Figure~\ref{fig:2-funx-syntax} e \ref{fig:3-system-hm},
+nonostante la somiglianza con le grammatiche delle Figure~\ref{fig:2-3-funx-syntax} e \ref{fig:3-3-system-hm},
 è evidente che queste non collimino esattamente a causa di zucchero sintattico e requisiti di \texttt{ANTLR}.
 
 \noindent Lo strumento utilizzato, infatti, è un generatore di \textit{parser} di tipo \textit{top-down}
@@ -15,7 +15,7 @@ per grammatiche \textit{LL}, le quali in generale non supportano regole ricorsiv
 quest'ultimo è in grado di riscrivere automaticamente le grammatiche, eliminando la ricorsione a sinistra diretta (e.g. linee 36 e 38-43),
 così da non incorrere in regole ambigue che potrebbero causare \textit{backtracking} e conseguente \textit{overhead}.
 
-\noindent Il Codice~\ref{lst:5-parser-antlr} riporta integralmente le regole concrete della sintassi di \textbf{Funx}, tra cui:
+\noindent Il Codice~\ref{lst:5-3-parser-antlr} riporta integralmente le regole concrete della sintassi di \textbf{Funx}, tra cui:
 \begin{itemize}
     \item \textit{module}: nome del modulo, funzione \texttt{main} opzionale e dichiarazioni globali;
     \item \textit{main}: funzione \texttt{main}, diversa dalle dichiarazioni classiche per l'assenza di schema di tipo e parametri lambda;
@@ -24,14 +24,14 @@ così da non incorrere in regole ambigue che potrebbero causare \textit{backtrac
     \item \textit{statement}: per evitare ricorsione a sinistra indiretta, la separazione tra \textit{statement} e \textit{expression}
           forza l'uso di parentesi nei casi in cui lambda astrazioni, let e if siano usati all'interno di un'espressione;
     \item \textit{expression}: racchiude l'applicazione funzionale, tutte le regole relative agli operatori simbolici,
-          specificandone la priorità implicite (Tabella~\ref{tab:2-sugar}), e le espressioni primarie
+          specificandone la priorità implicite (Tabella~\ref{tab:2-4-sugar}), e le espressioni primarie
           (costanti, variabili e parentesi per controllare la precedenza);
     \item \textit{lambda, let, if}: corrispondenti alle produzioni per astrazione, let e if della grammatica formale.
 \end{itemize}
 
 \newpage
 
-\begin{lstlisting}[caption={Grammatica per il \textit{parser}}, style=antlrCode, label={lst:5-parser-antlr}]
+\begin{lstlisting}[caption={Grammatica per il \textit{parser}}, style=antlrCode, label={lst:5-3-parser-antlr}]
 parser grammar FunxParser;
 options { tokenVocab = FunxLexer; }
 
