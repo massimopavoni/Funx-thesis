@@ -50,11 +50,11 @@ public static final class Variable extends Type {
     public Variable(long id) { this.id = id; }
 
     public static String toString(long id) {
-        return id < 26 ? Character.toString((char) ('a' + id)) : "t" + id;
+        return id < 26 @? Character.toString((char) ('a' + id)) @: "t" + id;
     }
 
     public static String toFancyString(long id) {
-        return id < 24 ? Character.toString((char) (945 + id)) : "t" + id;
+        return id < 24 @? Character.toString((char) (945 + id)) @: "t" + id;
     }
 
     @Override

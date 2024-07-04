@@ -12,7 +12,8 @@ Come già accennato nella sezione~\ref{sec:3-4-hm-type-inference}, i metodi sono
 e le classi ausiliarie appena descritte facilitano lo sviluppo delle funzioni di inferenza seguendo tale modello da vicino.
 
 \noindent Ciò nonostante, si vuol descrivere brevemente l'implementazione del metodo \texttt{infer} della classe \texttt{Let},
-in quanto di particolare interesse per le modifiche apportate al fine di consentire mutua ricorsione tra funzioni polimorfe.
+in quanto di particolare interesse per le modifiche apportate al fine di gestire opportunamente
+la ricorsione e la generalizzazione dei tipi delle funzioni.
 
 \noindent L'inferenza per \texttt{let}, presentata nel Codice~\ref{lst:5-9-let-inference-java}, si divide in 4 fasi:
 \begin{itemize}

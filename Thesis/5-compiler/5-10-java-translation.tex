@@ -1,2 +1,24 @@
 \section{Traduzione in Java}
 \label{sec:5-10-java-translation}
+
+La sottoclasse più importante di \texttt{ASTVisitor} è \texttt{JavaTranspiler}, il \textit{visitor} che si occupa
+dell'ultimo stadio di compilazione, la traduzione dell'\textbf{AST} in codice \texttt{Java}:
+come per \texttt{GraphvizBuilder}, la classe compone una stringa
+che rappresenta il programma \texttt{Java} corrispondente al codice \textbf{Funx} sorgente.
+
+
+Avendo già illustrato degli esempi di traduzione nel Capitolo~\ref{chap:4-java}, in questa sezione si
+discuteranno le scelte e i compromessi nel processo di traduzione, e il modo in cui le limitazioni
+di \texttt{Java} possano essere talvolta aggirate "piegando" le regole.
+
+\input{5-compiler/5-11-static-members.tex}
+
+\newpage
+
+\input{5-compiler/5-12-scope-stack.tex}
+
+\input{5-compiler/5-13-monomorphic-declarations.tex}
+
+\input{5-compiler/5-14-polymorphic-functions-instantiation.tex}
+
+\input{5-compiler/5-15-wild-type-casting.tex}
