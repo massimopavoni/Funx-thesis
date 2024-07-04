@@ -8,7 +8,10 @@ per evitare complicanze e \textit{overhead} per la creazione di oggetti in aggiu
 
 Ogni funzione definita diviene perciò una proprietà statica della classe in caso di monotipi (sezione~\ref{sec:5-13-monomorphic-declarations})
 o un metodo statico con parametri di tipo in caso di politipi (sezione~\ref{sec:5-14-polymorphic-functions-instantiation}),
-mentre scrittura della classe stessa inizia con \textit{import} statici delle funzioni di libreria standard e un costruttore privato.
+eccezion fatta per le funzioni appartenenti a espressioni \texttt{let} annidate che, essendo classi anonime, vengono instanziate
+un'unica volta e specificano proprietà e metodi privati (accessibili solamente al metodo \texttt{eval} della classe \texttt{Let}).
+
+\noindent La scrittura della classe stessa inizia con \textit{import} statici delle funzioni di libreria standard e un costruttore privato.
 
 \vspace{4mm}
 \begin{lstlisting}[caption={Prime aggiunte alla stringa \texttt{Java}}, style=javaCode, label={lst:5-11-first-append-java}]

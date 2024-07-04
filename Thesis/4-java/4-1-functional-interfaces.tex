@@ -5,7 +5,7 @@ Nel tradurre un linguaggio funzionale viene naturale pensare immediatamente alle
 introdotte in \texttt{Java} 8%
 \footnote{OpenJDK 8 (\url{https://openjdk.org/projects/jdk8})}
 per rappresentare funzioni anonime: l'interfaccia generica \texttt{Function} è la più adatta a riprodurre
-il comportamento dell'astrazione, come mostrato nei Codici~\ref{lst:4-1-function-funx} e \ref{lst:4-1-function-java}.
+il comportamento dell'astrazione, come mostrato nei Codici~\ref{lst:4-1-function-funx}~e~\ref{lst:4-1-function-java}.
 
 \vspace{4mm}
 \begin{lstlisting}[caption={Semplice funzione in \textbf{Funx}}, style=funxCode, label={lst:4-1-function-funx}]
@@ -29,7 +29,7 @@ Poiché \texttt{constant} ha tipo polimorfo (sezione~\ref{sec:4-3-generics}), il
 e deve quindi necessariamente restituire un nuovo oggetto con ogni chiamata:
 nonostante la performance delle traduzioni non sia un obiettivo primario del progetto, la versione attuale
 del compilatore fa uso di alcune piccole ottimizzazioni nella trasposizione delle funzioni monomorfe,
-approfondite nella sezione~\ref{sec:5-?-optimizations}.
+approfondite nella sezione~\ref{sec:5-13-monomorphic-declarations}.
 
 \newpage
 
@@ -76,7 +76,7 @@ static {
 \end{lstlisting}
 \vspace{4mm}
 
-\noindent Nei Codici~\ref{lst:4-1-let-funx} e \ref{lst:4-1-let-java} si può vedere che la funzione \texttt{hundredsSum}
+\noindent Nei Codici~\ref{lst:4-1-let-funx}~e~\ref{lst:4-1-let-java} si può vedere che la funzione \texttt{hundredsSum}
 è implementata attraverso la chiamata al metodo principale dell'interfaccia funzionale \texttt{Let},
 realizzato internamente alla classe anonima con il supporto del metodo polimorfo \texttt{on}.
 
