@@ -36,11 +36,11 @@ public Void visitVariable(Expression.Variable variable) {
 
     // cannot have a null tuple, since type inference would have failed before this
     if (Objects.requireNonNull(variableScheme).fst().variables.isEmpty())
-        // 1 @-@> lambda param or monomorphic declaration
+        // 1 -> lambda param or monomorphic declaration
         builder.append(variable.id);
 
     else if (variableScheme.snd().equals("this") && i @> 0 && i @< currentLevel)
-        // 2 @-@> polymorphic declaration from an intermediate let scope 
+        // 2 -> polymorphic declaration from an intermediate let scope 
         // needs the worst: an unchecked cast
         builder.append(JavaPrelude.class.getSimpleName()).append(".@<")
             .append(typeStringOf(variable.type())).append("@>_instantiationCast(")
@@ -48,7 +48,7 @@ public Void visitVariable(Expression.Variable variable) {
             .append("())");
 
     else {
-        // 3 @-@> polymorphic declaration from Prelude,
+        // 3 -> polymorphic declaration from Prelude,
         // top level or same let scope can properly use generics
         builder.append(variableScheme.snd()).append(".@<");
         try {
