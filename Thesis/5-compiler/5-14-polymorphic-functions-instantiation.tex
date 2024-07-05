@@ -1,2 +1,130 @@
-\subsection{Instanziazione di funzioni polimorfe}
+\subsection{Istanziazione di funzioni polimorfe}
 \label{sec:5-14-polymorphic-functions-instantiation}
+
+Dal momento che il contesto può cambiare con l'introduzione di parametri lambda oltre che con espressioni \texttt{let},
+il livello di annidamento di quest'ultime è segnalato da una variabile secondaria utilizzata durante il \textit{lookup}
+delle variabili per verificare se è possibile istanziare una funzione polimorfa in modo naturale e idiomatico per \texttt{Java}.
+
+
+Tale variabile (\texttt{currentLevel}) è stata introdotta nei precedenti estratti di codice del \texttt{JavaTranspiler},
+ma se ne fa maggior uso nel caso di funzioni polimorfe per specificare i parametri di tipo quando possibile.
+
+\noindent Visitando un nodo \texttt{Variable} dell'albero sintattico astratto si incontrano tre casi:
+\begin{enumerate}
+    \item funzione monomorfa o parametro lambda (tutte le variabili introdotte da una lambda astrazione
+          possiedono un monotipo per via del polimorfismo di rango 1);
+    \item funzione polimorfa proveniente da uno \textit{scope} compreso tra quello globale e il livello di annidamento corrente;
+          opzione rappresentante uno dei casi limite già menzionati, causato dall'impossibilità di fare riferimento
+          esplicito ad un membro di una classe anonima esterna; la soluzione è utilizzare il metodo definito in \texttt{JavaPrelude}
+          per istanziare la funzione parametrica tramite un \textit{cast};
+    \item funzione polimorfa proveniente dal livello di annidamento attivo, livello globale
+          (\textit{scope} con stesso nome del modulo) o libreria standard; in questa alternativa è possibile unificare un'istanza
+          dello schema di tipo con il tipo della variabile nell'espressione considerata e quindi parametrizzare la chiamata.
+\end{enumerate}
+
+\newpage
+
+\begin{lstlisting}[caption={Metodo \texttt{visit} per le variabili}, style=javaCode, label={lst:5-14-visit-variable-java}]
+@Override
+public Void visitVariable(Expression.Variable variable) {
+    // firstly, find the variable in the scopes
+    int i;
+    Utils.Tuple@@<Scheme, String@@> variableScheme = null;
+    for (i = 0; i @< scopes.size(); i++)
+        if ((variableScheme = scopes.get(i).get(variable.id)) != null)
+            break;
+
+    // cannot have a null tuple, since type inference would have failed before this
+    if (Objects.requireNonNull(variableScheme).fst().variables.isEmpty())
+        // 1 @-@> lambda param or monomorphic declaration
+        builder.append(variable.id);
+
+    else if (variableScheme.snd().equals("this") && i @> 0 && i @< currentLevel)
+        // 2 @-@> polymorphic declaration from an intermediate let scope 
+        // needs the worst: an unchecked cast
+        builder.append(JavaPrelude.class.getSimpleName()).append(".@<")
+            .append(typeStringOf(variable.type())).append("@>_instantiationCast(")
+            .append(variable.id)
+            .append("())");
+
+    else {
+        // 3 @-@> polymorphic declaration from Prelude,
+        // top level or same let scope can properly use generics
+        builder.append(variableScheme.snd()).append(".@<");
+        try {
+            // to do so we need to instantiate the scheme and find the substitution
+            Utils.Tuple@@<Substitution, Type@@> instantiation =
+                variableScheme.fst().instantiate();
+
+            Substitution subst = instantiation.fst()
+                .applySubstitution(instantiation.snd().unify(variable.type()));
+
+            // to then apply to the sorted variables
+            builder.append(variableScheme.fst().sortedVariables.stream()
+                    .map(ov @@-@> subst.variables().contains(ov)
+                        @? typeStringOf(subst.substituteOf(ov))
+                        @: Type.Variable.toString(ov))
+                    .collect(Collectors.joining(", ")))
+                .append("@>").append(variable.id).append("()");
+        } catch (TypeException e) {
+            // should never happen
+            throw new InferenceException(e.getMessage());
+        }
+    }
+    return null;
+}
+\end{lstlisting}
+\vspace{4mm}
+\begin{lstlisting}[caption={Metodo di istanziazione con \textit{cast}}, style=javaCode, label={lst:5-14-instantiation-cast-java}]
+// Cast method for polymorphic functions instantiation
+@SuppressWarnings("rawtypes, unchecked")
+public static @@<T extends Function@@> T _instantiationCast(Function f) {
+    return (T) f;
+}
+\end{lstlisting}
+
+\newpage
+
+\noindent Nei Codici~\ref{lst:5-14-nested-funx}~e~\ref{lst:5-14-nested-java} si può osservare come il procedimento
+descritto produca variabili usate semplicemente, istanziate tramite \textit{cast} o con parametri di tipo.
+
+\vspace{4mm}
+\begin{lstlisting}[caption={\texttt{Let} annidati e differente uso di variabili polimorfe}, style=funxCode, label={lst:5-14-nested-funx}]
+multipleIds x = let
+        id1 = id
+    in let
+            id2 = id1
+        in id2 x
+\end{lstlisting}
+\vspace{4mm}
+\begin{lstlisting}[caption={Corrispondente traduzione in \texttt{Java}}, style=javaCode, label={lst:5-14-nested-java}]
+public class Chapter5Nested {
+    private Chapter5Nested() {
+        // private constructor to prevent instantiation
+    }
+    
+    public static @<h@> Function@<h, h@> multipleIds() {
+        return (x @->
+            (new Let@<@>() {
+                private @<d@> Function@<d, d@> id1() {
+                    return FunxPrelude.@<d@>id(); // 3
+                }
+    
+                @Override
+                public h _eval() {
+                    return (new Let@<@>() {
+                        private @<f@> Function@<f, f@> id2() {
+                            return JavaPrelude
+                                .@<Function@<f, f@>@>_instantiationCast(id1()); // 2
+                        }
+    
+                        @Override
+                        public h _eval() {
+                            return this.@<h@>id2().apply(x); // 3 and 1
+                        }
+                    })._eval();
+                }
+            })._eval());
+    }
+}
+\end{lstlisting}

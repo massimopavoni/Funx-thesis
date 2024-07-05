@@ -176,7 +176,7 @@ relation-sym-map = {
   keywordstyle=\color{Coral2}\bfseries\ttfamily,
   otherkeywords={enum, permits, sealed},
   keywordstyle=[2]\color{Gold4}\bfseries\ttfamily,
-  morekeywords=[2]{@Override, @FunctionalInterface},
+  morekeywords=[2]{@Override, @FunctionalInterface, @SuppressWarnings},
   literate=
     {@->}{{{\color{Firebrick3}\bfseries\ttfamily{-> }}}}{3}
     {@<}{{{\color{RoyalBlue3}\bfseries\ttfamily{<}}}}{1}

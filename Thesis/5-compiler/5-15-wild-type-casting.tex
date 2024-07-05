@@ -1,2 +1,102 @@
 \subsection{Type casting "selvaggio"}
 \label{sec:5-15-wild-type-casting}
+
+L'ultima particolarità della traduzione riguarda una stranezza occasionalmente necessaria quando l'applicazione
+di una funzione ad un'espressione più complessa richiede un ulteriore \textit{cast}: questi cast sono non sempre necessari
+ma prevederne l'esigenza a priori è difficile ed è il motivo per cui sono stati battezzati "selvaggi" (\textit{wild cast}).
+
+
+L'implementazione dei \textit{wild cast} è data da una \textit{flag} booleana abilitata in un nodo \texttt{Application}
+qualora le espressioni coinvolte siano oggetti \texttt{Lambda} o \texttt{Let}, mentre il \textit{cast} è applicato
+nei metodi \texttt{visit} interessati.
+
+\vspace{4mm}
+\begin{lstlisting}[caption={Metodo \texttt{visit} per le applicazioni di funzione}, style=javaCode, label={lst:5-15-visit-application-java}]
+@Override
+public Void visitApplication(Expression.Application application) {
+    // left and right expressions necessitate a wild cast
+    // if they are lambda or let expressions
+    if (application.left instanceof Expression.Lambda
+            || application.left instanceof Expression.Let)
+        wildCast = true;
+    visit(application.left);
+
+    builder.append(".apply(");
+    if (application.right instanceof Expression.Lambda
+            || application.right instanceof Expression.Let)
+        wildCast = true;
+    visit(application.right);
+    builder.append(")");
+    return null;
+}
+\end{lstlisting}
+\vspace{4mm}
+\begin{lstlisting}[caption={\textit{Wild cast} in espressioni \texttt{lambda} e \texttt{let}}, style=javaCode, label={lst:5-15-wild-casts-java}]
+@Override
+public Void visitLambda(Expression.Lambda lambda) {
+    // ...
+    if (wildCast) {
+        // wild cast is needed for lambdas in applications
+        builder.append("(").append(typeStringOf(lambda.type())).append(") ");
+        wildCast = false;
+    }
+    // ...
+    return null;
+}
+
+@Override
+public Void visitLet(Expression.Let let) {
+    // ...
+    if (wildCast) {
+        // wild cast is needed for lets in applications
+        builder.append("(").append(typeStringOf(let.type())).append(") ");
+        wildCast = false;
+    }
+    // ...
+    return null;
+}
+\end{lstlisting}
+
+\newpage
+
+Nei Codici~\ref{lst:5-15-wild-funx}~e~\ref{lst:5-15-wild-java} si nota come i \textit{cast} rendano la traduzione ancora meno
+leggibile, ma si può facilmente verificare che la compilazione fallisce se alcuni \textit{cast} sono rimossi
+(\textit{cast} di destra in \texttt{reverseApply} e \textit{cast} di sinistra in \texttt{anonymousIds}).
+
+\vspace{4mm}
+\begin{lstlisting}[caption={Applicazione tra funzioni, espressioni \texttt{let} e \texttt{lambda}}, style=funxCode, label={lst:5-15-wild-funx}]
+reverseApply = flip (let
+        apply1 f x = f x
+    in apply1)
+
+anonymousIds = (\x -> x) (\x -> x)
+\end{lstlisting}
+\vspace{4mm}
+\begin{lstlisting}[caption={Traduzione in \texttt{Java} con \textit{cast} "selvaggi"}, style=javaCode, label={lst:5-15-wild-java}]
+public class Chapter5Wild {
+    private Chapter5Wild() {
+        // private constructor to prevent instantiation
+    }
+    
+    public static @<j, k@> Function@<j, Function@<Function@<j, k@>, k@>> reverseApply() {
+        return FunxPrelude.@<Function@<j, k@>, j, k@>flip()
+            .apply(
+                (Function@<Function@<j, k@>, Function@<j, k@>>) // right wild cast
+                    (new Let@<@>() {
+                        private @<h, i@> Function@<Function@<h, i@>, Function@<h, i@>> apply1() {
+                            return (f @-> (x @-> f.apply(x)));
+                        }
+    
+                        @Override
+                        public Function@<Function@<j, k@>, Function@<j, k@>> _eval() {
+                            return this.@<j, k@>apply1();
+                        }
+                    })._eval());
+    }
+    
+    public static @<n@> Function@<n, n@> anonymousIds() {
+        return ((Function@<Function@<n, n@>, Function@<n, n@>>) x @-> x) // left wild cast
+            .apply(((Function@<n, n@>) x @-> x)); // right wild cast
+    }
+}
+\end{lstlisting}
