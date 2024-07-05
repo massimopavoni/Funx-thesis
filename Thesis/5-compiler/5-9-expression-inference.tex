@@ -96,8 +96,8 @@ public Utils.Tuple@<Substitution, Type@> infer(Context ctx) {
     for (Declaration decl : localDeclarations.declarationList) {
         decl.expression.propagateSubstitution(subst);
 
-        Scheme expectedScheme = decl.expression.type.generalize(ctx);
-        decl.checkScheme(expectedScheme, ctx);
+        Scheme expectedScheme = decl.expression.type.generalize(newCtx);
+        decl.checkScheme(expectedScheme);
 
         newCtx.bind(decl.id, decl.scheme());
     }

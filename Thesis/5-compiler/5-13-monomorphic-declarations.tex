@@ -1,2 +1,133 @@
 \subsection{Dichiarazioni monomorfe}
 \label{sec:5-13-monomorphic-declarations}
+
+La possibilità in \textbf{Funx} di utilizzare funzioni ricorsive e mutuamente ricorsive
+e la volontà di evitare la traduzione di ogni dichiarazione in un metodo sono in conflitto
+a causa di \textit{Illegal Self Reference} e \textit{Illegal Forward Reference}:
+tali errori si presentano durante la compilazione del codice \texttt{Java}
+qualora i campi statici che identificano funzioni monomorfe vengano dichiarati e inizializzati
+nello stesso \textit{statement} (stessa linea).
+
+
+La dichiarazione delle proprietà deve avvenire prima di poter apparire nell'inizializzazione di altre variabili;
+si potrebbe effettuare un'analisi iniziale dell'\textbf{AST} per identificare le dipendenze tra le funzioni
+(approccio di ordinamento topologico estremamente utile anche per l'inferenza), ma la soluzione adottata
+è di più semplice implementazione.
+
+\noindent Come si può notare nel Codice~\ref{lst:5-13-monomorphic-java} e in alcuni esempi già presentati in precedenza,
+si effettua la dichiarazione di ogni campo, pubblico e statico per le dichiarazioni globali, privato per quelle locali,
+e solo successivamente si inizializzano rispettivamente con blocco statico e metodo \texttt{eval}.
+
+\vspace{4mm}
+\begin{lstlisting}[caption={Traduzione di funzioni monomorfe}, style=javaCode, label={lst:5-13-monomorphic-java}]
+public class Chapter5Monomorphic {
+    private Chapter5Monomorphic() {
+        // private constructor to prevent instantiation
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(add.apply(add.apply(fun1).apply(fun2)).apply(letFun));
+    }
+    
+    public static Long fun1;    
+    public static Long fun2;    
+    public static Long letFun;
+    
+    static {
+        fun1 = 1L;    
+        fun2 = 2L;    
+        letFun =
+            (new Let@<@>() {
+                private Long a;    
+                private Long b;
+    
+                @Override
+                public Long _eval() {
+                    a = 3L;
+                    b = 4L;
+                    return add.apply(a).apply(b);
+                }
+            })._eval();
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\noindent Poiché potrebbero essere presenti diversi \texttt{let} annidati, è necessario tenere traccia delle espressioni
+corpo delle dichiarazioni monomorfe in modo da poterle inizializzare al momento corretto, dopo aver tradotto ulteriori classi interne.
+
+\noindent La procedura di traduzione di dichiarazioni monomorfe si compone delle seguenti fasi:
+\begin{itemize}
+    \item definizione di uno \textit{stack} contenente mappe tra nomi delle dichiarazioni e nodi espressione corrispondenti;
+    \item inserimento di una nuova mappa per il livello corrente di annidamento (modulo o espressione \texttt{let});
+    \item inferenza delle funzioni globali o locali con dichiarazione delle variabili e aggiunta delle espressioni monomorfe
+          alla mappa corrente (potrebbero essere aggiunti nuovi livelli prima di poterne "riempire" uno);
+    \item creazione del blocco statico (o metodo \texttt{eval} per le espressioni \texttt{let}) con le inizializzazioni
+          delle funzioni con monotipo: in questa fase finale torna utile la versatilità del \textit{visitor pattern} per posticipare
+          la traduzione delle espressioni.
+\end{itemize}
+
+\vspace{4mm}
+\begin{lstlisting}[caption={Traduzione di funzioni monomorfe in \texttt{let}}, style=javaCode, label={lst:5-13-monomorphic-translation-java}]
+private final Deque<Map<String, Expression>>
+    monomorphicDeclarationsQueue = new ArrayDeque<>();
+
+@Override
+public Void visitLet(Expression.Let let) {
+    currentLevel++;
+    // ...
+    // use a new anonymous class for the let expression
+    // and push a new monomorphic let declarations map
+    builder.append("(new ")
+            .append(JavaPrelude.Let.class.getSimpleName()).append("<>() {\n");
+    monomorphicDeclarationsQueue.push(new LinkedHashMap<>());
+    visit(let.localDeclarations);
+    builder.append("""
+                    @Override
+                    public\s""")
+            .append(typeStringOf(let.expression.type()))
+            .append("\n_eval() {\n");
+    // if there are any monomorphic declarations, initialize them in the _eval method,
+    // then pop the map either way
+    if (!monomorphicDeclarationsQueue.getFirst().isEmpty())
+        monomorphicDeclarationsQueue.getFirst().forEach((id, expression) @-> {
+            builder.append(id).append(" = ");
+            visit(expression); // deferred expression visit
+            appendSemiColon();
+            appendNewline();
+        });
+    monomorphicDeclarationsQueue.pop();
+    // ...
+    currentLevel--;
+    return null;
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[caption={Metodo \texttt{visit} per le dichiarazioni}, style=javaCode, label={lst:5-13-visit-declaration-java}]
+@Override
+public Void visitDeclaration(Declaration declaration) {
+    // top level declarations should be static and public,
+    // while let local declarations should be private to the anonymous class
+    builder.append(currentLevel == 0 @? "public static " @: "private ");
+    String scheme = schemeStringOf(declaration.scheme());
+    if (declaration.scheme().variables.isEmpty()) {
+        // defer initialization of monomorphic declarations
+        builder.append(scheme).append(" ").append(declaration.id);
+        appendSemiColon();
+        monomorphicDeclarationsQueue
+            .getFirst().put(declaration.id, declaration.expression);
+    } else {
+        // initialize polymorphic declarations immediately (as methods with generics)
+        builder.append(scheme)
+                .append(" ").append(declaration.id).append("() {\nreturn ");
+        visit(declaration.expression);
+        appendSemiColon();
+        appendCloseBrace();
+    }
+    appendNewline();
+    return null;
+}
+\end{lstlisting}

@@ -36,7 +36,7 @@ approfondite nella sezione~\ref{sec:5-13-monomorphic-declarations}.
 \noindent In aggiunta alla classe \texttt{Function}, nella parte nativa (codice \texttt{Java}) della libreria standard
 di \textbf{Funx} è definita un'ulteriore interfaccia funzionale per creare espressioni \texttt{let}:
 in questo caso vi è un grande utilizzo di classi anonime, potenzialmente annidate,
-rappresentanti le dichiarazioni locali e l'espressione principale.
+rappresentanti le dichiarazioni locali e l'espressione principale (metodo \texttt{eval}).
 
 \vspace{4mm}
 \begin{lstlisting}[caption={Interfaccia funzionale per espressioni \texttt{let}}, style=javaCode, label={lst:4-1-let-interface-java}]
@@ -81,5 +81,5 @@ static {
 realizzato internamente alla classe anonima con il supporto del metodo polimorfo \texttt{on}.
 
 \noindent Inoltre, è immediatamente evidente come le traduzioni in \texttt{Java} siano progressivamente più complesse e meno leggibili
-con l'introduzione di nuove funzionalità: l'esempio più eclatante è dato proprio dalla \textit{signature} del metodo locale \texttt{on},
-divenuta di difficile comprensione rispetto alla sintassi molto concisa del linguaggio funzionale.
+con l'introduzione di nuove funzionalità: l'esempio più eclatante è dato proprio dal tipo di ritorno del metodo locale \texttt{on},
+divenuto di difficile comprensione rispetto alla sintassi molto concisa del linguaggio funzionale.

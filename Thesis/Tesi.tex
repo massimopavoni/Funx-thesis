@@ -22,15 +22,19 @@
 \maketitle
 
 \tableofcontents
-\cleardoublepage
+
+\begingroup
+\let\cleardoublepage\relax
+\let\clearpage\relax
 
 \lstlistoflistings
-\cleardoublepage
 
 \listoffigures
-\cleardoublepage
 
 \listoftables
+
+\endgroup
+
 \cleardoublepage
 
 \pagenumbering{arabic}

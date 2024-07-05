@@ -8,15 +8,14 @@ per evitare complicanze e \textit{overhead} per la creazione di oggetti in aggiu
 
 Ogni funzione definita diviene perciò una proprietà statica della classe in caso di monotipi (sezione~\ref{sec:5-13-monomorphic-declarations})
 o un metodo statico con parametri di tipo in caso di politipi (sezione~\ref{sec:5-14-polymorphic-functions-instantiation}),
-eccezion fatta per le funzioni appartenenti a espressioni \texttt{let} annidate che, essendo classi anonime, vengono instanziate
-un'unica volta e specificano proprietà e metodi privati (accessibili solamente al metodo \texttt{eval} della classe \texttt{Let}).
+eccezion fatta per le funzioni appartenenti a espressioni \texttt{let} annidate che, essendo classi anonime,
+creano un unico oggetto con proprietà e metodi privati (accessibili solamente al metodo pubblico \texttt{eval} della classe \texttt{Let}).
 
-\noindent La scrittura della classe stessa inizia con \textit{import} statici delle funzioni di libreria standard e un costruttore privato.
+\noindent La traduzione inizia con \textit{import} statici per la libreria standard e un costruttore privato.
 
 \vspace{4mm}
 \begin{lstlisting}[caption={Prime aggiunte alla stringa \texttt{Java}}, style=javaCode, label={lst:5-11-first-append-java}]
 // append package, imports, class declaration and constructor
-
 builder.append(module.packageName.isEmpty()
         @? ""
         @: String.format("package %s;%n", module.packageName.toLowerCase()))
@@ -40,8 +39,11 @@ import com.github.massimopavoni.funx.lib.FunxPrelude;
 import static com.github.massimopavoni.funx.lib.JavaPrelude.*;
 import static com.github.massimopavoni.funx.lib.FunxPrelude.*;
 
-public class Test {
-    private Test() {
+public class Chapter5Header {
+    private Chapter5Header() {
         // private constructor to prevent instantiation
-    }    
+    }
+
+    // ...
+}
 \end{lstlisting}

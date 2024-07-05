@@ -93,7 +93,7 @@ informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazion
                 \inferrule{
                     \overline{\Gamma} = \Gamma + \vec{x} : \vec{\beta}}
                 {
-                    \overline{\Gamma} \vdash \vec{E} : \vec{\kappa} \qquad \overline{\Gamma} \{Clos_{\Gamma}(\vec{\kappa}) / \vec{\beta}\} \vdash E_i : \tau}}
+                    \overline{\Gamma} \vdash \vec{E} : \vec{\kappa} \qquad \overline{\Gamma} \{Clos_{\overline{\Gamma}}(\vec{\kappa}) / \vec{\beta}\} \vdash E_i : \tau}}
             {
                 \overline{\Gamma} \vdash \textbf{let}\ \vec{x} = \vec{E}\ \textbf{in}\ E_i : \tau}
              & \inferdesc{[let]}          \\
@@ -151,9 +151,9 @@ come nel caso dell'espressione \texttt{let} (sezione~\ref{sec:5-9-expression-inf
             \\
             \algWline{\Gamma}{\textbf{let}\ \vec{x} = \vec{E}\ \textbf{in}\ E_i}
             \begin{aligned}[t]
-                 & \text{let} &  & \overline{\Gamma} = \Gamma + \vec{x} : \vec{\beta},\ new\ \vec{\beta}                              \\
-                 &            &  & (\vec{S}, \vec{\kappa}) = \algW{\overline{\Gamma}}{\vec{E}}                                        \\
-                 &            &  & (S_i, \tau) = \algW{\vec{S}\,\overline{\Gamma} \{Clos_{\Gamma}(\vec{\kappa}) / \vec{\beta}\}}{E_i} \\
+                 & \text{let} &  & \overline{\Gamma} = \Gamma + \vec{x} : \vec{\beta},\ new\ \vec{\beta}                                                  \\
+                 &            &  & (\vec{S}, \vec{\kappa}) = \algW{\overline{\Gamma}}{\vec{E}}                                                            \\
+                 &            &  & (S_i, \tau) = \algW{\vec{S}\,\overline{\Gamma} \{Clos_{\vec{S}\,\overline{\Gamma}}(\vec{\kappa}) / \vec{\beta}\}}{E_i} \\
                  & \text{in}  &  & (S_i \vec{S}, \tau)
             \end{aligned}
             \\

@@ -61,7 +61,6 @@ public enum PreludeFunction {
 \newpage
 
 \begin{lstlisting}[caption={Metodi per astrazioni annidate e operatori simbolici binari}, style=javaCode, label={lst:5-6-auxiliary-methods-java}]
-@Override
 private ASTNode createLambdaChain(
         InputPosition position, Deque@<String@> params, ASTNode expression) {
     if (params.size() == 1)
@@ -75,7 +74,6 @@ private ASTNode createLambdaChain(
         createLambdaChain(position, params, expression));
 }
 
-@Override
 private ASTNode binarySymbolApplication(
         InputPosition position, String symbol, ASTNode left, ASTNode right) {
     return new Expression.Application(
@@ -90,19 +88,21 @@ private ASTNode binarySymbolApplication(
 }
 \end{lstlisting}
 \vspace{4mm}
-\begin{lstlisting}[caption={Alcuni metodi \textit{visit} di \texttt{ASTBuilder}}, style=javaCode, label={lst:5-6-astbuilder-java}]
+\begin{lstlisting}[caption={Alcuni metodi \texttt{visit} di \texttt{ASTBuilder}}, style=javaCode, label={lst:5-6-astbuilder-java}]
 public class ASTBuilder extends FunxParserBaseVisitor@<ASTNode@> {
     @Override
     public ASTNode visitAppExpression(FunxParser.AppExpressionContext ctx) {
         return new Expression.Application(getInputPosition(ctx),
-            visit(ctx.expression(0)), visit(ctx.expression(1)));
+            visit(ctx.expression(0)),
+            visit(ctx.expression(1)));
     }
 
     @Override
     public ASTNode visitComposeExpression(FunxParser.ComposeExpressionContext ctx) {
         return binarySymbolApplication(getInputPosition(ctx),
             Utils.fromLexerToken(ctx.bop.getType()),
-            visit(ctx.expression(0)), visit(ctx.expression(1)));
+            visit(ctx.expression(0)),
+            visit(ctx.expression(1)));
     }
     
     @Override
@@ -119,7 +119,7 @@ public class ASTBuilder extends FunxParserBaseVisitor@<ASTNode@> {
         // lambda params are syntactic sugar for a lambda chain
         return createLambdaChain(getInputPosition(ctx),
             ctx.lambdaParams().VARID().stream().map(ParseTree::getText)
-                .collect(Collectors.toCollection(ArrayDeque::new)),
+                    .collect(Collectors.toCollection(ArrayDeque::new)),
                 visit(ctx.statement()));
     }
 }    
