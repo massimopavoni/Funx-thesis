@@ -1,0 +1,19 @@
+\section{Estensioni del linguaggio}
+\label{sec:6-2-language-extensions}
+
+Nel caso in cui si volesse continuare a sviluppare \textbf{Funx} e il compilatore annesso,
+quelle che seguono sono alcune estensioni utili ad incrementarne notevolemente l'espressività:
+\begin{itemize}
+    \item \textbf{tuple}: nuovo tipo analogo alle tuple di \texttt{Haskell}, da ideare anche all'interno di \texttt{Java}
+          stesso data la mancanza di supporto;
+    \item \textbf{liste}: implementazione della corrispondenza tra le liste di \texttt{Java} e un nuovo tipo in \textbf{Funx},
+          con il vantaggio di poter utilizzare alcune funzioni native;
+    \item \textbf{stringhe}: la gestione di dati testuali si rivela essere potenzialmente tra le più complicate a seconda
+          della traduzione dei singoli caratteri (utilizzare le liste in \texttt{Java} si rivelerebbe inefficiente);
+    \item \textbf{switch-case}: aggiunta di una struttura di controllo più versatile rispetto all'attuale \texttt{if-else},
+          affine alle \textit{switch expression} di \texttt{Java} e i \textit{case-of} di \texttt{Haskell};
+    \item \textbf{tipi custom}: l'introduzione di tipi definiti dall'utente è un'altra espansione difficile da trattare,
+          poiché la \textit{feature} di \texttt{Java} più idonea è l'uso delle classi, da generare sempre in modo automatico;
+    \item \textbf{suite di test}: con l'ampliamento del linguaggio, è indispensabile preparare una collezione di test
+          per la verifica della correttezza del compilatore.
+\end{itemize}
