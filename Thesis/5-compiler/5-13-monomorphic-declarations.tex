@@ -1,15 +1,15 @@
 \subsection{Dichiarazioni monomorfe}
 \label{sec:5-13-monomorphic-declarations}
 
-La possibilità in \textbf{Funx} di utilizzare funzioni ricorsive e mutuamente ricorsive
-e la volontà di evitare la traduzione di ogni dichiarazione in un metodo sono in conflitto
+La possibilità in \textbf{Funx} di utilizzare funzioni ricorsive (e/o mutuamente ricorsive)
+e la volontà di evitare la traduzione in metodi quando possibile sono in conflitto
 a causa di \textit{Illegal Self Reference} e \textit{Illegal Forward Reference}:
 tali errori si presentano durante la compilazione del codice \texttt{Java}
 qualora i campi statici che identificano funzioni monomorfe vengano dichiarati e inizializzati
 nello stesso \textit{statement} (stessa linea).
 
 
-La dichiarazione delle proprietà deve avvenire prima di poter apparire nell'inizializzazione di altre variabili;
+La dichiarazione delle proprietà deve avvenire prima dell'inizializzazione di altre variabili che ne fanno uso;
 si potrebbe effettuare un'analisi iniziale dell'\textbf{AST} per identificare le dipendenze tra le funzioni
 (approccio di ordinamento topologico estremamente utile anche per l'inferenza), ma la soluzione adottata
 è di più semplice implementazione.
@@ -20,7 +20,7 @@ si effettua la dichiarazione di ogni campo, pubblico e statico per le dichiarazi
 e solo successivamente si inizializzano rispettivamente con blocco statico e metodo \texttt{eval}.
 
 \vspace{4mm}
-\begin{lstlisting}[caption={Traduzione di funzioni monomorfe}, style=javaCode, label={lst:5-13-monomorphic-java}]
+\begin{lstlisting}[caption={Esempio di traduzione per funzioni monomorfe}, style=javaCode, label={lst:5-13-monomorphic-java}]
 public class Chapter5Monomorphic {
     private Chapter5Monomorphic() {
         // private constructor to prevent instantiation
@@ -62,10 +62,10 @@ corpo delle dichiarazioni monomorfe in modo da poterle inizializzare al momento 
 \begin{itemize}
     \item definizione di uno \textit{stack} contenente mappe tra nomi delle dichiarazioni e nodi espressione corrispondenti;
     \item inserimento di una nuova mappa per il livello corrente di annidamento (modulo o espressione \texttt{let});
-    \item inferenza delle funzioni globali o locali con dichiarazione delle variabili e aggiunta delle espressioni monomorfe
+    \item dichiarazione delle variabili e aggiunta delle espressioni monomorfe
           alla mappa corrente (potrebbero essere aggiunti nuovi livelli prima di poterne "riempire" uno);
-    \item creazione del blocco statico (o metodo \texttt{eval} per le espressioni \texttt{let}) con le inizializzazioni
-          delle funzioni con monotipo: in questa fase finale torna utile la versatilità del \textit{visitor pattern} per posticipare
+    \item creazione del blocco statico (o metodo \texttt{eval} per le espressioni \texttt{let}) con l'inizializzazione
+          delle funzioni monomorfe: in questa fase finale torna utile la versatilità del \textit{visitor pattern} per posticipare
           la traduzione delle espressioni.
 \end{itemize}
 

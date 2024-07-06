@@ -3,9 +3,9 @@
 
 Durante l'esplorazione dell'\textbf{AST} è necessario tenere traccia dello \textit{scope}, il contesto, del quale le dichiarazioni
 o i parametri lambda fanno parte: la soluzione adottata prevede l'uso di uno \textit{stack} contenente i contesti attivi,
-rappresentati a loro volta da mappe con le variabili dichiarate come chiavi e le relative informazioni.
+rappresentati a loro volta da mappe (le variabili dichiarate sono le chiavi, le relative informazioni sono i valori).
 
-\noindent Lo \textit{stack} dei contesti è in realtà implementato attraverso una lista per via della necessità di iterare
+\noindent Lo \textit{stack} dei contesti è in realtà implementato attraverso una lista, per via della necessità di iterare
 su tutti i contesti e trovare una variabile richiesta (\textit{lookup}).
 
 \vspace{4mm}
@@ -70,10 +70,10 @@ public Void visitLet(Expression.Let let) {
 \noindent Nei Codici~\ref{lst:5-12-scope-stack-methods-java}~e~\ref{lst:5-12-lambda-let-scope-java} sono mostrate:
 \begin{itemize}
     \item la lista dei contesti e le funzioni per la loro gestione: le tuple assegnate ai nomi delle dichiarazioni di uno \textit{scope}
-          conservano lo schema di tipo e il nome della classe statica in cui la variabile è definita
+          conservano lo schema di tipo e il nome della classe in cui la variabile è definita
           (\texttt{JavaPrelude}, \texttt{FunxPrelude}, nome del modulo creato,
           \texttt{null} per parametri lambda e \texttt{this} per i \texttt{let});
     \item l'aggiunta dei contesti per \texttt{Module}, \texttt{Lambda} e \texttt{Let}, rispettivamente:
-          funzioni di libreria e dichiarazioni del modulo stesso, parametro lambda
-          e dichiarazioni locali con l'incremento del livello di annidamento.
+          funzioni di libreria e dichiarazioni del modulo stesso, parametro lambda,
+          dichiarazioni locali con l'incremento del livello di annidamento.
 \end{itemize}

@@ -15,7 +15,7 @@ qualora si desideri evitare completamente la costruzione di un \textbf{AST} e ch
 per eseguire il codice (e.g. linguaggi interpretati).
 
 \noindent Nel caso di \textbf{Funx-jt} la scelta ricade appunto sul \textit{visitor} in virtù
-della probabilità di dover "saltare" alcuni nodi e ottenerne direttamente le informazioni interne.
+della probabilità di dover "saltare" alcuni nodi e ottenere direttamente le informazioni interne.
 
 \noindent Durante la compilazione del progetto \texttt{Java}, \texttt{Gradle} è configurato per generare
 le seguenti classi nel package \texttt{com.github.massimopavoni.funx.jt.parser}:
@@ -34,7 +34,7 @@ e l'eliminazione dello zucchero sintattico mediante l'uso di alcune proprietà e
 
 
 Inoltre, all'interno del package \texttt{com.github.massimopavoni.funx.jt.ast} viene definita una classe enumeratore,
-\texttt{PreludeFunction} contenente le funzioni di libreria standard, con i relativi simboli e gli schemi di tipo corrispondenti.
+\texttt{PreludeFunction}, contenente le funzioni di libreria standard, con i relativi simboli e gli schemi di tipo corrispondenti.
 
 \vspace{4mm}
 \begin{lstlisting}[caption={Parte del codice di \texttt{PreludeFunction}}, style=javaCode, label={lst:5-6-preludefunction-java}]

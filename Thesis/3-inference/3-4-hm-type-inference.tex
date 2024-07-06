@@ -14,10 +14,10 @@ senza annotazioni esplicite fornite dagli sviluppatori.
 
 Prima di presentare l'algoritmo di inferenza è necessario complementare le nozioni di lambda calcolo esteso
 (Figure~\ref{fig:2-3-lambda-syntax}~e~\ref{fig:2-3-funx-syntax}) e del sistema di \textbf{Funx} (Figura~\ref{fig:3-3-system-hm})
-con due concetti fondamentali (Figura~\ref{fig:3-4-context-free-variables}):
+con due concetti fondamentali:
 \begin{itemize}
     \item \textbf{contesto}: una insieme di associazioni tra variabili e schemi di tipo,
-          che rappresenta lo stato corrente dell'ambiente in cui un termine viene tipato; l'unione tra la grammatica
+          che rappresenta lo stato corrente dell'ambiente in cui un termine viene analizzato; l'unione tra la grammatica
           del linguaggio e il sistema di tipi è data da un giudizio di tipo effettuato nel contesto su un termine (espressione);
     \item \textbf{variabili libere}: l'insieme delle variabili libere di un tipo è semplicemente il complemento
           delle variabili vincolate, quantificate universalmente in un politipo.
@@ -49,19 +49,19 @@ con due concetti fondamentali (Figura~\ref{fig:3-4-context-free-variables}):
     \vspace{4mm}
 \end{figure}
 
+\newpage
+
 \noindent Le regole di inferenza%
 \footnote{\citetitle{Clement-1986-MiniML} \cite{Clement-1986-MiniML}}
 del \textit{sistema HM}, riportate in Figura~\ref{fig:3-4-inference-rules},
 informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazione dell'inferenza di tipo.
-
-\newpage
 
 \noindent In aggiunta a principi già noti, le peculiarità non immediatamente chiare sono:
 \begin{itemize}
     \item $constantType$: funzione che restituisce il tipo di una costante;
     \item $\sigma \sqsubseteq \tau$: indica intuitivamente che $\sigma$ è più generale di $\tau$
           ($\tau$ è un'\textit{istanza} di $\sigma$);
-    \item $Clos_\Gamma$: ottiene la \textit{chiusura}, ossia tipo più generale, di una variabile
+    \item $Clos_\Gamma$: ottiene la \textit{chiusura} di una variabile, ossia il suo tipo più generale,
           quantificando universalmente le variabili libere del tipo iniziale.
 \end{itemize}
 
@@ -113,7 +113,7 @@ informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazion
 
 \noindent L'\textit{algoritmo $\mathcal{W}$}%
 \footnote{\citetitle{Lee-1998-FolkloreInference} \cite{Lee-1998-FolkloreInference}}
-riportato in Figura~\ref{fig:3-4-algorithm-w} fornisce un'implementazione del procedimento finora descritto,
+in Figura~\ref{fig:3-4-algorithm-w} fornisce un'implementazione del procedimento finora descritto,
 servendosi delle regole di inferenza e dettagliando i passi per la deduzione del tipo di ogni espressione disponibile in \textbf{Funx}.
 
 \noindent L'algoritmo appare nel codice del compilatore in una forma molto simile, seppur talvolta più complessa,
@@ -173,7 +173,7 @@ come nel caso dell'espressione \texttt{let} (sezione~\ref{sec:5-9-expression-inf
     \vspace{4mm}
 \end{figure}
 
-\noindent Dato un contesto in cui analizzare un'espressione, $\mathcal{W}$ restituisce un tipo per l'espressione e una sostituzione.
+\noindent Dato un contesto in cui analizzare un'espressione, $\mathcal{W}$ restituisce un tipo e una sostituzione.
 Quest'ultima può essere vuota ($id$), generata manualmente ($\{\tau_2 / \tau_1\}$) o dall'\textit{unificazione} di altri tipi,
 e rappresenta una mappatura tra variabili di tipo e altri tipi; può essere applicata a tipi e contesti.
 

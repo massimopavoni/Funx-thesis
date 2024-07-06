@@ -2,8 +2,9 @@
 \label{sec:5-14-polymorphic-functions-instantiation}
 
 Dal momento che il contesto può cambiare con l'introduzione di parametri lambda oltre che con espressioni \texttt{let},
-il livello di annidamento di quest'ultime è segnalato da una variabile secondaria utilizzata durante il \textit{lookup}
-delle variabili per verificare se è possibile istanziare una funzione polimorfa in modo naturale e idiomatico per \texttt{Java}.
+il livello di annidamento di quest'ultime è segnalato da una variabile secondaria.
+Quest'ultima è utilizzata durante il \textit{lookup}
+delle variabili per verificare se è possibile istanziare una funzione polimorfa in modo idiomatico per \texttt{Java}.
 
 
 Tale variabile (\texttt{currentLevel}) è stata introdotta nei precedenti estratti di codice del \texttt{JavaTranspiler},

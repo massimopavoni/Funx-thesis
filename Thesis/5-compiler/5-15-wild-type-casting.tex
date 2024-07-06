@@ -1,12 +1,12 @@
 \subsection{Type casting "selvaggio"}
 \label{sec:5-15-wild-type-casting}
 
-L'ultima particolarità della traduzione riguarda una stranezza occasionalmente necessaria quando l'applicazione
-di una funzione ad un'espressione più complessa richiede un ulteriore \textit{cast}: questi cast sono non sempre necessari
-ma prevederne l'esigenza a priori è difficile ed è il motivo per cui sono stati battezzati "selvaggi" (\textit{wild cast}).
+L'ultima particolarità della traduzione riguarda una stranezza occasionalmente necessaria quando
+le espressioni parte di un'applicazione richiedono un ulteriore \textit{cast}: questi \textit{cast} non sempre sono davvero necessari
+ma prevederne l'esigenza a priori è difficile, ed è il motivo per cui sono stati battezzati "selvaggi" (\textit{wild cast}).
 
 
-L'implementazione dei \textit{wild cast} è data da una \textit{flag} booleana abilitata in un nodo \texttt{Application}
+L'implementazione dei \textit{wild cast} è data da una \textit{flag} booleana abilitata nel nodo \texttt{Application}
 qualora le espressioni coinvolte siano oggetti \texttt{Lambda} o \texttt{Let}, mentre il \textit{cast} è applicato
 nei metodi \texttt{visit} interessati.
 
@@ -59,7 +59,7 @@ public Void visitLet(Expression.Let let) {
 
 \newpage
 
-Nei Codici~\ref{lst:5-15-wild-funx}~e~\ref{lst:5-15-wild-java} si nota come i \textit{cast} rendano la traduzione ancora meno
+Nei Codici~\ref{lst:5-15-wild-funx}~e~\ref{lst:5-15-wild-java} si nota come questo approccio renda la traduzione ancora meno
 leggibile, ma si può facilmente verificare che la compilazione fallisce se alcuni \textit{cast} sono rimossi
 (\textit{cast} di destra in \texttt{reverseApply} e \textit{cast} di sinistra in \texttt{anonymousIds}).
 
