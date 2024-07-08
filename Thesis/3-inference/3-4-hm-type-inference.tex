@@ -1,11 +1,8 @@
 \section{Inferenza secondo Hindley–Milner}
 \label{sec:3-4-hm-type-inference}
 
-Come già accennato, il sistema \textit{Hindley–Milner (HM)}%
-\footnote{\citetitle{Hindley-1969-SchemeObject} \cite{Hindley-1969-SchemeObject}
-    and \citetitle{Milner-1978-TheoryPolymorphism} \cite{Milner-1978-TheoryPolymorphism}},
-o \textit{Damas-Hindley-Milner}%
-\footnote{\citetitle{Damas-1982-PrincipalSchemes} \cite{Damas-1982-PrincipalSchemes}},
+Come già accennato, il sistema \textit{Hindley–Milner (HM)} \cite{Hindley-1969-SchemeObject,Milner-1978-TheoryPolymorphism},
+o \textit{Damas-Hindley-Milner} \cite{Damas-1982-PrincipalSchemes},
 è un sistema di tipo per il lambda calcolo con polimorfismo parametrico largamente utilizzato
 in molti moderni linguaggi di programmazione ad alto livello. Il maggiore punto di forza del sistema
 è il relativo metodo di inferenza, in grado di dedurre automaticamente il tipo di un termine
@@ -51,8 +48,7 @@ con due concetti fondamentali:
 
 \newpage
 
-\noindent Le regole di inferenza%
-\footnote{\citetitle{Clement-1986-MiniML} \cite{Clement-1986-MiniML}}
+\noindent Le regole di inferenza \cite{Clement-1986-MiniML}
 del \textit{sistema HM}, riportate in Figura~\ref{fig:3-4-inference-rules},
 informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazione dell'inferenza di tipo.
 
@@ -111,8 +107,7 @@ informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazion
     \vspace{4mm}
 \end{figure}
 
-\noindent L'\textit{algoritmo $\mathcal{W}$}%
-\footnote{\citetitle{Lee-1998-FolkloreInference} \cite{Lee-1998-FolkloreInference}}
+\noindent L'\textit{algoritmo $\mathcal{W}$} \cite{Lee-1998-FolkloreInference}
 in Figura~\ref{fig:3-4-algorithm-w} fornisce un'implementazione del procedimento finora descritto,
 servendosi delle regole di inferenza e dettagliando i passi per la deduzione del tipo di ogni espressione disponibile in \textbf{Funx}.
 

@@ -8,10 +8,8 @@ nonostante la somiglianza con le grammatiche delle Figure~\ref{fig:2-3-funx-synt
 \noindent Lo strumento utilizzato, infatti, è un generatore di \textit{parser} di tipo \textit{top-down}
 per grammatiche \textit{LL}, le quali in generale non supportano regole ricorsive a sinistra.
 
-\noindent Essendo tali regole spesso comuni nella definizione di qualsiasi linguaggio di programmazione,
-\textbf{Funx} incluso, \texttt{ANTLRv4} offre un diverso tipo di parsing, detto \textit{Adaptive LL(*)}%
-\footnote{\citetitle{Parr-2011-FoundationANTLR} \cite{Parr-2011-FoundationANTLR}
-    and \citetitle{Parr-2014-AdaptiveLL} \cite{Parr-2014-AdaptiveLL}}:
+\noindent Essendo tali regole spesso comuni nella definizione di qualsiasi linguaggio di programmazione, \textbf{Funx} incluso,
+\texttt{ANTLRv4} offre un diverso tipo di parsing, detto \textit{Adaptive LL(*)} \cite{Parr-2011-FoundationANTLR,Parr-2014-AdaptiveLL}:
 quest'ultimo è in grado di riscrivere automaticamente le grammatiche, eliminando la ricorsione a sinistra diretta (e.g. linee 36 e 38-43),
 così da non incorrere in regole ambigue che potrebbero causare \textit{backtracking} e conseguente \textit{overhead}.
 
