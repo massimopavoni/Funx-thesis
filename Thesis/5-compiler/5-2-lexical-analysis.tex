@@ -4,7 +4,7 @@
 Data la probabile complessità delle regole della grammatica di \textbf{Funx}, fin dall'inizio la definizione dei \textit{token} (lessemi)
 del linguaggio è stata separata dalla specifica del \textit{parser}.
 
-\noindent Il file \texttt{FunxLexer.g4} descrive i lessemi dividendoli nelle seguenti cateogorie:
+\noindent Il file \texttt{FunxLexer.g4} descrive i lessemi dividendoli nelle seguenti categorie:
 \begin{enumerate}
     \item \textit{whitespace}: caratteri di spaziatura e tabulazione;
     \item \textit{comments}: commenti di linea e blocco;
@@ -24,7 +24,7 @@ del linguaggio è stata separata dalla specifica del \textit{parser}.
     \item \textit{delimiters}: parentesi tonde, quadre e graffe.
 \end{enumerate}
 
-\noindent Le categorie 1 e 2 contengono token da scartare, tranne \texttt{NEWLINE}, mentre la categoria 4 è utile
+\noindent Le categorie 1 e 2 contengono \textit{token} da scartare, tranne \texttt{NEWLINE}, mentre la categoria 4 è utile
 qualora eventualmente si permetta allo sviluppatore di utilizzare tali parole chiave riservate,
 effettuando una rinomina automatica; le categorie 7 e 8 devono necessariamente apparire dopo le categorie 3 e 4,
 poiché tra \textit{keyword} e identificatori di ogni genere le prime devono avere la precedenza

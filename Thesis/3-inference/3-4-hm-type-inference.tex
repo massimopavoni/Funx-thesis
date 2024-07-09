@@ -5,11 +5,11 @@ Come già accennato, il sistema \textit{Hindley–Milner (HM)} \cite{Hindley-196
 o \textit{Damas-Hindley-Milner} \cite{Damas-1982-PrincipalSchemes},
 è un sistema di tipo per il lambda calcolo con polimorfismo parametrico largamente utilizzato
 in molti moderni linguaggi di programmazione ad alto livello. Il maggiore punto di forza del sistema
-è il relativo metodo di inferenza, in grado di dedurre automaticamente il tipo di un termine
+è il relativo metodo d'inferenza, in grado di dedurre automaticamente il tipo di un termine
 senza annotazioni esplicite fornite dagli sviluppatori.
 
 
-Prima di presentare l'algoritmo di inferenza è necessario complementare le nozioni di lambda calcolo esteso
+Prima di presentare l'algoritmo d'inferenza è necessario complementare le nozioni di lambda calcolo esteso
 (Figure~\ref{fig:2-3-lambda-syntax}~e~\ref{fig:2-3-funx-syntax}) e del sistema di \textbf{Funx} (Figura~\ref{fig:3-3-system-hm})
 con due concetti fondamentali:
 \begin{itemize}
@@ -48,7 +48,7 @@ con due concetti fondamentali:
 
 \newpage
 
-\noindent Le regole di inferenza \cite{Clement-1986-MiniML}
+\noindent Le regole d'inferenza \cite{Clement-1986-MiniML}
 del \textit{sistema HM}, riportate in Figura~\ref{fig:3-4-inference-rules},
 informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazione dell'inferenza di tipo.
 
@@ -109,7 +109,7 @@ informano il comportamento dell'\textit{algoritmo $\mathcal{W}$}, implementazion
 
 \noindent L'\textit{algoritmo $\mathcal{W}$} \cite{Lee-1998-FolkloreInference}
 in Figura~\ref{fig:3-4-algorithm-w} fornisce un'implementazione del procedimento finora descritto,
-servendosi delle regole di inferenza e dettagliando i passi per la deduzione del tipo di ogni espressione disponibile in \textbf{Funx}.
+servendosi delle regole d'inferenza e dettagliando i passi per la deduzione del tipo di ogni espressione disponibile in \textbf{Funx}.
 
 \noindent L'algoritmo appare nel codice del compilatore in una forma molto simile, seppur talvolta più complessa,
 come nel caso dell'espressione \texttt{let} (sezione~\ref{sec:5-9-expression-inference}).

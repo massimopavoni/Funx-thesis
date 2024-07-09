@@ -3,7 +3,7 @@
 
 I sistemi di tipo e l'inferenza descritti nel Capitolo~\ref{chap:3-inference} costituiscono una parte imprescindibile del software,
 data l'incapacità di simulare il polimorfismo parametrico del \textit{sistema HM} lasciando al compilatore \texttt{Java}
-il compito di inferire e controllare i tipi generici dei metodi (o classi).
+il compito d'inferire e controllare i tipi generici dei metodi (o classi).
 In tal caso, infatti, la compilazione fallirebbe a causa di tipi "troppo generici" e \textit{type casting} non permesso
 in maniera implicita (e.g. non si è in grado di conciliare un tipo generico con una lambda espressione).
 
@@ -16,14 +16,14 @@ in maniera implicita (e.g. non si è in grado di conciliare un tipo generico con
 \end{figure}
 
 \noindent La linea di codice citata in Figura~\ref{fig:5-7-impossible-java} non è intrinsecamente errata,
-ma non può essere compilata in mancanza di informazioni riguardanti il parametro di tipo generico della funzione \texttt{id}
+ma non può essere compilata in mancanza d'informazioni riguardanti il parametro di tipo generico della funzione \texttt{id}
 (con tipo di ritorno \texttt{Function<T, T>}): il problema da risolvere è quindi conoscere il tipo dell'espressione
 in input alla prima chiamata del metodo \texttt{apply}.
 
 
 Il motore inferenziale è la parte del compilatore che si occupa di stabilire i tipi delle espressioni seguendo le regole
-di inferenza e i passi dell'\textit{algoritmo $\mathcal{W}$} \cite{Grabmuller-2006-AlgorithmW}
-descritti nella sezione~\ref{sec:3-4-hm-type-inference}; la fase di inferenza avviene subito dopo parsing
+d'inferenza e i passi dell'\textit{algoritmo $\mathcal{W}$} \cite{Grabmuller-2006-AlgorithmW}
+descritti nella sezione~\ref{sec:3-4-hm-type-inference}; la fase d'inferenza avviene subito dopo parsing
 e costruzione dell'\textbf{AST}, anticipando la generazione del codice \texttt{Java}.
 
 \input{5-compiler/5-8-system-hm.tex}

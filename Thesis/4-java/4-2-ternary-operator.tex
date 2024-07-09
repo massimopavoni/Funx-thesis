@@ -10,10 +10,10 @@ I linguaggi funzionali sfruttano spesso una caratteristica (non menzionata nella
 che prende il nome di \textit{lazy evaluation} (valutazione pigra): fino a quando il risultato di un'espressione
 non è richiesto per un successivo calcolo, questa non verrà completamente valutata.
 
-\noindent Oltre ad offrire molteplici possibilità di ottimizzazione dal punto di vista del tempo di esecuzione,
+\noindent Oltre a offrire molteplici possibilità di ottimizzazione dal punto di vista del tempo di esecuzione,
 tale comportamento è molto comodo nella scrittura di funzioni che per esempio potrebbero terminare
-prima del previso o magari effettuare computazioni su strutture dati infinite.
-I linguaggi che sono \textit{lazy evaluated} di default impegano nella maggior parte dei casi un \textit{garbage collector}
+prima del previsto o magari effettuare computazioni su strutture dati infinite.
+I linguaggi che sono \textit{lazy evaluated} di default impiegano nella maggior parte dei casi un \textit{garbage collector}
 per liberare la memoria occupata dalle espressioni non valutate e non più rilevanti.
 
 
@@ -25,7 +25,7 @@ tuttavia, rendere \textbf{Funx} un linguaggio completamente pigro avrebbe compor
 molteplici rischi di peggiorare le prestazioni dei programmi e un'implementazione del compilatore che va oltre lo scopo di questo progetto.
 
 
-Nonostante ciò, la scelta di ridurre gli operatori booleani binari (\textit{and} e \textit{or}) ad espressioni con operatore ternario
+Nonostante ciò, la scelta di ridurre gli operatori booleani binari (\textit{and} e \textit{or}) a espressioni con operatore ternario
 è stata considerata quasi obbligatoria per conservarne la natura pigra: gli operatori ternari utilizzati a questo scopo
 derivano direttamente dalla costruzione dell'\textbf{AST} (sezione~\ref{sec:5-6-ast-builder}), motivo per cui non vengono riconvertiti
 in operatori nativi di \texttt{Java} in fase di traduzione.

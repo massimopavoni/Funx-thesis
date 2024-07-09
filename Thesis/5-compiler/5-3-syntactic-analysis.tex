@@ -19,7 +19,7 @@ così da non incorrere in regole ambigue che potrebbero causare \textit{backtrac
     \item \textit{main}: funzione \texttt{main}, diversa dalle dichiarazioni classiche per l'assenza di schema di tipo e parametri lambda;
     \item \textit{declaration}: funzione con nome, tipo e parametri (e opzionalmente \texttt{with} per funzioni locali);
     \item \textit{typeElems}: tipo di una funzione, definito ricorsivamente secondo la grammatica del sistema di tipo di \textbf{Funx};
-    \item \textit{statement}: per evitare ricorsione a sinistra indiretta, la separazione tra \textit{statement} e \textit{expression}
+    \item \textit{statement}: per evitare ricorsione a sinistra indiretta, la separazione tra \textit{statement} ed \textit{expression}
           forza l'uso di parentesi nei casi in cui lambda astrazioni, let e if siano usati all'interno di un'espressione;
     \item \textit{expression}: racchiude l'applicazione funzionale, tutte le regole relative agli operatori simbolici,
           specificandone la priorità implicita (Tabella~\ref{tab:2-4-sugar}), e le espressioni primarie

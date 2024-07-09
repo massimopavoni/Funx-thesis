@@ -4,12 +4,12 @@
 La classe \texttt{InferenceEngine} contiene solamente proprietà e metodi statici, e non adotta lo stesso
 procedimento di esplorazione dell'albero sintattico delle classi figlie di \texttt{ASTVisitor}
 (visualizzazione e traduzione in \texttt{Java}): il cammino attraverso l'\textbf{AST} inizia con un metodo
-di avvio per chiamate ricorsive sulle funzioni di inferenza di ciascun nodo,
+di avvio per chiamate ricorsive sulle funzioni d'inferenza di ciascun nodo,
 a partire delle dichiarazioni globali di un modulo.
 
 
 Come già accennato nella sezione~\ref{sec:3-4-hm-type-inference}, i metodi sono molto simili all'\textit{algoritmo $\mathcal{W}$} mostrato,
-e le classi ausiliarie appena descritte facilitano lo sviluppo delle funzioni di inferenza seguendo tale modello da vicino.
+e le classi ausiliarie appena descritte facilitano lo sviluppo delle funzioni d'inferenza seguendo tale modello da vicino.
 
 \noindent Ciò nonostante, si vuol descrivere brevemente l'implementazione del metodo \texttt{infer} della classe \texttt{Let},
 in quanto di particolare interesse per le modifiche apportate al fine di gestire opportunamente
@@ -26,7 +26,7 @@ la ricorsione e la generalizzazione dei tipi delle funzioni.
           \end{itemize}
     \item linee 23-43, inferenza sulle dichiarazioni locali:
           \begin{itemize}
-              \item initializzazione della sostituzione;
+              \item inizializzazione della sostituzione;
               \item inferenza per ogni dichiarazione;
               \item unificazione tra tipi noti (compresi quelli temporanei) e tipi inferiti;
               \item progressiva composizione e applicazione delle sostituzioni al contesto;
