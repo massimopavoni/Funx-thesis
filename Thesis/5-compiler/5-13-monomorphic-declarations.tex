@@ -71,8 +71,8 @@ corpo delle dichiarazioni monomorfe in modo da poterle inizializzare al momento 
 
 \vspace{4mm}
 \begin{lstlisting}[caption={Traduzione di funzioni monomorfe in \texttt{let}}, style=javaCode, label={lst:5-13-monomorphic-translation-java}]
-private final Deque<Map<String, Expression>>
-    monomorphicDeclarationsQueue = new ArrayDeque<>();
+private final Deque@<Map@<String, Expression@>@>
+    monomorphicDeclarationsQueue = new ArrayDeque@<@>();
 
 @Override
 public Void visitLet(Expression.Let let) {
@@ -82,7 +82,7 @@ public Void visitLet(Expression.Let let) {
     // and push a new monomorphic let declarations map
     builder.append("(new ")
             .append(JavaPrelude.Let.class.getSimpleName()).append("<>() {\n");
-    monomorphicDeclarationsQueue.push(new LinkedHashMap<>());
+    monomorphicDeclarationsQueue.push(new LinkedHashMap@<@>());
     visit(let.localDeclarations);
     builder.append("""
                     @Override

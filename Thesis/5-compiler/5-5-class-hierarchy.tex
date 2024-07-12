@@ -73,7 +73,7 @@ public static final class Lambda extends Expression {
     }
 
     @Override // from Inferable interface
-    public Utils.Tuple<Substitution, Type> infer(Context ctx) { ... }
+    public Utils.Tuple@<Substitution, Type@> infer(Context ctx) { ... }
 
     @Override // from Expression abstract class
     protected void propagateSubstitution(Substitution substitution) { ... }

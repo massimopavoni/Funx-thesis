@@ -38,7 +38,7 @@ Inoltre, all'interno del package \texttt{com.github.massimopavoni.funx.jt.ast} v
 
 \vspace{4mm}
 \begin{lstlisting}[caption={Parte del codice di \texttt{PreludeFunction}}, style=javaCode, label={lst:5-6-preludefunction-java}]
-public enum PreludeFunction {
+public @enum PreludeFunction {
     COMPOSE(".", "compose",
         new Scheme(Set.of(0L, 1L, 2L),
             arrowOf(arrowOf(ZERO, ONE), arrowOf(TWO, ZERO), TWO, ONE)), false);

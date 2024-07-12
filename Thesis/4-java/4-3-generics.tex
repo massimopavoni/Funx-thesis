@@ -21,7 +21,7 @@ illustrati nelle sezioni~\ref{sec:5-14-polymorphic-functions-instantiation}~e~\r
 \begin{lstlisting}[caption={Scrittura e utilizzo di funzioni polimorfe in \textbf{Funx}}, style=funxCode, label={lst:4-3-generics-funx}]
 sumToN : Int @-> Int
 sumToN = let
-        ap : (a @-> b @-> c) -> (a @-> b) @-> a @-> c
+        ap : (a @-> b @-> c) @-> (a @-> b) @-> a @-> c
         ap op f x = op x (f x)
     in (flip divide 2) . ap multiply (add 1)
 \end{lstlisting}

@@ -30,8 +30,8 @@ ma se ne fa maggior uso nel caso di funzioni polimorfe per specificare i paramet
 public Void visitVariable(Expression.Variable variable) {
     // firstly, find the variable in the scopes
     int i;
-    Utils.Tuple@@<Scheme, String@@> variableScheme = null;
-    for (i = 0; i @< scopes.size(); i++)
+    Utils.Tuple@<Scheme, String@> variableScheme = null;
+    for (i = 0; i < scopes.size(); i++)
         if ((variableScheme = scopes.get(i).get(variable.id)) != null)
             break;
 
@@ -40,21 +40,21 @@ public Void visitVariable(Expression.Variable variable) {
         // 1 -> lambda param or monomorphic declaration
         builder.append(variable.id);
 
-    else if (variableScheme.snd().equals("this") && i @> 0 && i @< currentLevel)
+    else if (variableScheme.snd().equals("this") && i > 0 && i < currentLevel)
         // 2 -> polymorphic declaration from an intermediate let scope 
         // needs the worst: an unchecked cast
-        builder.append(JavaPrelude.class.getSimpleName()).append(".@<")
-            .append(typeStringOf(variable.type())).append("@>_instantiationCast(")
+        builder.append(JavaPrelude.class.getSimpleName()).append(".<")
+            .append(typeStringOf(variable.type())).append(">_instantiationCast(")
             .append(variable.id)
             .append("())");
 
     else {
         // 3 -> polymorphic declaration from Prelude,
         // top level or same let scope can properly use generics
-        builder.append(variableScheme.snd()).append(".@<");
+        builder.append(variableScheme.snd()).append(".<");
         try {
             // to do so we need to instantiate the scheme and find the substitution
-            Utils.Tuple@@<Substitution, Type@@> instantiation =
+            Utils.Tuple@<Substitution, Type@> instantiation =
                 variableScheme.fst().instantiate();
 
             Substitution subst = instantiation.fst()
@@ -62,11 +62,11 @@ public Void visitVariable(Expression.Variable variable) {
 
             // to then apply to the sorted variables
             builder.append(variableScheme.fst().sortedVariables.stream()
-                    .map(ov @@-@> subst.variables().contains(ov)
+                    .map(ov @-> subst.variables().contains(ov)
                         @? typeStringOf(subst.substituteOf(ov))
                         @: Type.Variable.toString(ov))
                     .collect(Collectors.joining(", ")))
-                .append("@>").append(variable.id).append("()");
+                .append(">").append(variable.id).append("()");
         } catch (TypeException e) {
             // should never happen
             throw new InferenceException(e.getMessage());
@@ -79,7 +79,7 @@ public Void visitVariable(Expression.Variable variable) {
 \begin{lstlisting}[caption={Metodo di istanziazione con \textit{cast}}, style=javaCode, label={lst:5-14-instantiation-cast-java}]
 // Cast method for polymorphic functions instantiation
 @SuppressWarnings("rawtypes, unchecked")
-public static @@<T extends Function@@> T _instantiationCast(Function f) {
+public static @<T extends Function@> T _instantiationCast(Function f) {
     return (T) f;
 }
 \end{lstlisting}

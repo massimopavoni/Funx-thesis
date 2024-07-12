@@ -69,7 +69,7 @@ reverseApply = flip (let
         apply1 f x = f x
     in apply1)
 
-anonymousIds = (\x -> x) (\x -> x)
+anonymousIds = (\x @-> x) (\x @-> x)
 \end{lstlisting}
 \vspace{4mm}
 \begin{lstlisting}[caption={Traduzione in \texttt{Java} con \textit{cast} "selvaggi"}, style=javaCode, label={lst:5-15-wild-java}]
@@ -78,24 +78,24 @@ public class Chapter5Wild {
         // private constructor to prevent instantiation
     }
     
-    public static @<j, k@> Function@<j, Function@<Function@<j, k@>, k@>> reverseApply() {
+    public static @<j, k@> Function@<j, Function@<Function@<j, k@>, k@>@> reverseApply() {
         return FunxPrelude.@<Function@<j, k@>, j, k@>flip()
             .apply(
-                (Function@<Function@<j, k@>, Function@<j, k@>>) // right wild cast
+                (Function@<Function@<j, k@>, Function@<j, k@>@>) // right wild cast
                     (new Let@<@>() {
-                        private @<h, i@> Function@<Function@<h, i@>, Function@<h, i@>> apply1() {
+                        private @<h, i@> Function@<Function@<h, i@>, Function@<h, i@>@> apply1() {
                             return (f @-> (x @-> f.apply(x)));
                         }
     
                         @Override
-                        public Function@<Function@<j, k@>, Function@<j, k@>> _eval() {
+                        public Function@<Function@<j, k@>, Function@<j, k@>@> _eval() {
                             return this.@<j, k@>apply1();
                         }
                     })._eval());
     }
     
     public static @<n@> Function@<n, n@> anonymousIds() {
-        return ((Function@<Function@<n, n@>, Function@<n, n@>>) x @-> x) // left wild cast
+        return ((Function@<Function@<n, n@>, Function@<n, n@>@>) x @-> x) // left wild cast
             .apply(((Function@<n, n@>) x @-> x)); // right wild cast
     }
 }

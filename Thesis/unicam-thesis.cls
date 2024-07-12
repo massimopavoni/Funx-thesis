@@ -174,10 +174,11 @@ relation-sym-map = {
   backgroundcolor=\color{Ivory1},
   basicstyle=\scriptsize\ttfamily,
   keywordstyle=\color{Coral2}\bfseries\ttfamily,
-  otherkeywords={enum, permits, sealed},
+  otherkeywords={permits, sealed},
   keywordstyle=[2]\color{Gold4}\bfseries\ttfamily,
   morekeywords=[2]{@Override, @FunctionalInterface, @SuppressWarnings},
   literate=
+    {@enum}{{{\color{Coral2}\bfseries\ttfamily{enum }}}}{5}
     {@->}{{{\color{Firebrick3}\bfseries\ttfamily{-> }}}}{3}
     {@<}{{{\color{RoyalBlue3}\bfseries\ttfamily{<}}}}{1}
     {@>}{{{\color{RoyalBlue3}\bfseries\ttfamily{>}}}}{1}
